@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Trouver un professionnel de santé proche de chez vous – DoctoNET</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 900px;
+      margin: auto;
+      padding: 1rem;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+
+    input, button {
+      font-size: 1.1rem;
+      padding: 0.6rem;
+      margin-top: 0.4rem;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    button {
+      margin-top: 1rem;
+      cursor: pointer;
+    }
+
+    .results {
+      margin-top: 2rem;
+    }
+
+    .card {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+    }
+
+    .error {
+      color: #b00020;
+      font-weight: bold;
+    }
+
+    .info {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: #555;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🔎 Trouver un professionnel de santé proche de chez vous</h1>
+
+  <p>
+    Indiquez votre <strong>ville</strong> ou votre <strong>code postal</strong>.
+    Nous vous proposerons des professionnels de santé situés à proximité.
+  </p>
+
+  <label for="location">Ville ou code postal</label>
+  <input
+    type="text"
+    id="location"
+    placeholder="Exemple : 75017 ou Paris"
+  />
+
+  <button id="searchBtn">Rechercher</button>
+
+  <div class="info">
+    💡 Astuce : vous pouvez simplement saisir votre code postal.
+  </div>
+
+  <div id="message" class="info"></div>
+
+  <div id="results" class="results"></div>
+
+  <script src="trouver-un-professionnel.js"></script>
+
+</body>
+</html>

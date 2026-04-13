@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YCJ6JN9CDX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YCJ6JN9CDX');
+</script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Tutoriels – DoctoNET | Guides & FAQ Informatique</title>
+  <meta name="description" content="Tutoriels gratuits DoctoNET : créez votre adresse email, votre espace Finances publiques, récupérez vos analyses médicales et bien plus. Guides pas-à-pas pour tous.">
+  <meta name="keywords" content="tutoriels informatique, aide informatique Paris, créer adresse email, espace particulier impots, DoctoNET">
+  <meta name="author" content="Association DoctoNET">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.doctonet.org/Tutoriels.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.doctonet.org/Tutoriels.html">
+  <meta property="og:title" content="Tutoriels – DoctoNET">
+  <meta property="og:description" content="Guides pas-à-pas gratuits pour tous les niveaux. Association d'aide informatique à Paris.">
+  <meta property="og:image" content="https://www.doctonet.org/images/logos-1.png">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="DoctoNET">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "À quoi servent les tutoriels DoctoNET ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Les tutoriels DoctoNET expliquent pas à pas comment réaliser des démarches numériques courantes, simplement et sans jargon."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Ai-je besoin d'un ordinateur pour suivre un tutoriel ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Non. Les tutoriels DoctoNET sont consultables depuis un smartphone, une tablette ou un ordinateur."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Les tutoriels DoctoNET sont-ils gratuits ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oui. Les tutoriels DoctoNET sont gratuits et proposés par une association loi 1901 à but non lucratif."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #0a2540;
+      --accent: #00c2ff;
+      --accent2: #00e5a0;
+      --light: #f4f8ff;
+      --white: #ffffff;
+      --gray: #6b7a90;
+      --card-bg: #ffffff;
+      --shadow: 0 8px 40px rgba(10,37,64,0.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      background: #0a2540;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--light);
+      color: var(--primary);
+      overflow-x: hidden;
+    }
+
+    /* ===== NAV ===== */
+    #doctonet-nav {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      position: fixed !important;
+      top: 0 !important; left: 0 !important; right: 0 !important;
+      z-index: 999999 !important;
+      background: #ffffff !important;
+      border-bottom: 2px solid rgba(0,194,255,0.25) !important;
+      padding: 0 5% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      height: 68px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      box-shadow: 0 2px 16px rgba(10,37,64,0.10) !important;
+    }
+
+    #doctonet-logo {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      font-weight: 800 !important;
+      font-size: 1.5rem !important;
+      color: #0a2540 !important;
+      text-decoration: none !important;
+      letter-spacing: -0.5px !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+    }
+    #doctonet-logo span {
+      color: #00c2ff !important;
+      font-family: 'Syne', sans-serif !important;
+      font-weight: 800 !important;
+    }
+
+    #doctonet-nav-links {
+      all: initial !important;
+      display: flex !important;
+      gap: 2rem !important;
+      align-items: center !important;
+    }
+
+    #doctonet-nav-links a {
+      all: initial !important;
+      font-family: 'DM Sans', sans-serif !important;
+      text-decoration: none !important;
+      color: #6b7a90 !important;
+      font-size: 0.95rem !important;
+      font-weight: 500 !important;
+      cursor: pointer !important;
+      transition: color 0.2s !important;
+      display: inline-block !important;
+    }
+    #doctonet-nav-links a:hover { color: #0a2540 !important; }
+    #doctonet-nav-links a.active { color: #0a2540 !important; font-weight: 700 !important; }
+
+    #doctonet-nav-cta {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      background: #0a2540 !important;
+      color: #ffffff !important;
+      padding: 0.5rem 1.2rem !important;
+      border-radius: 50px !important;
+      font-weight: 700 !important;
+      font-size: 0.9rem !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+      transition: background 0.2s !important;
+    }
+    #doctonet-nav-cta:hover { background: #00c2ff !important; color: #0a2540 !important; }
+
+    /* Hamburger mobile */
+    #nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    #nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    #mobile-menu {
+      display: none;
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      background: #fff;
+      padding: 1.5rem 5%;
+      box-shadow: 0 8px 24px rgba(10,37,64,0.12);
+      z-index: 999998;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    #mobile-menu.open { display: flex; }
+    #mobile-menu a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--gray);
+      text-decoration: none;
+    }
+    #mobile-menu a:hover { color: var(--primary); }
+    #mobile-menu .mobile-cta {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff !important;
+      padding: 0.7rem 1.5rem;
+      border-radius: 50px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .page-header {
+      min-height: 340px;
+      background: linear-gradient(135deg, #0a2540 0%, #0e3460 60%, #0a2540 100%);
+      display: flex;
+      align-items: center;
+      padding: 120px 5% 70px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header-bg {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+    .page-header-bg.c1 {
+      width: 500px; height: 500px;
+      background: var(--accent);
+      top: -150px; right: -50px;
+    }
+    .page-header-bg.c2 {
+      width: 300px; height: 300px;
+      background: var(--accent2);
+      bottom: -80px; left: 5%;
+    }
+    .page-header-content {
+      position: relative;
+      z-index: 2;
+      animation: fadeUp 0.8s ease both;
+    }
+    .page-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(0,194,255,0.15);
+      border: 1px solid rgba(0,194,255,0.3);
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.35rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .page-header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -0.5px;
+    }
+    .page-header h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .page-header p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.8);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    main {
+      padding: 70px 5%;
+    }
+
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-intro {
+      font-size: 1.05rem;
+      color: var(--gray);
+      max-width: 640px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      font-style: italic;
+    }
+
+    /* ===== TUTORIELS GRID ===== */
+    .tuto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    .tuto-card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 1.6rem 1.8rem;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,194,255,0.10);
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .tuto-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .tuto-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 48px rgba(10,37,64,0.14);
+      border-color: rgba(0,194,255,0.25);
+    }
+    .tuto-card:hover::before { opacity: 1; }
+
+    .tuto-icon {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      background: linear-gradient(135deg, #e8f6ff, #d0f7ec);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .tuto-body h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.35rem;
+      line-height: 1.3;
+    }
+
+    .tuto-body p {
+      font-size: 0.88rem;
+      color: var(--gray);
+      line-height: 1.55;
+    }
+
+    .tuto-arrow {
+      margin-left: auto;
+      min-width: 28px;
+      color: var(--accent);
+      font-size: 1.2rem;
+      opacity: 0;
+      transition: opacity 0.25s, transform 0.25s;
+      align-self: center;
+    }
+    .tuto-card:hover .tuto-arrow {
+      opacity: 1;
+      transform: translateX(4px);
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      background: linear-gradient(135deg, #0a2540, #0e3460);
+      border-radius: 28px;
+      padding: 50px 5%;
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      width: 350px; height: 350px;
+      background: var(--accent);
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.1;
+      right: -80px; top: -80px;
+    }
+    .cta-text { flex: 1; min-width: 240px; position: relative; z-index: 2; }
+    .cta-text h2 { color: var(--white); margin-bottom: 0.8rem; }
+    .cta-text p { color: rgba(255,255,255,0.7); font-size: 1rem; line-height: 1.7; }
+    .cta-actions {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      min-width: 220px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--primary);
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.25s;
+      box-shadow: 0 4px 24px rgba(0,194,255,0.35);
+      text-align: center;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,194,255,0.5);
+      background: #33d0ff;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      transition: all 0.25s;
+      text-align: center;
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ===== SOCIAL ICONS ===== */
+    .social-section {
+      text-align: center;
+      padding: 50px 5% 60px;
+    }
+    .social-section p {
+      color: var(--gray);
+      font-size: 0.95rem;
+      margin-bottom: 1.2rem;
+    }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--white);
+      color: var(--primary);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,194,255,0.12);
+      transition: all 0.25s;
+    }
+    .social-link:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--primary);
+      color: rgba(255,255,255,0.6);
+      padding: 3rem 5%;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    .footer-logo span { color: var(--accent); }
+    footer p { font-size: 0.88rem; margin: 0.3rem 0; }
+    .footer-links {
+      margin: 1.5rem 0;
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-phone {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 1rem;
+      display: block;
+      margin: 1rem 0 0.5rem;
+      text-decoration: none;
+    }
+
+    /* ===== SECTION FAQ ===== */
+    .faq-section {
+      margin: 3rem 0;
+    }
+    .faq-section details {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 0.8rem;
+      border: 1px solid rgba(0,194,255,0.15);
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.2s;
+    }
+    .faq-section details[open] {
+      box-shadow: 0 8px 32px rgba(0,194,255,0.12);
+      border-color: rgba(0,194,255,0.35);
+    }
+    .faq-section summary {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      color: var(--primary);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .faq-section summary::-webkit-details-marker { display: none; }
+    .faq-section summary::after {
+      content: '+';
+      font-size: 1.4rem;
+      color: var(--accent);
+      font-weight: 300;
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+    .faq-section details[open] summary::after {
+      transform: rotate(45deg);
+    }
+    .faq-section details p {
+      margin-top: 0.8rem;
+      color: var(--gray);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      #doctonet-nav-links { display: none !important; }
+      #nav-hamburger { display: flex !important; }
+      .page-header { padding-top: 100px; }
+      .cta-section { gap: 2rem; }
+    }
+    @media (min-width: 769px) {
+      #nav-hamburger { display: none !important; }
+      #mobile-menu { display: none !important; }
+    }
+
+    @media (max-width: 575px) {
+      .tuto-grid { grid-template-columns: 1fr; }
+      .cta-actions { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <div id="doctonet-nav">
+    <a id="doctonet-logo" href="index.html">Docto<span>NET</span></a>
+    <div id="doctonet-nav-links">
+      <a href="index.html#services">Nos services</a>
+      <a href="Tutoriels.html" class="active">Tutoriels</a>
+      <a id="doctonet-nav-cta" href="index.html#contact">Nous contacter</a>
+    </div>
+    <div id="nav-hamburger" onclick="toggleMenu()" aria-label="Menu" role="button" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- Menu mobile -->
+  <nav id="mobile-menu" role="navigation" aria-label="Menu mobile">
+    <a href="index.html#services">Nos services</a>
+    <a href="Tutoriels.html">Tutoriels</a>
+    <a href="index.html#contact" class="mobile-cta">Nous contacter</a>
+  </nav>
+
+  <!-- ===== EN-TÊTE DE PAGE ===== -->
+  <header class="page-header" role="banner">
+    <div class="page-header-bg c1"></div>
+    <div class="page-header-bg c2"></div>
+    <div class="page-header-content">
+      <div class="page-badge">📚 Guides gratuits · Pas à pas</div>
+      <h1>Foire Aux Questions &<br><em>Tutoriels</em></h1>
+      <p>Sélectionnez un tutoriel ci-dessous pour ouvrir le guide PDF correspondant. Chaque guide est conçu pour vous accompagner étape par étape.</p>
+    </div>
+  </header>
+
+  <!-- ===== CONTENU PRINCIPAL ===== -->
+  <main>
+    <div class="fade-up">
+      <p class="section-label">Guides disponibles</p>
+      <h2>Commencez par ici</h2>
+      <p class="section-intro">Cliquez sur la carte qui correspond à votre besoin pour télécharger ou consulter le tutoriel PDF correspondant.</p>
+    </div>
+
+    <div class="tuto-grid">
+
+      <a href="creer-adresse-electronique.html" class="tuto-card fade-up">
+        <div class="tuto-icon">📧</div>
+        <div class="tuto-body">
+          <h3>Je n'ai pas encore d'adresse électronique</h3>
+          <p>Créez votre première adresse email pas à pas, gratuitement et en toute simplicité.</p>
+        </div>
+        <span class="tuto-arrow">→</span>
+      </a>
+
+      <a href="creer-espace-particulier.html" class="tuto-card fade-up">
+        <div class="tuto-icon">🏛️</div>
+        <div class="tuto-body">
+          <h3>Je crée mon espace Finances publiques</h3>
+          <p>Ouvrez votre espace personnel sur impots.gouv.fr pour gérer vos démarches fiscales en ligne.</p>
+        </div>
+        <span class="tuto-arrow">→</span>
+      </a>
+
+      <a href="se-connecter-espace-particulier.html" class="tuto-card fade-up">
+        <div class="tuto-icon">🔑</div>
+        <div class="tuto-body">
+          <h3>Je me connecte à mon espace Finances publiques</h3>
+          <p>Accédez à votre espace déjà créé et naviguez dans vos démarches administratives.</p>
+        </div>
+        <span class="tuto-arrow">→</span>
+      </a>
+
+      <a href="labo_doctonet.pdf" target="_blank" class="tuto-card fade-up">
+        <div class="tuto-icon">🧪</div>
+        <div class="tuto-body">
+          <h3>Je récupère mes examens au Laboratoire d'analyses de Biologie Médicale</h3>
+          <p>Consultez et téléchargez vos résultats d'analyses médicales directement en ligne.</p>
+        </div>
+        <span class="tuto-arrow">→</span>
+      </a>
+
+      <a href="03_doctonet_org_se_connecter_espace_particulier.pdf" target="_blank" class="tuto-card fade-up">
+        <div class="tuto-icon">🩺</div>
+        <div class="tuto-body">
+          <h3>Trouver un professionnel de santé</h3>
+          <p>Repérez un médecin, spécialiste ou pharmacien près de chez vous grâce aux outils numériques.</p>
+        </div>
+        <span class="tuto-arrow">→</span>
+      </a>
+
+      <a href="securite-vie-privee.html" class="tuto-card fade-up">
+        <div class="tuto-icon">🛡️</div>
+        <div class="tuto-body">
+          <h3>Protégez-vous des arnaques, virus et phishing</h3>
+          <p>Les bons réflexes numériques pour naviguer en sécurité et protéger votre vie privée en ligne.</p>
+        </div>
+        <span class="tuto-arrow">→</span>
+      </a>
+
+    <a href="modifier-fichiers-pdf.html" class="tuto-card fade-up">
+ <div class="tuto-icon">📄</div>
+ <div class="tuto-body">
+  <h3>Comment modifier des fichiers PDF</h3>
+  <p>Solutions simples pour annoter, signer ou modifier vos documents PDF.</p>
+ </div>
+ <span class="tuto-arrow">→</span>
+</a>
+</div>
+
+    <!-- FAQ -->
+    <div class="faq-section fade-up">
+      <p class="section-label">Questions fréquentes</p>
+      <h2>Vous avez des questions ?</h2>
+      <p class="section-intro" style="margin-bottom:1.5rem;">Voici les réponses aux questions les plus souvent posées sur nos tutoriels.</p>
+
+      <details>
+        <summary>À quoi servent les tutoriels DoctoNET ?</summary>
+        <p>Les tutoriels DoctoNET expliquent pas à pas comment réaliser des démarches numériques courantes, simplement et sans jargon.</p>
+      </details>
+      <details>
+        <summary>Ai-je besoin d'un ordinateur pour suivre un tutoriel ?</summary>
+        <p>Non. Les tutoriels DoctoNET sont consultables depuis un smartphone, une tablette ou un ordinateur.</p>
+      </details>
+      <details>
+        <summary>Les tutoriels DoctoNET sont-ils gratuits ?</summary>
+        <p>Oui. Les tutoriels DoctoNET sont gratuits et proposés par une association loi 1901 à but non lucratif.</p>
+      </details>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section fade-up">
+      <div class="cta-text">
+        <p class="section-label" style="color: var(--accent2);">Besoin d'aide personnalisée ?</p>
+        <h2>Vous ne trouvez pas ce qu'il vous faut ?</h2>
+        <p>Nos bénévoles DoctoNET sont disponibles pour vous accompagner directement, que ce soit en ligne ou à Paris. Contactez-nous, c'est gratuit !</p>
+        <a href="tel:+33180064649" class="footer-phone" style="color: var(--accent2); display:inline-block; margin-top:1rem;">📞 01 80 06 46 49</a>
+      </div>
+      <div class="cta-actions">
+        <a href="index.html#contact" class="btn-primary">Demander de l'aide →</a>
+        <a href="index.html" class="btn-secondary">Retour à l'accueil</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== RÉSEAUX SOCIAUX ===== -->
+  <section class="social-section fade-up" aria-label="Réseaux sociaux DoctoNET">
+    <p>Retrouvez-nous sur les réseaux</p>
+    <div class="social-links">
+      <a href="#" class="social-link" aria-label="Facebook DoctoNET">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        Facebook
+      </a>
+      <a href="#" class="social-link" aria-label="YouTube DoctoNET">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#fff"/></svg>
+        YouTube
+      </a>
+      <a href="#" class="social-link" aria-label="Twitter DoctoNET">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        Twitter
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer role="contentinfo">
+    <div class="footer-logo">Docto<span>NET</span></div>
+    <p>Association régie par la loi du 1er juillet 1901 · RNA : W751281281</p>
+    <p>24 rue Jouffroy d'Abbans · 75017 Paris</p>
+    <a href="tel:+33180064649" class="footer-phone">01 80 06 46 49</a>
+    <nav class="footer-links" aria-label="Liens de pied de page">
+      <a href="index.html">Accueil</a>
+      <a href="Tutoriels.html">Tutoriels</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="donnees-personnelles.html">Données personnelles</a>
+    </nav>
+    <p style="font-size:0.8rem; margin-top: 1rem;">© 2026 DoctoNET · Tous droits réservés</p>
+  </footer>
+
+  <script>
+    // Menu hamburger
+    function toggleMenu() {
+      document.getElementById('mobile-menu').classList.toggle('open');
+    }
+
+    // Fermer le menu en cliquant en dehors
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('mobile-menu');
+      const hamburger = document.getElementById('nav-hamburger');
+      if (menu.classList.contains('open') && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+        menu.classList.remove('open');
+      }
+    });
+
+    // Animations fade-up au scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.10 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
