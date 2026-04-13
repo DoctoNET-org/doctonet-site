@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>Trouver un professionnel de santé proche de chez vous – DoctoNET</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
@@ -15,9 +14,7 @@
       padding: 1rem;
     }
 
-    h1 {
-      font-size: 1.8rem;
-    }
+    h1 { font-size: 1.8rem; }
 
     label {
       font-weight: bold;
@@ -36,11 +33,15 @@
     button {
       margin-top: 1rem;
       cursor: pointer;
+      background-color: #0057a8;
+      color: white;
+      border: none;
+      border-radius: 4px;
     }
 
-    .results {
-      margin-top: 2rem;
-    }
+    button:hover { background-color: #003f7d; }
+
+    .results { margin-top: 2rem; }
 
     .card {
       border: 1px solid #ccc;
@@ -49,9 +50,12 @@
       border-radius: 4px;
     }
 
+    .card a { color: #0057a8; }
+
     .error {
       color: #b00020;
       font-weight: bold;
+      margin-top: 1rem;
     }
 
     .info {
@@ -75,20 +79,22 @@
   <input
     type="text"
     id="location"
-    placeholder="Exemple : 75017 ou Paris"
+    placeholder="Exemple : 31000 ou Toulouse"
+    autocomplete="postal-code"
   />
 
   <button id="searchBtn">Rechercher</button>
 
   <div class="info">
-    💡 Astuce : vous pouvez simplement saisir votre code postal.
+    💡 Astuce : vous pouvez saisir votre code postal ou le nom de votre ville.
   </div>
 
   <div id="message" class="info"></div>
 
   <div id="results" class="results"></div>
 
-  <script src="trouver-un-professionnel.js"></script>
+  <!-- ✅ Chemin correct vers le JS côté navigateur -->
+  <script src="/trouver-un-professionnel.js"></script>
 
 </body>
 </html>
