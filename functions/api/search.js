@@ -84,8 +84,12 @@ export async function onRequest(context) {
     });
 
     if (!apiRes.ok) {
+      let errorBody = '';
+      try { errorBody = await apiRes.text(); } catch(e) {}
       return new Response(JSON.stringify({
         error: `API Annuaire Santé indisponible (${apiRes.status})`,
+        detail: errorBody.slice(0, 500),
+        url_called: apiUrl,
         results: []
       }), { status: 200, headers: CORS_HEADERS });
     }
