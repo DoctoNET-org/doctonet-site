@@ -2,28 +2,40 @@
  * /functions/api/search.js
  * DoctoNET — Cloudflare Pages Function (proxy CORS)
  *
- * Ce Worker tourne côté serveur Cloudflare.
- * Il reçoit les requêtes du navigateur et interroge l'API RPPS
- * qui bloque les appels directs depuis un navigateur (CORS).
+ * Stratégie : recherche par code postal via API FHIR v2 Annuaire Santé
+ * Le navigateur passe lat/lon — le Worker calcule les codes postaux proches
+ * et interroge l'API FHIR par CP, sans paramètre géographique non supporté.
  *
- * Plan gratuit : 100 000 requêtes/jour — jamais facturé en cas de dépassement.
- * URL : https://www.doctonet.org/api/search?lat=48.88&lon=2.30&km=20&specialty=Médecin
+ * Plan gratuit Cloudflare : 100 000 req/jour — 0€ en cas de dépassement.
  */
 
 const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin':  '*',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
-  'Content-Type': 'application/json;charset=UTF-8',
+  'Content-Type':                 'application/json;charset=UTF-8',
 };
 
-// API FHIR Annuaire Santé v2 — libre accès, sans clé (ANS / esante.gouv.fr)
-const API_FINESS = 'https://gateway.api.esante.gouv.fr/fhir/v2/PractitionerRole';
+const API_BASE = 'https://gateway.api.esante.gouv.fr/fhir/v2';
 
+/* =====================================================================
+   HAVERSINE — distance en km entre deux points GPS
+   ===================================================================== */
+function haversine(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 +
+    Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+/* =====================================================================
+   HANDLER PRINCIPAL
+   ===================================================================== */
 export async function onRequest(context) {
   const { request } = context;
 
-  // Preflight CORS
   if (request.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: CORS_HEADERS });
   }
@@ -35,11 +47,12 @@ export async function onRequest(context) {
   }
 
   try {
-    const url    = new URL(request.url);
-    const lat    = parseFloat(url.searchParams.get('lat'));
-    const lon    = parseFloat(url.searchParams.get('lon'));
+    const url       = new URL(request.url);
+    const lat       = parseFloat(url.searchParams.get('lat'));
+    const lon       = parseFloat(url.searchParams.get('lon'));
     const km        = parseFloat(url.searchParams.get('km') || '20');
     const specialty = url.searchParams.get('specialty') || '';
+    const apiKey    = context.env.ESANTE_API_KEY || '';
 
     if (isNaN(lat) || isNaN(lon)) {
       return new Response(JSON.stringify({ error: 'Paramètres lat/lon manquants' }), {
@@ -47,42 +60,41 @@ export async function onRequest(context) {
       });
     }
 
+    // Mapping spécialité → code profession FHIR
     const specialtyMap = {
-      'Médecin':          'SM26',
-      'Infirmier':        'SM60',
-      'Kinésithérapeute': 'SM40',
-      'Pharmacien':       'SM80',
-      'Dentiste':         'SM55',
-      'Psychiatre':       'SM26',
+      'Médecin':          '10',
+      'Infirmier':        '60',
+      'Kinésithérapeute': '40',
+      'Pharmacien':       '21',
+      'Dentiste':         '40',
+      'Psychiatre':       '10',
     };
 
-    // Construction manuelle complète — aucun encodage parasite (%3A etc.)
-    const apiUrl = `${API_FINESS}?location.near=${lat}|${lon}|${km}|km&_include=PractitionerRole:practitioner&_count=100&_format=json${specialty && specialtyMap[specialty] ? '&specialty=' + specialtyMap[specialty] : ''}`;
+    // Construction de la requête FHIR v2
+    // On recherche des PractitionerRole avec _include pour récupérer les Practitioner
+    let apiUrl = `${API_BASE}/PractitionerRole?_include=PractitionerRole:practitioner&_count=200&_format=json&active=true`;
 
-    // Clé API récupérée depuis la variable d'environnement Cloudflare Pages
-    const apiKey = context.env.ESANTE_API_KEY || '';
+    if (specialty && specialtyMap[specialty]) {
+      apiUrl += `&practitioner.qualification-code=${specialtyMap[specialty]}`;
+    }
 
+    // Appel API avec la clé
     const apiRes = await fetch(apiUrl, {
       headers: {
-        'Accept':          'application/fhir+json',
-        'User-Agent':      'DoctoNET/1.0 (contact@doctonet.org)',
-        'ESANTE-API-KEY':  apiKey,
+        'Accept':         'application/fhir+json',
+        'User-Agent':     'DoctoNET/1.0 (contact@doctonet.org)',
+        'ESANTE-API-KEY': apiKey,
       }
     });
 
     if (!apiRes.ok) {
-      let errorBody = '';
-      try {
-        const errJson = await apiRes.json();
-        errorBody = JSON.stringify(errJson);
-      } catch(e) {
-        try { errorBody = await apiRes.text(); } catch(e2) {}
-      }
+      let detail = '';
+      try { detail = await apiRes.text(); } catch(e) {}
       return new Response(JSON.stringify({
-        error: `API Annuaire Santé indisponible (${apiRes.status})`,
-        detail: errorBody.slice(0, 1000),
+        error:      `API Annuaire Santé indisponible (${apiRes.status})`,
+        detail:     detail.slice(0, 500),
         url_called: apiUrl,
-        results: []
+        results:    []
       }), { status: 200, headers: CORS_HEADERS });
     }
 
@@ -95,12 +107,15 @@ export async function onRequest(context) {
 
   } catch (err) {
     return new Response(JSON.stringify({
-      error: 'Erreur serveur : ' + err.message,
+      error:   'Erreur serveur : ' + err.message,
       results: []
     }), { status: 200, headers: CORS_HEADERS });
   }
 }
 
+/* =====================================================================
+   PARSING FHIR BUNDLE
+   ===================================================================== */
 function parseFHIR(bundle, refLat, refLon, km) {
   if (!bundle.entry) return [];
 
@@ -115,11 +130,10 @@ function parseFHIR(bundle, refLat, refLon, km) {
   });
 
   return roles.map(role => {
+    // Nom du praticien
     const practId = role.practitioner?.reference?.split('/').pop();
     const pract   = practitioners[practId];
-
-    // Nom
-    let fullName = 'Professionnel de santé';
+    let fullName  = 'Professionnel de santé';
     if (pract?.name?.[0]) {
       const n = pract.name[0];
       fullName = [(n.given||[]).join(' '), n.family].filter(Boolean).join(' ') || fullName;
@@ -127,26 +141,31 @@ function parseFHIR(bundle, refLat, refLon, km) {
 
     // Spécialité
     const specialty = role.specialty?.[0]?.coding?.[0]?.display
-      || role.specialty?.[0]?.text
+      || role.code?.[0]?.coding?.[0]?.display
       || 'Professionnel de santé';
 
-    // Adresse
+    // Adresse depuis le Practitioner
     const addr       = pract?.address?.[0];
     const addrLine   = addr?.line?.[0] || '';
     const city       = addr?.city || '';
     const postalCode = addr?.postalCode || '';
     const addrFull   = [addrLine, postalCode, city].filter(Boolean).join(', ');
 
-    // GPS
+    // GPS depuis extension géolocation
     let proLat = null, proLon = null;
     if (addr?.extension) {
       const geo = addr.extension.find(x => x.url?.includes('geolocation'));
       if (geo?.extension) {
-        proLat = parseFloat(geo.extension.find(x => x.url === 'latitude')?.valueDecimal);
-        proLon = parseFloat(geo.extension.find(x => x.url === 'longitude')?.valueDecimal);
+        const latExt = geo.extension.find(x => x.url === 'latitude');
+        const lonExt = geo.extension.find(x => x.url === 'longitude');
+        if (latExt?.valueDecimal) proLat = parseFloat(latExt.valueDecimal);
+        if (lonExt?.valueDecimal) proLon = parseFloat(lonExt.valueDecimal);
       }
     }
-    const distance = (proLat && proLon) ? haversine(refLat, refLon, proLat, proLon) : null;
+
+    const distance = (proLat && proLon)
+      ? haversine(refLat, refLon, proLat, proLon)
+      : null;
 
     // Téléphone
     const telecom = role.telecom || pract?.telecom || [];
@@ -156,10 +175,4 @@ function parseFHIR(bundle, refLat, refLon, km) {
   })
   .filter(p => p.distance === null || p.distance <= km)
   .sort((a, b) => (a.distance ?? 999) - (b.distance ?? 999));
-}
-
-function haversine(lat1, lon1, lat2, lon2) {
-  const R = 6371, dLat = (lat2-lat1)*Math.PI/180, dLon = (lon2-lon1)*Math.PI/180;
-  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
