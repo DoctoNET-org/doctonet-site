@@ -199,12 +199,18 @@
     .page-hero h1 {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-size: clamp(1.5rem, 6vw, 3rem);
       color: #ffffff;
-      line-height: 1.15;
+      line-height: 1.2;
       margin-bottom: 1rem;
+      word-break: keep-all;
+      overflow-wrap: break-word;
     }
     .page-hero h1 span { color: #00c2ff; }
+
+    @media (max-width: 400px) {
+      .page-hero h1 { font-size: 1.45rem; }
+    }
     .page-hero p {
       color: rgba(255,255,255,0.75);
       font-size: clamp(0.95rem, 2.5vw, 1.1rem);
@@ -613,7 +619,7 @@
   <!-- ===== HERO ===== -->
   <div class="page-hero">
     <span class="page-hero-icon">🔍</span>
-    <h1>Trouver un professionnel<br>de <span>santé</span> près de chez vous</h1>
+    <h1>Trouver un professionnel<br>de <span>santé</span><br>près de chez vous</h1>
     <p>Indiquez votre ville ou code postal — nous consultons l'annuaire officiel du Ministère de la Santé pour vous proposer les professionnels les plus proches.</p>
     <div class="source-badge" style="margin: 1.25rem auto 0;">
       ✅ Données officielles · Annuaire Santé DREES · Toujours à jour
