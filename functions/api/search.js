@@ -72,10 +72,15 @@ export async function onRequest(context) {
 
     if (!apiRes.ok) {
       let errorBody = '';
-      try { errorBody = await apiRes.text(); } catch(e) {}
+      try {
+        const errJson = await apiRes.json();
+        errorBody = JSON.stringify(errJson);
+      } catch(e) {
+        try { errorBody = await apiRes.text(); } catch(e2) {}
+      }
       return new Response(JSON.stringify({
         error: `API Annuaire Santé indisponible (${apiRes.status})`,
-        detail: errorBody.slice(0, 500),
+        detail: errorBody.slice(0, 1000),
         url_called: apiUrl,
         results: []
       }), { status: 200, headers: CORS_HEADERS });
