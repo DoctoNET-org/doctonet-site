@@ -47,16 +47,6 @@ export async function onRequest(context) {
       });
     }
 
-    // Requête FHIR v2 — construction manuelle pour éviter l'encodage des pipes
-    // location.near attend le format : lat|lon|distance|unité (les | ne doivent pas être encodés)
-    const nearParam = `${lat}|${lon}|${km}|km`;
-
-    const params = new URLSearchParams({
-      '_include': 'PractitionerRole:practitioner',
-      '_count':   '100',
-      '_format':  'json',
-    });
-
     const specialtyMap = {
       'Médecin':          'SM26',
       'Infirmier':        'SM60',
@@ -65,12 +55,9 @@ export async function onRequest(context) {
       'Dentiste':         'SM55',
       'Psychiatre':       'SM26',
     };
-    if (specialty && specialtyMap[specialty]) {
-      params.append('specialty', specialtyMap[specialty]);
-    }
 
-    // Construction manuelle de l'URL pour préserver les | dans location.near
-    const apiUrl = `${API_FINESS}?location.near=${nearParam}&${params.toString()}`;
+    // Construction manuelle complète — aucun encodage parasite (%3A etc.)
+    const apiUrl = `${API_FINESS}?location.near=${lat}|${lon}|${km}|km&_include=PractitionerRole:practitioner&_count=100&_format=json${specialty && specialtyMap[specialty] ? '&specialty=' + specialtyMap[specialty] : ''}`;
 
     // Clé API récupérée depuis la variable d'environnement Cloudflare Pages
     const apiKey = context.env.ESANTE_API_KEY || '';
