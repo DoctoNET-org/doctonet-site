@@ -47,12 +47,14 @@ export async function onRequest(context) {
       });
     }
 
-    // Requête FHIR v2 — libre accès sans clé
+    // Requête FHIR v2 — construction manuelle pour éviter l'encodage des pipes
+    // location.near attend le format : lat|lon|distance|unité (les | ne doivent pas être encodés)
+    const nearParam = `${lat}|${lon}|${km}|km`;
+
     const params = new URLSearchParams({
-      'location.near': `${lat}|${lon}|${km}|km`,
-      '_include':      'PractitionerRole:practitioner',
-      '_count':        '100',
-      '_format':       'json',
+      '_include': 'PractitionerRole:practitioner',
+      '_count':   '100',
+      '_format':  'json',
     });
 
     const specialtyMap = {
@@ -67,10 +69,13 @@ export async function onRequest(context) {
       params.append('specialty', specialtyMap[specialty]);
     }
 
+    // Construction manuelle de l'URL pour préserver les | dans location.near
+    const apiUrl = `${API_FINESS}?location.near=${nearParam}&${params.toString()}`;
+
     // Clé API récupérée depuis la variable d'environnement Cloudflare Pages
     const apiKey = context.env.ESANTE_API_KEY || '';
 
-    const apiRes = await fetch(`${API_FINESS}?${params.toString()}`, {
+    const apiRes = await fetch(apiUrl, {
       headers: {
         'Accept':          'application/fhir+json',
         'User-Agent':      'DoctoNET/1.0 (contact@doctonet.org)',
