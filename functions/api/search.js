@@ -67,10 +67,14 @@ export async function onRequest(context) {
       params.append('specialty', specialtyMap[specialty]);
     }
 
+    // Clé API récupérée depuis la variable d'environnement Cloudflare Pages
+    const apiKey = context.env.ESANTE_API_KEY || '';
+
     const apiRes = await fetch(`${API_FINESS}?${params.toString()}`, {
       headers: {
-        'Accept':     'application/fhir+json',
-        'User-Agent': 'DoctoNET/1.0 (contact@doctonet.org)',
+        'Accept':          'application/fhir+json',
+        'User-Agent':      'DoctoNET/1.0 (contact@doctonet.org)',
+        'ESANTE-API-KEY':  apiKey,
       }
     });
 
