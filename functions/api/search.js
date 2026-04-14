@@ -17,8 +17,8 @@ const CORS_HEADERS = {
   'Content-Type': 'application/json;charset=UTF-8',
 };
 
-// API Annuaire Santé — accessible sans clé depuis un serveur
-const API_RPPS = 'https://gateway.api.esante.gouv.fr/fhir/v1/PractitionerRole';
+// API FINESS data.gouv.fr — publique, sans clé, accessible depuis un serveur
+const API_FINESS = 'https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/finess-etablissements@public/records';
 
 export async function onRequest(context) {
   const { request } = context;
@@ -47,46 +47,42 @@ export async function onRequest(context) {
       });
     }
 
-    // Construction de la requête FHIR
-    const params = new URLSearchParams({
-      'location.near': `${lat}|${lon}|${km}|km`,
-      '_include':      'PractitionerRole:practitioner',
-      '_count':        '200',
-      '_format':       'json',
-    });
+    // Filtre géographique FINESS
+    const radiusM = km * 1000;
+    let where = `distance(geolocalisation, geom'POINT(${lon} ${lat})', ${radiusM}m)`;
 
-    // Mapping spécialité → code TRE-R38
     const specialtyMap = {
-      'Médecin':          'SM26',
-      'Infirmier':        'SM60',
-      'Kinésithérapeute': 'SM40',
-      'Pharmacien':       'SM80',
-      'Dentiste':         'SM55',
-      'Psychiatre':       'SM26',
+      'Médecin':          'Médecine',
+      'Infirmier':        'Soins infirmiers',
+      'Kinésithérapeute': 'Rééducation',
+      'Pharmacien':       'Pharmacie',
+      'Dentiste':         'Odontologie',
+      'Psychiatre':       'Psychiatrie',
     };
     if (specialty && specialtyMap[specialty]) {
-      params.append('specialty', specialtyMap[specialty]);
+      where += ` AND libcattetab like "%${specialtyMap[specialty]}%"`;
     }
 
-    // Appel à l'API RPPS depuis le Worker (pas de blocage CORS côté serveur)
-    const apiRes = await fetch(`${API_RPPS}?${params.toString()}`, {
-      headers: {
-        'Accept': 'application/fhir+json',
-        'User-Agent': 'DoctoNET/1.0 (contact@doctonet.org)',
-      }
+    const params = new URLSearchParams({
+      where,
+      limit: '100',
+      order_by: `distance(geolocalisation, geom'POINT(${lon} ${lat})')`,
+      select: 'rs,libcattetab,numvoie,typvoie,voie,commune,ligneacheminement,telephone,geolocalisation',
+    });
+
+    const apiRes = await fetch(`${API_FINESS}?${params.toString()}`, {
+      headers: { 'User-Agent': 'DoctoNET/1.0 (contact@doctonet.org)' }
     });
 
     if (!apiRes.ok) {
       return new Response(JSON.stringify({
-        error: `API Annuaire Santé indisponible (${apiRes.status})`,
+        error: `API FINESS indisponible (${apiRes.status})`,
         results: []
       }), { status: 200, headers: CORS_HEADERS });
     }
 
     const data = await apiRes.json();
-
-    // Extraction et simplification des données FHIR
-    const results = parseFHIR(data, lat, lon, km);
+    const results = parseFINESS(data, lat, lon, km);
 
     return new Response(JSON.stringify({ results, total: results.length }), {
       status: 200, headers: CORS_HEADERS
@@ -100,60 +96,18 @@ export async function onRequest(context) {
   }
 }
 
-/* =====================================================================
-   PARSING FHIR
-   ===================================================================== */
-function parseFHIR(bundle, refLat, refLon, km) {
-  if (!bundle.entry) return [];
-
-  const practitioners = {};
-  const roles = [];
-
-  bundle.entry.forEach(e => {
-    const r = e.resource;
-    if (!r) return;
-    if (r.resourceType === 'Practitioner')     practitioners[r.id] = r;
-    if (r.resourceType === 'PractitionerRole') roles.push(r);
-  });
-
-  return roles.map(role => {
-    // Nom du praticien
-    const practId = role.practitioner?.reference?.split('/').pop();
-    const pract   = practitioners[practId];
-    let fullName  = 'Professionnel de santé';
-    if (pract?.name?.[0]) {
-      const n  = pract.name[0];
-      fullName = [(n.given || []).join(' '), n.family].filter(Boolean).join(' ') || fullName;
-    }
-
-    // Spécialité
-    const specialty = role.specialty?.[0]?.coding?.[0]?.display
-      || role.specialty?.[0]?.text
-      || 'Professionnel de santé';
-
-    // Adresse
-    const addr       = pract?.address?.[0];
-    const addrLine   = addr?.line?.[0] || '';
-    const city       = addr?.city || '';
-    const postalCode = addr?.postalCode || '';
-    const addrFull   = [addrLine, postalCode, city].filter(Boolean).join(', ');
-
-    // GPS + distance
-    let proLat = null, proLon = null;
-    if (addr?.extension) {
-      const geo = addr.extension.find(x => x.url?.includes('geolocation'));
-      if (geo?.extension) {
-        proLat = parseFloat(geo.extension.find(x => x.url === 'latitude')?.valueDecimal);
-        proLon = parseFloat(geo.extension.find(x => x.url === 'longitude')?.valueDecimal);
-      }
-    }
-    const distance = (proLat && proLon) ? haversine(refLat, refLon, proLat, proLon) : null;
-
-    // Téléphone
-    const telecom = role.telecom || pract?.telecom || [];
-    const phone   = telecom.find(t => t.system === 'phone')?.value || '';
-
-    return { fullName, specialty, addrFull, city, postalCode, phone, distance };
+function parseFINESS(data, refLat, refLon, km) {
+  if (!data.results) return [];
+  return data.results.map(r => {
+    const fullName  = r.rs || 'Établissement de santé';
+    const specialty = r.libcattetab || 'Professionnel de santé';
+    const addr      = [r.numvoie, r.typvoie, r.voie].filter(Boolean).join(' ');
+    const city      = r.ligneacheminement || r.commune || '';
+    const addrFull  = [addr, city].filter(Boolean).join(', ');
+    const phone     = r.telephone || '';
+    const geo       = r.geolocalisation;
+    const distance  = (geo?.lat && geo?.lon) ? haversine(refLat, refLon, geo.lat, geo.lon) : null;
+    return { fullName, specialty, addrFull, city, phone, distance };
   })
   .filter(p => p.distance === null || p.distance <= km)
   .sort((a, b) => (a.distance ?? 999) - (b.distance ?? 999));
