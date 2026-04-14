@@ -19,7 +19,7 @@
   const RADIUS_KM   = 20;
   const PAGE_SIZE   = 20;
   const API_GEO     = 'https://api-adresse.data.gouv.fr/search/';
-  const API_SANTE   = 'https://gateway.api.esante.gouv.fr/fhir/v1/Practitioner';
+  const API_SANTE   = 'https://api.annuaire.sante.fr/fhir/v1/Practitioner';
 
   /* =====================================================================
      STATE
@@ -135,58 +135,78 @@
      API ANNUAIRE SANTÉ — gateway.api.esante.gouv.fr
      ===================================================================== */
   async function fetchProfessionals(lat, lon, specialty) {
-    // L'API FHIR de l'Annuaire Santé accepte une recherche géographique
-    // via le paramètre near (lat|lon|rayon en km|unité)
+    // Mapping spécialité → libellé partiel pour l'API
+    const specialtyMap = {
+      'Médecin':          'Médecin',
+      'Infirmier':        'Infirmier',
+      'Kinésithérapeute': 'Masseur',
+      'Pharmacien':       'Pharmacien',
+      'Dentiste':         'Chirurgien-Dentiste',
+      'Psychiatre':       'Psychiatre',
+    };
+
     const params = new URLSearchParams({
-      '_near': `${lat}|${lon}|${RADIUS_KM}|km`,
-      '_count': '200',
+      '_near':   `${lat}|${lon}|${RADIUS_KM}|km`,
+      '_count':  '200',
       '_format': 'json',
     });
 
-    if (specialty) {
-      // Mapping spécialité → code SNOMED / libellé partiel
-      params.append('qualification', specialty);
+    if (specialty && specialtyMap[specialty]) {
+      params.append('qualification', specialtyMap[specialty]);
     }
 
     const url = `${API_SANTE}?${params.toString()}`;
+    const res = await fetch(url, {
+      headers: { 'Accept': 'application/fhir+json' }
+    });
 
-    try {
-      const res = await fetch(url, {
-        headers: { 'Accept': 'application/fhir+json' }
-      });
-
-      if (!res.ok) {
-        // Fallback sur l'API de recherche textuelle si FHIR geo échoue
-        return await fetchProfessionalsFallback(lat, lon, specialty);
-      }
-
-      const data = await res.json();
-      return parseFHIR(data, lat, lon);
-
-    } catch (e) {
-      // En cas d'erreur réseau, on tente le fallback
+    if (!res.ok) {
+      // Fallback : PractitionerRole avec include
       return await fetchProfessionalsFallback(lat, lon, specialty);
     }
+
+    const data = await res.json();
+    const results = parseFHIR(data, lat, lon);
+
+    // Si pas de résultats FHIR directs, tenter le fallback
+    if (results.length === 0) {
+      return await fetchProfessionalsFallback(lat, lon, specialty);
+    }
+    return results;
   }
 
-  /**
-   * Fallback : API Annuaire Santé v2 (endpoint alternatif)
-   */
   async function fetchProfessionalsFallback(lat, lon, specialty) {
-    const baseUrl = 'https://gateway.api.esante.gouv.fr/fhir/v1/PractitionerRole';
+    const baseUrl = 'https://api.annuaire.sante.fr/fhir/v1/PractitionerRole';
     const params = new URLSearchParams({
       'location.near': `${lat}|${lon}|${RADIUS_KM}|km`,
-      '_include': 'PractitionerRole:practitioner',
-      '_count': '200',
-      '_format': 'json',
+      '_include':      'PractitionerRole:practitioner',
+      '_count':        '200',
+      '_format':       'json',
     });
-    if (specialty) params.append('specialty', specialty);
+
+    const specialtyMap = {
+      'Médecin':          'SM26',
+      'Infirmier':        'SM60',
+      'Kinésithérapeute': 'SM40',
+      'Pharmacien':       'SM80',
+      'Dentiste':         'SM55',
+      'Psychiatre':       'SM26',
+    };
+
+    if (specialty && specialtyMap[specialty]) {
+      params.append('specialty', specialtyMap[specialty]);
+    }
 
     const res = await fetch(`${baseUrl}?${params.toString()}`, {
       headers: { 'Accept': 'application/fhir+json' }
     });
 
-    if (!res.ok) throw new Error(`L'annuaire de santé est momentanément indisponible (${res.status}). Veuillez réessayer dans quelques instants.`);
+    if (!res.ok) {
+      throw new Error(
+        `L'annuaire de santé est momentanément indisponible (${res.status}). ` +
+        `Veuillez réessayer dans quelques instants.`
+      );
+    }
 
     const data = await res.json();
     return parseFHIRRoles(data, lat, lon);
