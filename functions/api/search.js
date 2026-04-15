@@ -2,20 +2,18 @@
  * DoctoNET — /api/search
  * Worker Cloudflare Pages — FHIR R4 Annuaire Santé v2
  *
- * Endpoint correct : https://gateway.api.esante.gouv.fr/fhir/v2/
+ * Endpoint : https://gateway.api.esante.gouv.fr/fhir/v2/
  *
- * Stratégie géoloc :
- *   PractitionerRole?near=lat|lng|km|km (supporté en v2)
- *   &_include=PractitionerRole:practitioner
- *   &_include=PractitionerRole:location
+ * Pagination : l'API ANS v2 ne supporte pas _offset sur PractitionerRole
+ *   → on utilise _page (numéro de page, base 1)
  *
- * Stratégie nom/ville :
- *   Practitioner?family=...&_revinclude=PractitionerRole:practitioner
+ * Géoloc  : PractitionerRole?near=lat|lng|km|km + _include practitioner + location
+ * Nom     : Practitioner?family=... + _revinclude PractitionerRole:practitioner
  */
 
 export async function onRequestGet({ request, env }) {
-  const url  = new URL(request.url);
-  const p    = url.searchParams;
+  const url = new URL(request.url);
+  const p   = url.searchParams;
 
   const nom        = p.get("nom")        || "";
   const ville      = (p.get("ville")     || "").trim().toUpperCase();
@@ -26,9 +24,7 @@ export async function onRequestGet({ request, env }) {
   const page       = parseInt(p.get("page")  || "1",  10);
   const rawDebug   = p.get("_raw") === "1";
   const count      = 20;
-  const offset     = (page - 1) * count;
 
-  // ✅ Endpoint v2 officiel ANS
   const BASE    = "https://gateway.api.esante.gouv.fr/fhir/v2";
   const headers = { "ESANTE-API-KEY": env.ESANTE_API_KEY, "Accept": "application/fhir+json" };
 
@@ -36,23 +32,23 @@ export async function onRequestGet({ request, env }) {
     let fhirUrl;
 
     if (lat && lng) {
-      // ── Géoloc : PractitionerRole?near (supporté en v2) ─────────────────
+      // ── Géoloc via PractitionerRole?near ─────────────────────────────────
       const fp = new URLSearchParams();
-      fp.set("_count",  String(count));
-      fp.set("_offset", String(offset));
-      fp.set("active",  "true");
-      fp.set("near",    `${lat}|${lng}|${km}|km`);
+      fp.set("_count", String(count));
+      fp.set("_page",  String(page));   // ANS v2 utilise _page, pas _offset
+      fp.set("active", "true");
+      fp.set("near",   `${lat}|${lng}|${km}|km`);
       fp.append("_include", "PractitionerRole:practitioner");
       fp.append("_include", "PractitionerRole:location");
       if (specialite) fp.set("specialty", specialite);
       fhirUrl = `${BASE}/PractitionerRole?${fp}`;
 
     } else {
-      // ── Par nom / ville ──────────────────────────────────────────────────
+      // ── Par nom / ville via Practitioner ─────────────────────────────────
       const fp = new URLSearchParams();
-      fp.set("_count",  String(count));
-      fp.set("_offset", String(offset));
-      fp.set("active",  "true");
+      fp.set("_count", String(count));
+      fp.set("_page",  String(page));
+      fp.set("active", "true");
       fp.append("_revinclude", "PractitionerRole:practitioner");
       if (nom)   fp.set("family",       nom);
       if (ville) fp.set("address-city", ville);
@@ -69,7 +65,7 @@ export async function onRequestGet({ request, env }) {
     const bundle = await resp.json();
     if (rawDebug) return jsonResponse({ _url: fhirUrl, _raw: bundle });
 
-    // ── Indexation ───────────────────────────────────────────────────────
+    // ── Indexation ────────────────────────────────────────────────────────
     const practitioners = {};
     const locations     = {};
     const roles         = [];
@@ -84,7 +80,7 @@ export async function onRequestGet({ request, env }) {
       }
     }
 
-    // ── Transformation ───────────────────────────────────────────────────
+    // ── Transformation ────────────────────────────────────────────────────
     let results = roles.map((role) => {
       const practId = (role.practitioner?.reference || "").split("/").pop();
       const locId   = (role.location?.[0]?.reference || "").split("/").pop();
@@ -111,7 +107,7 @@ export async function onRequestGet({ request, env }) {
       };
     });
 
-    // Filtrage ville côté JS si pas de géoloc
+    // Filtrage ville côté JS (recherche sans géoloc)
     if (ville && !lat) {
       results = results.filter((r) =>
         r.ville.toUpperCase().includes(ville) || r.codePostal.startsWith(ville)
@@ -142,7 +138,8 @@ function extractNom(pract) {
   if (!pract) return "Nom inconnu";
   const hn = (pract.name || []).find((n) => n.use === "official") || (pract.name || [])[0];
   if (!hn) return "Nom inconnu";
-  return [...(hn.prefix || []), ...(hn.given || []), hn.family || ""].filter(Boolean).join(" ").trim() || "Nom inconnu";
+  return [...(hn.prefix || []), ...(hn.given || []), hn.family || ""]
+    .filter(Boolean).join(" ").trim() || "Nom inconnu";
 }
 
 function extractSpecialite(role) {
@@ -171,7 +168,11 @@ function parseAddress(addr, position) {
   const cp     = addr.postalCode || "";
   const ville  = addr.city       || "";
   const pays   = addr.country    || "France";
-  const parts  = [ligne1, cp && ville ? `${cp} ${ville}` : (ville || cp), pays !== "France" ? pays : ""].filter(Boolean);
+  const parts  = [
+    ligne1,
+    cp && ville ? `${cp} ${ville}` : (ville || cp),
+    pays !== "France" ? pays : "",
+  ].filter(Boolean);
   return { texte: parts.join(", "), codePostal: cp, ville, pays,
            lat: position?.latitude ?? null, lng: position?.longitude ?? null };
 }
