@@ -4,11 +4,14 @@
  *
  * Endpoint : https://gateway.api.esante.gouv.fr/fhir/v2/
  *
- * Pagination : l'API ANS v2 ne supporte pas _offset sur PractitionerRole
- *   → on utilise _page (numéro de page, base 1)
- *
- * Géoloc  : PractitionerRole?near=lat|lng|km|km + _include practitioner + location
- * Nom     : Practitioner?family=... + _revinclude PractitionerRole:practitioner
+ * Paramètres supportés sur PractitionerRole :
+ *   - near=lat|lng|km|km
+ *   - _count
+ *   - _include=PractitionerRole:practitioner
+ *   - _include=PractitionerRole:location
+ *   - specialty
+ *   - active
+ *   NB: ni _offset ni _page ne sont supportés → on utilise les liens "next" du bundle
  */
 
 export async function onRequestGet({ request, env }) {
@@ -21,7 +24,7 @@ export async function onRequestGet({ request, env }) {
   const lat        = parseFloat(p.get("lat") || "0");
   const lng        = parseFloat(p.get("lon") || p.get("lng") || "0");
   const km         = parseInt(p.get("km")    || "20", 10);
-  const page       = parseInt(p.get("page")  || "1",  10);
+  const nextUrl    = p.get("next")       || "";   // lien de pagination fourni par le bundle
   const rawDebug   = p.get("_raw") === "1";
   const count      = 20;
 
@@ -31,11 +34,14 @@ export async function onRequestGet({ request, env }) {
   try {
     let fhirUrl;
 
-    if (lat && lng) {
+    if (nextUrl) {
+      // ── Pagination : on suit le lien "next" fourni par le bundle précédent ──
+      fhirUrl = nextUrl;
+
+    } else if (lat && lng) {
       // ── Géoloc via PractitionerRole?near ─────────────────────────────────
       const fp = new URLSearchParams();
       fp.set("_count", String(count));
-      fp.set("_page",  String(page));   // ANS v2 utilise _page, pas _offset
       fp.set("active", "true");
       fp.set("near",   `${lat}|${lng}|${km}|km`);
       fp.append("_include", "PractitionerRole:practitioner");
@@ -47,7 +53,6 @@ export async function onRequestGet({ request, env }) {
       // ── Par nom / ville via Practitioner ─────────────────────────────────
       const fp = new URLSearchParams();
       fp.set("_count", String(count));
-      fp.set("_page",  String(page));
       fp.set("active", "true");
       fp.append("_revinclude", "PractitionerRole:practitioner");
       if (nom)   fp.set("family",       nom);
@@ -64,6 +69,9 @@ export async function onRequestGet({ request, env }) {
 
     const bundle = await resp.json();
     if (rawDebug) return jsonResponse({ _url: fhirUrl, _raw: bundle });
+
+    // ── Lien de page suivante (relation "next" dans bundle.link) ─────────
+    const nextLink = (bundle.link || []).find((l) => l.relation === "next")?.url || null;
 
     // ── Indexation ────────────────────────────────────────────────────────
     const practitioners = {};
@@ -107,7 +115,7 @@ export async function onRequestGet({ request, env }) {
       };
     });
 
-    // Filtrage ville côté JS (recherche sans géoloc)
+    // Filtrage ville côté JS (sans géoloc)
     if (ville && !lat) {
       results = results.filter((r) =>
         r.ville.toUpperCase().includes(ville) || r.codePostal.startsWith(ville)
@@ -115,9 +123,9 @@ export async function onRequestGet({ request, env }) {
     }
 
     return jsonResponse({
-      total:   bundle.total ?? results.length,
-      page,
-      count:   results.length,
+      total:    bundle.total ?? results.length,
+      count:    results.length,
+      nextUrl:  nextLink,   // à passer en paramètre ?next= pour la page suivante
       results,
       _meta: {
         url:        fhirUrl,
@@ -147,16 +155,13 @@ function extractSpecialite(role) {
 }
 
 function extractAdresse(role, loc) {
-  // 1. Location incluse
   if (loc?.address) return parseAddress(loc.address, loc.position);
-  // 2. Extension dans le rôle
   for (const ext of (role.extension || [])) {
     if (ext.valueAddress) return parseAddress(ext.valueAddress, null);
     for (const sub of (ext.extension || [])) {
       if (sub.valueAddress) return parseAddress(sub.valueAddress, null);
     }
   }
-  // 3. Adresse directe
   const direct = (role.address || [])[0];
   if (direct) return parseAddress(direct, null);
   return null;
