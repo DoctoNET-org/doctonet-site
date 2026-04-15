@@ -619,8 +619,8 @@
   <!-- ===== HERO ===== -->
   <div class="page-hero">
     <span class="page-hero-icon">🔍</span>
-    <h1>Trouver un professionnel<br>de <span>santé</span><br>près de chez vous</h1>
-    <p>Indiquez votre ville ou code postal — nous consultons l'annuaire officiel du Ministère de la Santé pour vous proposer les professionnels les plus proches.</p>
+    <h1>Trouver un professionnel<br>de <span>santé</span></h1>
+    <p>Recherchez par nom de famille — nous consultons l'annuaire officiel du Ministère de la Santé pour vous proposer les coordonnées complètes.</p>
     <div class="source-badge" style="margin: 1.25rem auto 0;">
       ✅ Données officielles · Annuaire Santé DREES · Toujours à jour
     </div>
@@ -629,38 +629,23 @@
   <!-- ===== SEARCH ===== -->
   <section class="search-section" aria-label="Recherche de professionnel de santé">
     <div class="search-card">
-      <label class="search-label" for="location-input">Ville ou code postal</label>
+      <label class="search-label" for="location-input">Nom du professionnel</label>
       <div class="search-row">
         <input
           type="text"
           id="location-input"
-          placeholder="Ex : Paris 17, 75017, Lyon..."
+          placeholder="Ex : Martin, Dupont, Bernard…"
           autocomplete="off"
           inputmode="search"
-          aria-label="Saisir une ville ou un code postal"
+          aria-label="Saisir le nom du professionnel de santé"
         >
-        <button class="btn-geo" id="btn-geo" title="Utiliser ma position" aria-label="Utiliser ma position GPS">
-          📍 Ma position
-        </button>
         <button class="btn-search" id="btn-search" aria-label="Lancer la recherche">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           Rechercher
         </button>
       </div>
 
-      <p class="search-hint">💡 Vous pouvez saisir uniquement un code postal (ex : 75017)</p>
-
-      <!-- Filtres spécialité -->
-      <div class="filters-row" role="group" aria-label="Filtrer par spécialité">
-        <span class="filter-label">Spécialité :</span>
-        <button class="filter-chip active" data-specialty="">Tous</button>
-        <button class="filter-chip" data-specialty="Médecin">Médecin</button>
-        <button class="filter-chip" data-specialty="Infirmier">Infirmier</button>
-        <button class="filter-chip" data-specialty="Kinésithérapeute">Kiné</button>
-        <button class="filter-chip" data-specialty="Pharmacien">Pharmacien</button>
-        <button class="filter-chip" data-specialty="Dentiste">Dentiste</button>
-        <button class="filter-chip" data-specialty="Psychiatre">Psychiatre</button>
-      </div>
+      <p class="search-hint">💡 Saisissez au moins 2 lettres du nom de famille</p>
     </div>
   </section>
 
@@ -671,7 +656,7 @@
     <div class="state-empty" id="state-initial">
       <span class="state-icon">🏥</span>
       <h2>Commencez votre recherche</h2>
-      <p>Saisissez votre ville ou code postal ci-dessus<br>pour trouver des professionnels de santé dans un rayon de 20 km.</p>
+      <p>Saisissez le nom de famille d'un professionnel de santé<br>pour obtenir ses coordonnées complètes.</p>
     </div>
 
     <!-- Chargement -->
@@ -703,7 +688,7 @@
     <div class="state-empty" id="state-no-results" style="display:none;">
       <span class="state-icon">🔎</span>
       <h2>Aucun résultat trouvé</h2>
-      <p>Essayez un autre lieu ou élargissez le rayon de recherche.<br>Vous pouvez aussi modifier le filtre de spécialité.</p>
+      <p>Essayez avec un nom plus court ou vérifiez l'orthographe.</p>
     </div>
 
   </main>
