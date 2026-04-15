@@ -2,12 +2,12 @@
  * DoctoNET — /api/search
  * Worker Cloudflare Pages — FHIR R4 Annuaire Santé v2
  *
- * Chaîne confirmée :
- *   Practitioner?family=NOM
- *     &_revinclude=PractitionerRole:practitioner  → rôles (spécialité, telecom)
- *     &_include=PractitionerRole:organization      → organisation (adresse !)
+ * Stratégie en 2 requêtes :
+ *   1. Practitioner?family=NOM + _revinclude=PractitionerRole:practitioner
+ *      → on récupère Practitioners + leurs PractitionerRoles (avec ref Organization)
  *
- * L'adresse est dans Organization, pas dans PractitionerRole ni Practitioner.
+ *   2. Organization?_id=id1,id2,id3...
+ *      → on récupère les Organizations pour avoir les adresses
  */
 
 export async function onRequestGet({ request, env }) {
@@ -27,8 +27,8 @@ export async function onRequestGet({ request, env }) {
   }
 
   try {
+    // ── Étape 1 : Practitioner + PractitionerRole ────────────────────────
     let fhirUrl;
-
     if (nextUrl) {
       fhirUrl = nextUrl;
     } else {
@@ -37,43 +37,58 @@ export async function onRequestGet({ request, env }) {
       fp.set("active", "true");
       fp.set("family", nom);
       fp.append("_revinclude", "PractitionerRole:practitioner");
-      // On ajoute l'include de l'organisation pour avoir l'adresse
-      fp.append("_include",    "PractitionerRole:organization");
       fhirUrl = `${BASE}/Practitioner?${fp}`;
     }
 
-    const resp = await fetch(fhirUrl, { headers });
-
-    if (!resp.ok) {
-      const detail = await resp.text();
-      return jsonResponse({ error: "FHIR error", status: resp.status, detail, _url: fhirUrl }, resp.status);
+    const resp1 = await fetch(fhirUrl, { headers });
+    if (!resp1.ok) {
+      const detail = await resp1.text();
+      return jsonResponse({ error: "FHIR error", status: resp1.status, detail, _url: fhirUrl }, resp1.status);
     }
 
-    const bundle = await resp.json();
-    if (rawDebug) return jsonResponse({ _url: fhirUrl, _raw: bundle });
+    const bundle1 = await resp1.json();
+    const nextLink = (bundle1.link || []).find((l) => l.relation === "next")?.url || null;
 
-    const nextLink = (bundle.link || []).find((l) => l.relation === "next")?.url || null;
-
-    // ── Indexation ───────────────────────────────────────────────────────
+    // Indexation Practitioner + PractitionerRole
     const practitioners = {};
-    const roles         = {};   // practId → PractitionerRole
-    const orgs          = {};   // orgId   → Organization
+    const roles = {};   // practId → PractitionerRole
+    const orgIds = new Set();
 
-    for (const entry of (bundle.entry || [])) {
+    for (const entry of (bundle1.entry || [])) {
       const res = entry.resource;
       if (!res) continue;
-      switch (res.resourceType) {
-        case "Practitioner":
-          practitioners[res.id] = res;
-          break;
-        case "PractitionerRole": {
-          const practId = (res.practitioner?.reference || "").split("/").pop();
-          if (practId && !roles[practId]) roles[practId] = res;
-          break;
+      if (res.resourceType === "Practitioner") {
+        practitioners[res.id] = res;
+      } else if (res.resourceType === "PractitionerRole") {
+        const practId = (res.practitioner?.reference || "").split("/").pop();
+        if (practId && !roles[practId]) {
+          roles[practId] = res;
+          // Collecte les IDs d'organisation
+          const orgId = (res.organization?.reference || "").split("/").pop();
+          if (orgId) orgIds.add(orgId);
         }
-        case "Organization":
-          orgs[res.id] = res;
-          break;
+      }
+    }
+
+    if (rawDebug) return jsonResponse({ _url: fhirUrl, _bundle1: bundle1, orgIds: [...orgIds] });
+
+    // ── Étape 2 : Organizations pour les adresses ────────────────────────
+    const orgs = {};
+    if (orgIds.size > 0) {
+      const fp2 = new URLSearchParams();
+      fp2.set("_id", [...orgIds].join(","));
+      fp2.set("_count", "100");
+      const orgUrl = `${BASE}/Organization?${fp2}`;
+
+      const resp2 = await fetch(orgUrl, { headers });
+      if (resp2.ok) {
+        const bundle2 = await resp2.json();
+        for (const entry of (bundle2.entry || [])) {
+          const res = entry.resource;
+          if (res?.resourceType === "Organization") {
+            orgs[res.id] = res;
+          }
+        }
       }
     }
 
@@ -99,7 +114,7 @@ export async function onRequestGet({ request, env }) {
     });
 
     return jsonResponse({
-      total:   bundle.total ?? results.length,
+      total:   bundle1.total ?? results.length,
       count:   results.length,
       nextUrl: nextLink,
       results,
@@ -133,22 +148,19 @@ function extractSpecialite(role) {
 }
 
 function extractAdresse(role, org) {
-  // 1. Depuis l'Organisation (contient l'adresse du cabinet)
+  // 1. Adresse dans l'Organisation
   const orgAddr = (org?.address || [])[0];
   if (orgAddr) return parseAddress(orgAddr);
-
-  // 2. Depuis le rôle directement
+  // 2. Adresse directe dans le rôle
   const roleAddr = (role?.address || [])[0];
   if (roleAddr) return parseAddress(roleAddr);
-
-  // 3. Extension valueAddress dans le rôle
+  // 3. Extension valueAddress
   for (const ext of (role?.extension || [])) {
     if (ext.valueAddress) return parseAddress(ext.valueAddress);
     for (const sub of (ext.extension || [])) {
       if (sub.valueAddress) return parseAddress(sub.valueAddress);
     }
   }
-
   return null;
 }
 
@@ -156,13 +168,12 @@ function parseAddress(addr) {
   if (!addr) return null;
   const ligne1 = (addr.line || [])[0] || "";
   const cp     = addr.postalCode || "";
-  const ville  = addr.city       || "";
+  const ville  = addr.city || "";
   const parts  = [ligne1, cp && ville ? `${cp} ${ville}` : (ville || cp)].filter(Boolean);
   return { texte: parts.join(", "), codePostal: cp, ville };
 }
 
 function extractTelecom(role, org) {
-  // Télécom du rôle en priorité, sinon de l'organisation
   const t = [...(role?.telecom || []), ...(org?.telecom || [])];
   return {
     telephone: t.find((x) => x.system === "phone")?.value || "",
