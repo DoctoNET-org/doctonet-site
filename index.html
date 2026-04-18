@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -68,8 +69,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <!-- Brevo styles chargés EN PREMIER pour que notre CSS les écrase -->
-  <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
+
 
   <style>
     :root {
@@ -890,241 +890,117 @@ html {
         <p style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">Association loi 1901 · 24 rue Jouffroy d'Abbans, Paris 17e</p>
       </div>
 
-      <div id="sib-form-container" class="sib-form-container">
-        <div id="error-message" class="sib-form-message-panel" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949; max-width:100%;">
-          <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
-            <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon"><path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-11.49 120h22.979c6.823 0 12.274 5.682 11.99 12.5l-7 168c-.268 6.428-5.556 11.5-11.99 11.5h-8.979c-6.433 0-11.722-5.073-11.99-11.5l-7-168c-.283-6.818 5.167-12.5 11.99-12.5zM256 340c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28-12.536-28-28-28z"/></svg>
-            <span class="sib-form-message-panel__inner-text">Nous n&#039;avons pas pu confirmer l&#039;envoi de votre message.</span>
+      <div id="doctonet-form-container">
+
+        <div id="form-success" style="display:none; font-size:16px; text-align:left; color:#085229; background-color:#e7faf0; border-radius:8px; border:1px solid #13ce66; padding:1rem 1.2rem; margin-bottom:1rem;">
+          Message bien envoyé. Un bénévole vous répond sous 24h. Merci !
+        </div>
+
+        <div id="form-error" style="display:none; font-size:16px; color:#661d1d; background-color:#ffeded; border-radius:8px; border:1px solid #ff4949; padding:1rem 1.2rem; margin-bottom:1rem;"></div>
+
+        <form id="doctonet-form" novalidate>
+
+          <div style="display:flex; gap:0.75rem; padding:8px 0;">
+            <div style="flex:1;">
+              <label for="PRENOM" style="font-size:0.85rem; font-weight:500; color:rgba(255,255,255,0.7); display:block; text-align:left; margin-bottom:0.4rem;">Prénom *</label>
+              <input type="text" id="PRENOM" name="PRENOM" maxlength="200" placeholder="Marie" required autocomplete="given-name" style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:0.8rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;box-sizing:border-box;">
+            </div>
+            <div style="flex:1;">
+              <label for="NOM" style="font-size:0.85rem; font-weight:500; color:rgba(255,255,255,0.7); display:block; text-align:left; margin-bottom:0.4rem;">Nom *</label>
+              <input type="text" id="NOM" name="NOM" maxlength="200" placeholder="Dupont" required autocomplete="family-name" style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:0.8rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;box-sizing:border-box;">
+            </div>
           </div>
-        </div>
-        <div></div>
-        <div id="success-message" class="sib-form-message-panel" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#085229; background-color:#e7faf0; border-radius:3px; border-color:#13ce66; max-width:100%;">
-          <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
-            <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z"/></svg>
-            <span class="sib-form-message-panel__inner-text">Message bien envoyé. Merci !</span>
+
+          <div style="padding:8px 0;">
+            <label for="EMAIL" style="font-size:0.85rem; font-weight:500; color:rgba(255,255,255,0.7); display:block; text-align:left; margin-bottom:0.4rem;">Email *</label>
+            <input type="email" id="EMAIL" name="EMAIL" placeholder="marie@exemple.fr" required autocomplete="email" style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:0.8rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;box-sizing:border-box;">
           </div>
-        </div>
-        <div></div>
-        <div id="sib-container" class="sib-container--large sib-container--vertical" style="text-align:center; background-color:transparent; max-width:100%; border:none; direction:ltr">
-          <form id="sib-form" method="POST" action="https://0dceccbe.sibforms.com/serve/MUIFAEhGTpOn7lT1mkwfp2mWCDiT_m4VCBMducd9SkScuaCQbZkOIEMfOHTOI1rebfAzEIlTaSk-deMMfG9d1_jGQnO7fcYSVVGLAQXynSLY5fUgyhv8qjiIaN1mBxI6rLYT2ImWESl18lFDV0nUZCjInE0UpARWnLmZrVTo2WT41ZbngIFdZKnk_D7n4u5CWJ7EZ5Oru2OG0f7x2Q==" data-type="subscription">
 
-            <!-- Ligne Prénom + Nom côte à côte -->
-            <div style="display:flex; gap:0.75rem; padding:8px 0;">
+          <div style="padding:8px 0;">
+            <label for="TELEPHONE" style="font-size:0.85rem; font-weight:500; color:rgba(255,255,255,0.7); display:block; text-align:left; margin-bottom:0.4rem;">Téléphone</label>
+            <input type="tel" id="TELEPHONE" name="TELEPHONE" maxlength="20" placeholder="06 00 00 00 00" autocomplete="tel" style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:0.8rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;box-sizing:border-box;">
+          </div>
 
-              <div class="sib-input sib-form-block" style="flex:1; padding:0;">
-                <div class="form__entry entry_block">
-                  <div class="form__label-row">
-                    <label class="entry__label" for="PRENOM" style="font-size:0.85rem; font-weight:500; color:rgba(255,255,255,0.7); display:block; text-align:left; margin-bottom:0.4rem;">Prénom *</label>
-                    <div class="entry__field">
-                      <input class="input" type="text" id="PRENOM" name="PRENOM" maxlength="200" placeholder="Marie" data-required="true" required autocomplete="given-name" style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:0.8rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;box-sizing:border-box;">
-                    </div>
-                  </div>
-                  <label class="entry__error entry__error--primary" style="font-size:12px;color:#661d1d;background-color:#ffeded;border-radius:3px;border-color:#ff4949;"></label>
-                </div>
-              </div>
+          <div style="padding:8px 0;">
+            <label for="TYPE_PROBLEME" style="font-size:0.85rem; font-weight:500; color:rgba(255,255,255,0.7); display:block; text-align:left; margin-bottom:0.4rem;">Type de problème</label>
+            <select id="TYPE_PROBLEME" name="TYPE_PROBLEME" style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:0.8rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;box-sizing:border-box;appearance:auto;">
+              <option value="" style="background:#0a2540;">-- Sélectionnez --</option>
+              <option value="Dépannage ordinateur" style="background:#0a2540;">Dépannage ordinateur</option>
+              <option value="Virus / Sécurité" style="background:#0a2540;">Virus / Sécurité</option>
+              <option value="Internet / Connexion" style="background:#0a2540;">Internet / Connexion</option>
+              <option value="Email / Messagerie" style="background:#0a2540;">Email / Messagerie</option>
+              <option value="Smartphone / Tablette" style="background:#0a2540;">Smartphone / Tablette</option>
+              <option value="Imprimante" style="background:#0a2540;">Imprimante</option>
+              <option value="Autre" style="background:#0a2540;">Autre</option>
+            </select>
+          </div>
 
-              <div class="sib-input sib-form-block" style="flex:1; padding:0;">
-                <div class="form__entry entry_block">
-                  <div class="form__label-row">
-                    <label class="entry__label" for="NOM" style="font-size:0.85rem; font-weight:500; color:rgba(255,255,255,0.7); display:block; text-align:left; margin-bottom:0.4rem;">Nom *</label>
-                    <div class="entry__field">
-                      <input class="input" type="text" id="NOM" name="NOM" maxlength="200" placeholder="Dupont" data-required="true" required autocomplete="family-name" style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:0.8rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;box-sizing:border-box;">
-                    </div>
-                  </div>
-                  <label class="entry__error entry__error--primary" style="font-size:12px;color:#661d1d;background-color:#ffeded;border-radius:3px;border-color:#ff4949;"></label>
-                </div>
-              </div>
+          <div style="padding:8px 0;">
+            <label for="MESSAGE" style="font-size:0.85rem; font-weight:500; color:rgba(255,255,255,0.7); display:block; text-align:left; margin-bottom:0.4rem;">Votre message *</label>
+            <textarea id="MESSAGE" name="MESSAGE" rows="4" maxlength="2000" placeholder="Décrivez brièvement votre problème..." required style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:0.8rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;box-sizing:border-box;resize:vertical;"></textarea>
+          </div>
 
-            </div>
+          <div style="padding:8px 0;">
+            <button type="submit" id="form-submit-btn" class="sib-form-block__button sib-form-block__button-with-loader form-submit">
+              Envoyer ma demande →
+            </button>
+          </div>
 
-            <!-- Email -->
-            <div class="sib-input sib-form-block" style="padding:8px 0;">
-              <div class="form__entry entry_block">
-                <div class="form__label-row">
-                  <label class="entry__label" for="EMAIL" style="font-size:0.85rem; font-weight:500; color:rgba(255,255,255,0.7); display:block; text-align:left; margin-bottom:0.4rem;">Email *</label>
-                  <div class="entry__field">
-                    <input class="input" type="email" id="EMAIL" name="EMAIL" placeholder="marie@exemple.fr" data-required="true" required autocomplete="email" style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:0.8rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;box-sizing:border-box;">
-                  </div>
-                </div>
-                <label class="entry__error entry__error--primary" style="font-size:12px;color:#661d1d;background-color:#ffeded;border-radius:3px;border-color:#ff4949;"></label>
-              </div>
-            </div>
+        </form>
 
-            <!-- Téléphone -->
-            <div class="sib-input sib-form-block" style="padding:8px 0;">
-              <div class="form__entry entry_block">
-                <div class="form__label-row">
-                  <label class="entry__label" for="TELEPHONE" style="font-size:0.85rem; font-weight:500; color:rgba(255,255,255,0.7); display:block; text-align:left; margin-bottom:0.4rem;">Téléphone</label>
-                  <div class="entry__field">
-                    <input class="input" type="tel" id="TELEPHONE" name="TELEPHONE" maxlength="20" placeholder="06 00 00 00 00" autocomplete="tel" style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:0.8rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;box-sizing:border-box;">
-                  </div>
-                </div>
-                <label class="entry__error entry__error--primary" style="font-size:12px;color:#661d1d;background-color:#ffeded;border-radius:3px;border-color:#ff4949;"></label>
-              </div>
-            </div>
+        <script>
+          document.getElementById('doctonet-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            var btn = document.getElementById('form-submit-btn');
+            var successEl = document.getElementById('form-success');
+            var errorEl = document.getElementById('form-error');
+            var prenom = document.getElementById('PRENOM').value.trim();
+            var nom = document.getElementById('NOM').value.trim();
+            var email = document.getElementById('EMAIL').value.trim();
+            var message = document.getElementById('MESSAGE').value.trim();
 
-            <!-- Type de problème -->
-            <div class="sib-input sib-form-block" style="padding:8px 0;">
-              <div class="form__entry entry_block">
-                <div class="form__label-row">
-                  <label class="entry__label" for="TYPE_PROBLEME" style="font-size:0.85rem; font-weight:500; color:rgba(255,255,255,0.7); display:block; text-align:left; margin-bottom:0.4rem;">Type de problème</label>
-                  <div class="entry__field">
-                    <select class="input" id="TYPE_PROBLEME" name="TYPE_PROBLEME" style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:0.8rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;box-sizing:border-box;appearance:auto;">
-                      <option value="" style="background:#0a2540;">-- Sélectionnez --</option>
-                      <option value="Dépannage ordinateur" style="background:#0a2540;">Dépannage ordinateur</option>
-                      <option value="Virus / Sécurité" style="background:#0a2540;">Virus / Sécurité</option>
-                      <option value="Internet / Connexion" style="background:#0a2540;">Internet / Connexion</option>
-                      <option value="Email / Messagerie" style="background:#0a2540;">Email / Messagerie</option>
-                      <option value="Smartphone / Tablette" style="background:#0a2540;">Smartphone / Tablette</option>
-                      <option value="Imprimante" style="background:#0a2540;">Imprimante</option>
-                      <option value="Autre" style="background:#0a2540;">Autre</option>
-                    </select>
-                  </div>
-                </div>
-                <label class="entry__error entry__error--primary" style="font-size:12px;color:#661d1d;background-color:#ffeded;border-radius:3px;border-color:#ff4949;"></label>
-              </div>
-            </div>
+            errorEl.style.display = 'none';
+            if (!prenom || !nom || !email || !message) {
+              errorEl.textContent = 'Veuillez remplir tous les champs obligatoires (Prénom, Nom, Email, Message).';
+              errorEl.style.display = 'block';
+              return;
+            }
 
-            <!-- Message -->
-            <div class="sib-input sib-form-block" style="padding:8px 0;">
-              <div class="form__entry entry_block">
-                <div class="form__label-row">
-                  <label class="entry__label" for="MESSAGE" style="font-size:0.85rem; font-weight:500; color:rgba(255,255,255,0.7); display:block; text-align:left; margin-bottom:0.4rem;">Votre message *</label>
-                  <div class="entry__field">
-                    <textarea class="input" id="MESSAGE" name="MESSAGE" rows="4" maxlength="2000" placeholder="Décrivez brièvement votre problème..." data-required="true" required style="width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:12px;padding:0.8rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;box-sizing:border-box;resize:vertical;"></textarea>
-                  </div>
-                </div>
-                <label class="entry__error entry__error--primary" style="font-size:12px;color:#661d1d;background-color:#ffeded;border-radius:3px;border-color:#ff4949;"></label>
-              </div>
-            </div>
+            btn.disabled = true;
+            btn.textContent = 'Envoi en cours…';
 
-            <input type="text" name="email_address_check" value="" class="input--hidden" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
-            <input type="hidden" name="locale" value="fr">
+            try {
+              var response = await fetch('https://hook.eu1.make.com/3w1otn7f4morftsqgrj8v2auumcz35ew', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  PRENOM: prenom,
+                  NOM: nom,
+                  EMAIL: email,
+                  TELEPHONE: document.getElementById('TELEPHONE').value.trim(),
+                  TYPE_PROBLEME: document.getElementById('TYPE_PROBLEME').value,
+                  MESSAGE: message
+                })
+              });
+              if (response.ok) {
+                document.getElementById('doctonet-form').style.display = 'none';
+                successEl.style.display = 'block';
+              } else {
+                throw new Error('erreur serveur');
+              }
+            } catch(err) {
+              errorEl.textContent = 'Une erreur est survenue. Veuillez réessayer ou nous appeler au 01 80 06 46 49.';
+              errorEl.style.display = 'block';
+              btn.disabled = false;
+              btn.textContent = 'Envoyer ma demande →';
+            }
+          });
+        </script>
 
-            <div class="sib-form-block" style="padding:8px 0;">
-              <button type="submit" class="sib-form-block__button sib-form-block__button-with-loader form-submit">
-                <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512" style="display:none;"><path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z"/></svg>
-                Envoyer ma demande →
-              </button>
-            </div>
-
-          </form>
-        </div>
+      </div>
+      </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== TÉMOIGNAGES ===== -->
-  <section aria-labelledby="testimonials-title">
-    <div class="fade-up" style="text-align: center; margin-bottom: 3rem;">
-      <p class="section-label">Témoignages</p>
-      <h2 id="testimonials-title">Ce qu'en disent nos adhérents</h2>
-    </div>
-    <div class="testimonials-grid">
-      <article class="testimonial-card fade-up">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"Grâce à DoctoNET, j'ai enfin compris comment protéger mon ordinateur des virus. L'équipe est patiente, pédagogue et toujours disponible."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">MF</div>
-          <div>
-            <div class="author-name">Marie-France</div>
-            <div class="author-role">Retraitée, Paris 17e</div>
-          </div>
-        </div>
-      </article>
-      <article class="testimonial-card fade-up">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"Les ateliers collectifs sont formidables. J'ai appris à utiliser les emails et les visios en quelques séances seulement. Je recommande à 100%."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">JL</div>
-          <div>
-            <div class="author-name">Jean-Louis</div>
-            <div class="author-role">Adhérent depuis 2021</div>
-          </div>
-        </div>
-      </article>
-      <article class="testimonial-card fade-up">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"Mon PC était complètement bloqué, DoctoNET l'a remis en état en une heure. Une aide précieuse, gratuite et sans jargon. Merci !"</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">SC</div>
-          <div>
-            <div class="author-name">Sylvie C.</div>
-            <div class="author-role">Bénéficiaire, Paris</div>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- ===== FOOTER ===== -->
-  <footer role="contentinfo">
-    <div class="footer-logo">Docto<span>NET</span></div>
-    <p>Association régie par la loi du 1er juillet 1901 · RNA : W751281281</p>
-    <p>24 rue Jouffroy d'Abbans · 75017 Paris</p>
-    <a href="tel:+33180064649" class="footer-phone">01 80 06 46 49</a>
-    <nav class="footer-links" aria-label="Liens de pied de page">
-      <a href="index.html">Accueil</a>
-      <a href="Tutoriels.html">Tutoriels</a>
-      <a href="index.html#contact">Contact</a>
-      <a href="donnees-personnelles.html">Données personnelles</a>
-    </nav>
-    <p style="font-size:0.8rem; margin-top: 1rem;">© 2026 DoctoNET · Tous droits réservés</p>
-  </footer>
-
-  <!-- Scripts Brevo / Cloudflare -->
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-  <script>
-    window.REQUIRED_CODE_ERROR_MESSAGE = 'Veuillez choisir un code pays';
-    window.LOCALE = 'fr';
-    window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = "Les informations que vous avez fournies ne sont pas valides. Veuillez vérifier le format du champ et réessayer.";
-    window.REQUIRED_ERROR_MESSAGE = "Vous devez renseigner ce champ.";
-    window.GENERIC_INVALID_MESSAGE = "Les informations que vous avez fournies ne sont pas valides. Veuillez vérifier le format du champ et réessayer.";
-    window.translation = {
-      common: {
-        selectedList: '{quantity} liste sélectionnée',
-        selectedLists: '{quantity} listes sélectionnées',
-        selectedOption: '{quantity} sélectionné',
-        selectedOptions: '{quantity} sélectionnés',
-      }
-    };
-    var AUTOHIDE = Boolean(0);
-  </script>
-  <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
-
-
-  <script>
-    // Menu hamburger mobile
-    const hamburger = document.getElementById('doctonet-hamburger');
-    const navLinks = document.getElementById('doctonet-nav-links');
-    if (hamburger && navLinks) {
-      hamburger.addEventListener('click', function() {
-        const isOpen = navLinks.classList.toggle('open');
-        hamburger.classList.toggle('open', isOpen);
-        hamburger.setAttribute('aria-expanded', isOpen);
-      });
-      navLinks.querySelectorAll('a').forEach(function(link) {
-        link.addEventListener('click', function() {
-          navLinks.classList.remove('open');
-          hamburger.classList.remove('open');
-          hamburger.setAttribute('aria-expanded', 'false');
-        });
-      });
-    }
-  </script>
-  <script>
-    // Intersection Observer pour les animations fade-up
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.12 });
-
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-  </script>
-
-</body>
-</html>
-
+  <!-- ===== TÉMOIGNAGES
