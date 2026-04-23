@@ -579,26 +579,7 @@ html {
     }
     .form-submit:hover { background: #33d0ff; transform: translateY(-1px); }
 
-    /* Stabilise le bouton Brevo sans bloquer son fonctionnement */
-    .sib-form-block__button.form-submit {
-      width: 100% !important;
-      padding: 1rem !important;
-      font-size: 1rem !important;
-      box-sizing: border-box !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 0.5rem !important;
-    }
-    /* Cache uniquement le spinner rotatif (pas le SVG interne de validation) */
-    .sib-form-block__button.form-submit .progress-indicator__icon {
-      display: none !important;
-    }
-    /* Pendant l'envoi : légère opacité, pas de déformation */
-    .sib-form-block__button.form-submit[disabled] {
-      opacity: 0.75 !important;
-      cursor: wait !important;
-    }
+
 
     /* ===== TÉMOIGNAGES ===== */
     .testimonials-grid {
@@ -672,19 +653,7 @@ html {
     }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-    /* ===== FIX OVERFLOW — s'applique à tout moment, pas seulement en media query ===== */
-    /* Brevo form container */
-    #sib-form-container,
-    #sib-container,
-    .sib-form-message-panel,
-    .sib-container--large,
-    .sib-container--vertical,
-    #error-message,
-    #success-message {
-      max-width: 100% !important;
-      width: 100% !important;
-      box-sizing: border-box !important;
-    }
+    /* ===== FIX OVERFLOW ===== */
 
     /* ===== HAMBURGER BUTTON ===== */
     #doctonet-hamburger {
@@ -833,12 +802,7 @@ html {
         min-width: 0 !important;
         max-width: 100% !important;
       }
-      #sib-form-container {
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-      }
+
 
       /* --- Footer --- */
       .footer-links {
@@ -862,15 +826,10 @@ html {
         max-width: 420px !important;
       }
 
-      .sib-form-block__button.form-submit {
-        width: 75% !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        display: flex !important;
-      }
+
     }
   </style>
-  <!-- sib-styles.css déplacé en haut du head -->
+
 </head>
 
 <body>
@@ -1020,7 +979,7 @@ html {
           </div>
 
           <div style="padding:8px 0;">
-            <button type="submit" id="form-submit-btn" class="sib-form-block__button sib-form-block__button-with-loader form-submit">
+            <button type="submit" id="form-submit-btn" class="form-submit">
               Envoyer ma demande →
             </button>
           </div>
@@ -1049,7 +1008,7 @@ html {
             btn.textContent = 'Envoi en cours…';
 
             try {
-              var response = await fetch('/api/contact', {
+              var response = await fetch('https://hook.eu1.make.com/3w1otn7f4morftsqgrj8v2auumcz35ew', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
