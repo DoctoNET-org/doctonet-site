@@ -2,6 +2,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -1048,7 +1049,7 @@ html {
             btn.textContent = 'Envoi en cours…';
 
             try {
-              var response = await fetch('https://hook.eu1.make.com/3w1otn7f4morftsqgrj8v2auumcz35ew', {
+              var response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
