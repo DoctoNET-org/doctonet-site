@@ -127,7 +127,85 @@
     .back-link:hover {
       background: #5ddcff;
     }
-  </style>
+  
+    /* ── SUGGESTIONS MAILLAGE INTERNE ── */
+    .suggest-section {
+      margin: 40px 0 0;
+      padding-top: 32px;
+      border-top: 1px dashed #cbd5e0;
+    }
+    .suggest-label {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+      margin-bottom: 16px;
+    }
+    .suggest-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .suggest-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #f9fbff;
+      border: 1px solid #e8eef6;
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .suggest-card:hover {
+      box-shadow: 0 4px 20px rgba(10,37,64,0.08);
+      border-color: var(--blue-border, #99ddf7);
+      transform: translateY(-2px);
+    }
+    .suggest-icon {
+      font-size: 1.4rem;
+      width: 42px;
+      height: 42px;
+      background: var(--blue-light, #e8f6ff);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .suggest-body { flex: 1; }
+    .suggest-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--blue-dark, #0a2540);
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+    .suggest-desc {
+      font-size: 0.78rem;
+      color: var(--muted, #6b7a90);
+      line-height: 1.4;
+    }
+    .suggest-arrow {
+      color: var(--blue-accent, #00c2ff);
+      font-size: 1rem;
+      flex-shrink: 0;
+      opacity: 0;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .suggest-card:hover .suggest-arrow {
+      opacity: 1;
+      transform: translateX(4px);
+    }
+    @media (max-width: 600px) {
+      .suggest-grid { grid-template-columns: 1fr; }
+    }
+
+    </style>
 </head>
 
 <body>
@@ -228,7 +306,30 @@ Vous accédez alors à l’ensemble de vos services en ligne :
 documents, paiements, messagerie sécurisée et démarches.
 </p>
 
-<a class="back-link" href="Tutoriels.html">← Retour aux tutoriels</a>
+
+  <div class="suggest-section">
+    <div class="suggest-label">📚 Tutoriels suggérés</div>
+    <div class="suggest-grid">
+      <a href="creer-espace-particulier.html" class="suggest-card">
+        <span class="suggest-icon">🏛️</span>
+        <div class="suggest-body">
+          <div class="suggest-title">Créer mon espace Finances publiques</div>
+          <div class="suggest-desc">Pas encore de compte ? Créez-le en quelques minutes</div>
+        </div>
+        <span class="suggest-arrow">→</span>
+      </a>
+      <a href="modifier-fichiers-pdf.html" class="suggest-card">
+        <span class="suggest-icon">📄</span>
+        <div class="suggest-body">
+          <div class="suggest-title">Modifier des fichiers PDF</div>
+          <div class="suggest-desc">Annotez et signez vos documents en ligne</div>
+        </div>
+        <span class="suggest-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <a class="back-link" href="Tutoriels.html">← Retour aux tutoriels</a>
 
 </main>
 
