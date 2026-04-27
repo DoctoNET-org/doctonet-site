@@ -1,14 +1,15 @@
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Partager son écran sur Teams – DoctoNET</title>
-  <meta name="description" content="Tutoriel pour partager son écran de smartphone via Microsoft Teams. Guide pas-à-pas pour demandeurs et bénévoles DoctoNET.">
+  <title>Partager son écran en toute sécurité – DoctoNET</title>
+  <meta name="description" content="Tutoriel pour partager son écran de smartphone en toute sécurité via Microsoft Teams. Guide pas-à-pas pour demandeurs et bénévoles DoctoNET.">
   <meta name="author" content="Association DoctoNET">
   <link rel="canonical" href="https://www.doctonet.org/tutoriel-teams-partage-ecran.html">
-  <meta property="og:title" content="Partager son écran sur Teams – DoctoNET">
+  <meta property="og:title" content="Partager son écran en toute sécurité – DoctoNET">
   <meta property="og:description" content="Guide illustré pour partager son écran de smartphone via Microsoft Teams. Par l'association DoctoNET.">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="DoctoNET">
@@ -22,10 +23,10 @@
       --blue-dark: #0a2540;
       --blue-mid: #0e3460;
       --blue-accent: #00c2ff;
-      --green-main: #1D9E75;
-      --green-light: #E1F5EE;
-      --green-border: #9FE1CB;
-      --green-dark: #0F6E56;
+      --green-main: #0078b8;
+      --green-light: #e8f6ff;
+      --green-border: #99ddf7;
+      --green-dark: #005a8e;
       --bg: #f4f8ff;
       --text: #0a2540;
       --muted: #6b7a90;
@@ -235,6 +236,35 @@
       margin-top: 10px;
     }
 
+    /* ── REASSURANCE BOX ── */
+    .reassurance-box {
+      background: #e8f6ff;
+      border-left: 5px solid var(--blue-accent);
+      border-radius: 10px;
+      padding: 20px 22px;
+      margin: 0 0 36px;
+      font-size: 0.95rem;
+      color: #1a3a5c;
+      line-height: 1.7;
+    }
+    .reassurance-box .reassurance-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--blue-mid);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .reassurance-box em {
+      display: block;
+      margin-top: 10px;
+      font-style: italic;
+      color: #3a5a80;
+      font-size: 0.9rem;
+    }
+
     /* ── WARNING BOX ── */
     .warning-box {
       background: #fffbf0;
@@ -418,7 +448,7 @@
 
 <header>
   <div class="badge">Tutoriel numérique</div>
-  <h1>Partager son écran sur Teams</h1>
+  <h1>Partager son écran en toute sécurité</h1>
   <p>Grâce à Microsoft Teams, un bénévole DoctoNET peut voir votre écran de smartphone en direct pour vous guider, sans se déplacer.</p>
 </header>
 
@@ -444,6 +474,12 @@
   <!-- TAB DEMANDEUR                         -->
   <!-- ══════════════════════════════════════ -->
   <div class="tab-content active" id="tab-demandeur" role="tabpanel">
+
+    <div class="reassurance-box">
+      <div class="reassurance-title">🤝 Vous restez maître de votre téléphone</div>
+      Le bénévole de l'association <strong>voit</strong> votre écran, comme s'il regardait par-dessus votre épaule — mais il <strong>n'intervient pas sur votre téléphone</strong>. C'est uniquement du partage d'image, en direct, le temps de l'appel. Dès que vous raccrochez ou appuyez sur « Arrêter le partage », votre écran redevient complètement privé.
+      <em>Vous pouvez arrêter à tout moment, sans explication à donner.</em>
+    </div>
 
     <h2>Ce qu'il vous faut avant de commencer</h2>
     <ul class="checklist">
