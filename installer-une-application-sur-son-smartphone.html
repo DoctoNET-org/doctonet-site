@@ -1,0 +1,1054 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installer une application sur son smartphone – DoctoNET</title>
+  <meta name="description" content="Tutoriel pour installer une application sur iPhone (App Store) ou Android (Play Store). Guide pas-à-pas illustré par DoctoNET.">
+  <meta name="author" content="Association DoctoNET">
+  <link rel="canonical" href="https://www.doctonet.org/installer-une-application.html">
+  <meta property="og:title" content="Installer une application sur son smartphone – DoctoNET">
+  <meta property="og:description" content="Guide illustré pour installer une application sur iPhone ou Android. Par l'association DoctoNET.">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="DoctoNET">
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-dark: #0a2540;
+      --blue-mid: #0e3460;
+      --blue-accent: #00c2ff;
+      --blue-main: #0078b8;
+      --blue-light: #e8f6ff;
+      --blue-border: #99ddf7;
+      --blue-dark-text: #005a8e;
+      --bg: #f4f8ff;
+      --text: #0a2540;
+      --muted: #6b7a90;
+      --ios-blue: #007AFF;
+      --android-green: #01875f;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+      padding: 100px 5% 70px;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(0,194,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    header .badge {
+      display: inline-block;
+      background: rgba(0,194,255,0.18);
+      border: 1px solid rgba(0,194,255,0.4);
+      color: #7ee8ff;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 40px;
+      margin-bottom: 20px;
+    }
+    header h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+    header p {
+      max-width: 680px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.82);
+    }
+
+    /* ── MAIN CARD ── */
+    main {
+      max-width: 900px;
+      margin: -50px auto 60px;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 8px 50px rgba(10,37,64,0.12);
+      padding: 50px 5% 60px;
+      position: relative;
+    }
+
+    /* ── REASSURANCE BOX ── */
+    .reassurance-box {
+      background: linear-gradient(135deg, var(--blue-dark), #1a4a7a);
+      color: white;
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin: 0 0 36px;
+      font-size: 0.93rem;
+      line-height: 1.65;
+    }
+    .reassurance-box .reassurance-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #7ee8ff;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .reassurance-box strong { color: #7ee8ff; }
+    .reassurance-box em {
+      display: block;
+      margin-top: 10px;
+      font-style: italic;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.9rem;
+    }
+
+    /* ── INTRO BOX ── */
+    .intro-box {
+      background: var(--blue-light);
+      border-left: 5px solid var(--blue-accent);
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin-bottom: 40px;
+      font-size: 0.95rem;
+      color: #1a3d50;
+    }
+    .intro-box strong { color: var(--blue-dark-text); }
+
+    /* ── TAB NAVIGATION ── */
+    .tab-nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      flex: 1;
+      min-width: 200px;
+      padding: 16px 24px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      background: white;
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.22s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tab-btn .tab-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      background: #f0f4f8;
+      transition: background 0.22s;
+      flex-shrink: 0;
+    }
+    .tab-btn:hover { border-color: var(--blue-border); color: var(--blue-dark-text); }
+    .tab-btn.active { border-color: var(--blue-main); background: var(--blue-light); color: var(--blue-dark-text); }
+    .tab-btn.active .tab-icon { background: var(--blue-main); color: white; }
+
+    /* ── TAB CONTENT ── */
+    .tab-content { display: none; animation: fadeIn 0.3s ease; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── SECTION TITLE ── */
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin: 40px 0 16px;
+      color: var(--blue-dark);
+    }
+    h2:first-child { margin-top: 0; }
+
+    /* ── STEPS ── */
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      background: #f9fbff;
+      border: 1px solid #e8eef6;
+      border-radius: 12px;
+      padding: 16px 18px;
+      transition: box-shadow 0.2s;
+    }
+    .step:hover { box-shadow: 0 4px 20px rgba(10,37,64,0.07); }
+    .step-num {
+      min-width: 32px;
+      height: 32px;
+      background: var(--blue-light);
+      color: var(--blue-dark-text);
+      border-radius: 50%;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-body {}
+    .step-title {
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--blue-dark);
+      margin-bottom: 4px;
+    }
+    .step-desc {
+      font-size: 0.93rem;
+      color: #4a5568;
+      line-height: 1.6;
+    }
+    .step-tip {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 0.82rem;
+      color: var(--blue-dark-text);
+      background: var(--blue-light);
+      border-radius: 20px;
+      padding: 3px 12px;
+    }
+
+    /* ── INFO BOX ── */
+    .info-box {
+      background: #eef6ff;
+      border-left: 5px solid var(--blue-accent);
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 28px 0;
+      font-size: 0.95rem;
+      color: #1a3a5c;
+    }
+
+    /* ── WARNING BOX ── */
+    .warning-box {
+      background: #fffbf0;
+      border-left: 5px solid #f6ad55;
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 28px 0;
+      font-size: 0.93rem;
+      color: #7b4a0a;
+      line-height: 1.6;
+    }
+    .warning-box strong { color: #b7530d; }
+
+    /* ── HIGHLIGHT CARD ── */
+    .highlight-card {
+      background: linear-gradient(135deg, var(--blue-dark), #1a4a7a);
+      color: white;
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin: 32px 0;
+    }
+    .highlight-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: #7ee8ff;
+    }
+    .highlight-card p { font-size: 0.93rem; color: rgba(255,255,255,0.85); line-height: 1.65; }
+
+    /* ── CHECKLIST ── */
+    .checklist { list-style: none; padding: 0; margin: 16px 0; }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: 0.95rem;
+      color: #2d3748;
+    }
+    .checklist li::before {
+      content: '✓';
+      width: 20px;
+      height: 20px;
+      background: var(--blue-main);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px dashed #cbd5e0;
+      margin: 40px 0;
+    }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      display: inline-block;
+      margin-top: 50px;
+      padding: 14px 28px;
+      background: var(--blue-accent);
+      border-radius: 40px;
+      color: var(--blue-dark);
+      text-decoration: none;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      transition: background 0.2s;
+    }
+    .back-link:hover { background: #5ddcff; }
+
+    /* ══════════════════════════════════════
+       PHONE MOCKUPS
+    ══════════════════════════════════════ */
+    .phone-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 28px 0;
+    }
+    .phone-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .phone-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+      font-weight: 500;
+    }
+    .phone-mock {
+      width: 140px;
+      background: #1a1a2e;
+      border-radius: 24px;
+      padding: 12px 8px 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.28);
+      position: relative;
+    }
+    .phone-mock .notch {
+      width: 44px;
+      height: 9px;
+      background: #2a2a3e;
+      border-radius: 5px;
+      margin: 0 auto 10px;
+    }
+    .phone-mock .screen {
+      background: white;
+      border-radius: 14px;
+      min-height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── iOS screens ── */
+    .ios .screen { background: #f2f2f7; }
+    .ios-status {
+      background: #f2f2f7;
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 10px 2px;
+      font-size: 0.42rem;
+      color: #1c1c1e;
+      font-weight: 600;
+    }
+    .ios-search-bar {
+      margin: 6px 8px;
+      background: white;
+      border-radius: 10px;
+      padding: 5px 8px;
+      font-size: 0.48rem;
+      color: #8e8e93;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid #e5e5ea;
+    }
+    .ios-section-title {
+      font-size: 0.42rem;
+      font-weight: 700;
+      color: #1c1c1e;
+      padding: 4px 10px 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .ios-app-row {
+      display: flex;
+      align-items: center;
+      padding: 5px 10px;
+      gap: 8px;
+      border-bottom: 0.5px solid #e5e5ea;
+    }
+    .ios-app-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+    .ios-app-info { flex: 1; }
+    .ios-app-name { font-size: 0.48rem; font-weight: 600; color: #1c1c1e; }
+    .ios-app-sub  { font-size: 0.4rem; color: #8e8e93; }
+    .ios-get-btn {
+      background: #e8e8ed;
+      color: var(--ios-blue);
+      border-radius: 20px;
+      padding: 3px 8px;
+      font-size: 0.42rem;
+      font-weight: 700;
+    }
+    .ios-get-btn.installing {
+      background: #e8e8ed;
+      color: #8e8e93;
+    }
+    .ios-install-progress {
+      width: 28px;
+      height: 28px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .ios-install-progress svg { width: 28px; height: 28px; }
+    .ios-open-btn {
+      background: var(--ios-blue);
+      color: white;
+      border-radius: 20px;
+      padding: 3px 8px;
+      font-size: 0.42rem;
+      font-weight: 700;
+    }
+
+    /* ── Android screens ── */
+    .android .screen { background: #202124; }
+    .android-status {
+      background: #202124;
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 10px 2px;
+      font-size: 0.42rem;
+      color: white;
+      font-weight: 500;
+    }
+    .android-header {
+      background: #303134;
+      padding: 6px 10px;
+    }
+    .android-search {
+      background: #404144;
+      border-radius: 8px;
+      padding: 5px 8px;
+      font-size: 0.45rem;
+      color: #9aa0a6;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .android-app-card {
+      background: #303134;
+      margin: 6px 8px;
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      gap: 7px;
+      align-items: flex-start;
+    }
+    .android-app-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+    .android-app-info { flex: 1; }
+    .android-app-name { font-size: 0.48rem; font-weight: 600; color: white; margin-bottom: 2px; }
+    .android-app-sub  { font-size: 0.4rem; color: #9aa0a6; margin-bottom: 4px; }
+    .android-rating   { font-size: 0.38rem; color: #fbbc04; }
+    .android-install-btn {
+      background: var(--android-green);
+      color: white;
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 0.42rem;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 4px;
+      display: inline-block;
+    }
+    .android-progress-bar {
+      height: 3px;
+      background: #404144;
+      border-radius: 2px;
+      margin: 6px 8px;
+      overflow: hidden;
+    }
+    .android-progress-fill {
+      height: 100%;
+      width: 65%;
+      background: var(--android-green);
+      border-radius: 2px;
+    }
+    .android-open-btn {
+      background: transparent;
+      color: var(--android-green);
+      border: 1px solid var(--android-green);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 0.42rem;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    /* ── OS BADGE ── */
+    .os-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      padding: 3px 12px 3px 8px;
+      border-radius: 20px;
+      margin-bottom: 6px;
+    }
+    .os-badge.ios     { background: rgba(0,122,255,0.1); color: var(--ios-blue); }
+    .os-badge.android { background: rgba(1,135,95,0.1);  color: var(--android-green); }
+
+    /* ── ARROW ── */
+    .arrow-between {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: var(--blue-main);
+      padding: 0 2px;
+      align-self: center;
+    }
+
+    /* ── STEP IMAGE caption ── */
+    .step-image { margin: 28px 0; text-align: center; }
+    .caption { font-size: 0.88rem; color: var(--muted); margin-top: 10px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      main { margin: -30px 12px 40px; padding: 30px 5% 40px; }
+      header { padding: 70px 5% 60px; }
+      .tab-btn { min-width: 100%; }
+      .phone-mock { width: 120px; }
+      .arrow-between { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Tutoriel numérique</div>
+  <h1>Installer une application sur son smartphone</h1>
+  <p>Télécharger une application gratuitement depuis l'App Store (iPhone) ou le Play Store (Android), en toute sécurité.</p>
+</header>
+
+<main>
+
+  <div class="reassurance-box">
+    <div class="reassurance-title">🔒 Les applications des stores officiels sont sûres</div>
+    L'App Store et le Play Store sont les <strong>boutiques officielles</strong> d'Apple et de Google. Toutes les applications qui s'y trouvent ont été vérifiées. Vous ne risquez <strong>rien en téléchargeant depuis ces stores</strong> — c'est comme entrer dans une grande surface plutôt qu'acheter dans la rue.
+    <em>Si une application est gratuite, vous n'avez pas à saisir votre numéro de carte bancaire.</em>
+  </div>
+
+  <div class="intro-box">
+    ℹ️ Ce tutoriel explique comment installer n'importe quelle application. Choisissez votre type de téléphone ci-dessous.
+  </div>
+
+  <!-- TAB NAVIGATION -->
+  <div class="tab-nav" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-ios" onclick="switchTab('ios', this)">
+      <span class="tab-icon">🍎</span>
+      iPhone (App Store)
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-android" onclick="switchTab('android', this)">
+      <span class="tab-icon">🤖</span>
+      Android (Play Store)
+    </button>
+  </div>
+
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- TAB iOS                               -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="tab-content active" id="tab-ios" role="tabpanel">
+
+    <h2>Étape 1 — Ouvrir l'App Store</h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Trouvez l'App Store sur votre écran d'accueil</div>
+        <div class="step-desc">L'App Store est une icône bleue avec un <strong>« A » blanc</strong> formé par un crayon. Elle est installée d'office sur tous les iPhones — vous ne pouvez pas la supprimer.</div>
+        <span class="step-tip">Si vous ne la voyez pas, balayez l'écran vers le bas et tapez « App Store » dans la barre de recherche</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Appuyez sur l'icône pour ouvrir l'App Store</div>
+        <div class="step-desc">Un simple appui suffit. L'App Store s'ouvre sur la page d'accueil.</div>
+      </div>
+    </div>
+
+    <h2>Étape 2 — Rechercher l'application</h2>
+
+    <!-- MOCKUP : recherche iOS -->
+    <div class="phone-row">
+      <div class="phone-wrap">
+        <span class="os-badge ios">🍎 iPhone</span>
+        <div class="phone-mock ios">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="ios-status"><span>9:41</span><span>●●●</span></div>
+            <div style="background:#f2f2f7;padding:6px 10px;">
+              <div style="font-size:0.55rem;font-weight:800;color:#1c1c1e;margin-bottom:4px;">App Store</div>
+              <div class="ios-search-bar">🔍 <span>Rechercher</span></div>
+            </div>
+            <div style="background:#f2f2f7;padding:8px 10px;font-size:0.48rem;color:#1c1c1e;font-weight:700;">Suggestions</div>
+            <div style="padding:4px 10px;font-size:0.45rem;color:#636366;">microsoft teams</div>
+            <div style="padding:4px 10px;font-size:0.45rem;color:#636366;">microsoft word</div>
+            <div style="padding:4px 10px;font-size:0.45rem;color:#636366;">microsoft outlook</div>
+          </div>
+        </div>
+        <div class="phone-label">Appuyez sur 🔍 Rechercher</div>
+      </div>
+      <div class="arrow-between">→</div>
+      <div class="phone-wrap">
+        <span class="os-badge ios">🍎 iPhone</span>
+        <div class="phone-mock ios">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="ios-status"><span>9:41</span><span>●●●</span></div>
+            <div style="background:#f2f2f7;padding:6px 10px;">
+              <div class="ios-search-bar">🔍 <span style="color:#1c1c1e;">Microsoft Teams</span></div>
+            </div>
+            <div class="ios-section-title">Applications</div>
+            <div class="ios-app-row">
+              <div class="ios-app-icon" style="background:#5b5ea6;">🟦</div>
+              <div class="ios-app-info">
+                <div class="ios-app-name">Microsoft Teams</div>
+                <div class="ios-app-sub">Réunions &amp; messagerie</div>
+              </div>
+              <div class="ios-get-btn">OBTENIR</div>
+            </div>
+            <div class="ios-app-row" style="opacity:0.4;">
+              <div class="ios-app-icon" style="background:#d04a02;">📱</div>
+              <div class="ios-app-info">
+                <div class="ios-app-name">Teams Phone</div>
+                <div class="ios-app-sub">Téléphonie</div>
+              </div>
+              <div class="ios-get-btn">OBTENIR</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Tapez le nom, appuyez sur le bon résultat</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Appuyez sur l'onglet « Rechercher » en bas de l'écran</div>
+        <div class="step-desc">En bas de l'App Store, appuyez sur l'icône loupe <strong>« Rechercher »</strong>. Un clavier apparaît automatiquement.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Tapez le nom de l'application</div>
+        <div class="step-desc">Écrivez le nom de l'application (exemple : <em>Microsoft Teams</em>). Des suggestions apparaissent — appuyez sur la bonne.</div>
+        <span class="step-tip">Pas besoin d'écrire le nom en entier, quelques lettres suffisent</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Vérifiez que c'est la bonne application</div>
+        <div class="step-desc">Regardez le nom du <strong>développeur</strong> sous l'icône (ex : « Microsoft Corporation »). Si une application est gratuite, vous verrez le bouton <strong>« OBTENIR »</strong> — pas un prix.</div>
+      </div>
+    </div>
+
+    <h2>Étape 3 — Installer l'application</h2>
+
+    <!-- MOCKUP : installation iOS -->
+    <div class="phone-row">
+      <div class="phone-wrap">
+        <span class="os-badge ios">🍎 iPhone</span>
+        <div class="phone-mock ios">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="ios-status"><span>9:41</span><span>●●●</span></div>
+            <div style="background:#f2f2f7;padding:6px 10px;">
+              <div class="ios-search-bar">🔍 <span style="color:#1c1c1e;">Microsoft Teams</span></div>
+            </div>
+            <div class="ios-section-title">Applications</div>
+            <div class="ios-app-row">
+              <div class="ios-app-icon" style="background:#5b5ea6;">🟦</div>
+              <div class="ios-app-info">
+                <div class="ios-app-name">Microsoft Teams</div>
+                <div class="ios-app-sub">Réunions &amp; messagerie</div>
+              </div>
+              <div class="ios-get-btn" style="background:#007AFF;color:white;">OBTENIR</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Appuyez sur « OBTENIR »</div>
+      </div>
+      <div class="arrow-between">→</div>
+      <div class="phone-wrap">
+        <span class="os-badge ios">🍎 iPhone</span>
+        <div class="phone-mock ios">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="ios-status"><span>9:41</span><span>●●●</span></div>
+            <div style="background:#f2f2f7;padding:6px 10px;">
+              <div class="ios-search-bar">🔍 <span style="color:#1c1c1e;">Microsoft Teams</span></div>
+            </div>
+            <div class="ios-section-title">Applications</div>
+            <div class="ios-app-row">
+              <div class="ios-app-icon" style="background:#5b5ea6;">🟦</div>
+              <div class="ios-app-info">
+                <div class="ios-app-name">Microsoft Teams</div>
+                <div class="ios-app-sub">Téléchargement…</div>
+              </div>
+              <!-- Cercle de progression -->
+              <svg width="28" height="28" viewBox="0 0 28 28">
+                <circle cx="14" cy="14" r="11" fill="none" stroke="#e5e5ea" stroke-width="2.5"/>
+                <circle cx="14" cy="14" r="11" fill="none" stroke="#007AFF" stroke-width="2.5"
+                  stroke-dasharray="69" stroke-dashoffset="25" stroke-linecap="round"
+                  transform="rotate(-90 14 14)"/>
+                <rect x="11" y="11" width="6" height="6" rx="1" fill="#007AFF"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Téléchargement en cours…</div>
+      </div>
+      <div class="arrow-between">→</div>
+      <div class="phone-wrap">
+        <span class="os-badge ios">🍎 iPhone</span>
+        <div class="phone-mock ios">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="ios-status"><span>9:41</span><span>●●●</span></div>
+            <div style="background:#f2f2f7;padding:6px 10px;">
+              <div class="ios-search-bar">🔍 <span style="color:#1c1c1e;">Microsoft Teams</span></div>
+            </div>
+            <div class="ios-section-title">Applications</div>
+            <div class="ios-app-row">
+              <div class="ios-app-icon" style="background:#5b5ea6;">🟦</div>
+              <div class="ios-app-info">
+                <div class="ios-app-name">Microsoft Teams</div>
+                <div class="ios-app-sub">Réunions &amp; messagerie</div>
+              </div>
+              <div class="ios-open-btn">OUVRIR</div>
+            </div>
+            <div style="padding:8px 10px;font-size:0.42rem;color:#34c759;font-weight:600;">✓ Installation terminée</div>
+          </div>
+        </div>
+        <div class="phone-label">Appuyez sur « OUVRIR »</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Appuyez sur « OBTENIR »</div>
+        <div class="step-desc">Le bouton bleu « OBTENIR » lance le téléchargement. iPhone peut vous demander de confirmer avec <strong>Face ID</strong> (regardez l'écran) ou <strong>Touch ID</strong> (posez le doigt sur le bouton).</div>
+        <span class="step-tip">Pour une application gratuite, aucune carte bancaire n'est demandée</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Attendez la fin du téléchargement</div>
+        <div class="step-desc">Un cercle de progression apparaît à la place du bouton. Le téléchargement dure généralement <strong>moins d'une minute</strong> en Wi-Fi.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Appuyez sur « OUVRIR »</div>
+        <div class="step-desc">Quand le bouton devient « OUVRIR », l'application est installée. Appuyez dessus pour la lancer. Elle apparaît aussi automatiquement sur votre écran d'accueil.</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      ℹ️ <strong>Mot de passe Apple ID :</strong> si iPhone vous demande votre mot de passe Apple ID pour une application gratuite, saisissez-le — c'est normal. Si vous ne vous en souvenez plus, appuyez sur « Mot de passe oublié ? ».
+    </div>
+
+    <div class="highlight-card">
+      <h3>💡 Bon à savoir</h3>
+      <p>Une application installée depuis l'App Store peut être supprimée à tout moment en appuyant longuement sur son icône, puis sur « Supprimer l'app ». Vous pouvez toujours la réinstaller gratuitement.</p>
+    </div>
+
+  </div><!-- /tab-ios -->
+
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- TAB ANDROID                           -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="tab-content" id="tab-android" role="tabpanel">
+
+    <h2>Étape 1 — Ouvrir le Play Store</h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Trouvez le Play Store sur votre écran d'accueil</div>
+        <div class="step-desc">Le Play Store est une icône multicolore en forme de <strong>triangle « Play »</strong> (comme un bouton lecture). Il est installé d'office sur tous les téléphones Android.</div>
+        <span class="step-tip">Si vous ne la voyez pas, balayez l'écran vers le haut pour afficher toutes vos applications</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Appuyez sur l'icône pour ouvrir le Play Store</div>
+        <div class="step-desc">Un simple appui suffit. Le Play Store s'ouvre sur la page d'accueil.</div>
+      </div>
+    </div>
+
+    <h2>Étape 2 — Rechercher l'application</h2>
+
+    <!-- MOCKUP : recherche Android -->
+    <div class="phone-row">
+      <div class="phone-wrap">
+        <span class="os-badge android">🤖 Android</span>
+        <div class="phone-mock android">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="android-status"><span>9:41</span><span>▲ ● ■</span></div>
+            <div class="android-header">
+              <div class="android-search">🔍 <span>Rechercher des applis…</span></div>
+            </div>
+            <div style="padding:8px;background:#202124;">
+              <div style="font-size:0.45rem;color:#9aa0a6;margin-bottom:6px;font-weight:600;">SUGGESTIONS</div>
+              <div style="font-size:0.44rem;color:white;padding:3px 0;border-bottom:0.5px solid #303134;">microsoft teams</div>
+              <div style="font-size:0.44rem;color:white;padding:3px 0;border-bottom:0.5px solid #303134;">microsoft word</div>
+              <div style="font-size:0.44rem;color:white;padding:3px 0;">whatsapp</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Appuyez sur la barre de recherche</div>
+      </div>
+      <div class="arrow-between">→</div>
+      <div class="phone-wrap">
+        <span class="os-badge android">🤖 Android</span>
+        <div class="phone-mock android">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="android-status"><span>9:41</span><span>▲ ● ■</span></div>
+            <div class="android-header">
+              <div class="android-search">🔍 <span style="color:white;">Microsoft Teams</span></div>
+            </div>
+            <div class="android-app-card">
+              <div class="android-app-icon" style="background:#5b5ea6;">🟦</div>
+              <div class="android-app-info">
+                <div class="android-app-name">Microsoft Teams</div>
+                <div class="android-app-sub">Microsoft Corporation</div>
+                <div class="android-rating">★★★★★ 4,3</div>
+                <div class="android-install-btn">Installer</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Appuyez sur le bon résultat</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Appuyez sur la barre de recherche en haut</div>
+        <div class="step-desc">En haut du Play Store, appuyez sur la barre <strong>« Rechercher des applis et jeux »</strong>. Le clavier s'affiche.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Tapez le nom de l'application</div>
+        <div class="step-desc">Écrivez le nom (exemple : <em>Microsoft Teams</em>), puis appuyez sur la touche <strong>Rechercher</strong> de votre clavier.</div>
+        <span class="step-tip">Pas besoin d'écrire le nom en entier, quelques lettres suffisent</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Vérifiez que c'est la bonne application</div>
+        <div class="step-desc">Regardez le nom du <strong>développeur</strong> sous l'icône (ex : « Microsoft Corporation »). Si une application est gratuite, le bouton affiche <strong>« Installer »</strong> — pas un prix.</div>
+      </div>
+    </div>
+
+    <h2>Étape 3 — Installer l'application</h2>
+
+    <!-- MOCKUP : installation Android -->
+    <div class="phone-row">
+      <div class="phone-wrap">
+        <span class="os-badge android">🤖 Android</span>
+        <div class="phone-mock android">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="android-status"><span>9:41</span><span>▲ ● ■</span></div>
+            <div class="android-header" style="padding:4px 10px;">
+              <div style="font-size:0.45rem;color:white;font-weight:600;">Microsoft Teams</div>
+            </div>
+            <div class="android-app-card">
+              <div class="android-app-icon" style="background:#5b5ea6;">🟦</div>
+              <div class="android-app-info">
+                <div class="android-app-name">Microsoft Teams</div>
+                <div class="android-app-sub">Microsoft Corporation · Gratuit</div>
+                <div class="android-rating">★★★★★ 4,3 · 500M+</div>
+                <div class="android-install-btn">Installer</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Appuyez sur « Installer »</div>
+      </div>
+      <div class="arrow-between">→</div>
+      <div class="phone-wrap">
+        <span class="os-badge android">🤖 Android</span>
+        <div class="phone-mock android">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="android-status"><span>9:41</span><span>▲ ● ■</span></div>
+            <div class="android-header" style="padding:4px 10px;">
+              <div style="font-size:0.45rem;color:white;font-weight:600;">Microsoft Teams</div>
+            </div>
+            <div class="android-app-card">
+              <div class="android-app-icon" style="background:#5b5ea6;">🟦</div>
+              <div class="android-app-info">
+                <div class="android-app-name">Microsoft Teams</div>
+                <div class="android-app-sub">Téléchargement…</div>
+              </div>
+            </div>
+            <div class="android-progress-bar"><div class="android-progress-fill"></div></div>
+            <div style="padding:0 8px;font-size:0.4rem;color:#9aa0a6;">65% — Veuillez patienter</div>
+          </div>
+        </div>
+        <div class="phone-label">Téléchargement en cours…</div>
+      </div>
+      <div class="arrow-between">→</div>
+      <div class="phone-wrap">
+        <span class="os-badge android">🤖 Android</span>
+        <div class="phone-mock android">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="android-status"><span>9:41</span><span>▲ ● ■</span></div>
+            <div class="android-header" style="padding:4px 10px;">
+              <div style="font-size:0.45rem;color:white;font-weight:600;">Microsoft Teams</div>
+            </div>
+            <div class="android-app-card">
+              <div class="android-app-icon" style="background:#5b5ea6;">🟦</div>
+              <div class="android-app-info">
+                <div class="android-app-name">Microsoft Teams</div>
+                <div class="android-app-sub">Microsoft Corporation</div>
+                <div style="font-size:0.4rem;color:#34a853;font-weight:600;margin-top:2px;">✓ Installé</div>
+                <div class="android-open-btn">Ouvrir</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Appuyez sur « Ouvrir »</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Appuyez sur « Installer »</div>
+        <div class="step-desc">Le bouton vert « Installer » lance le téléchargement. Android peut vous demander de confirmer avec votre <strong>empreinte digitale</strong> ou votre <strong>code PIN</strong>.</div>
+        <span class="step-tip">Pour une application gratuite, aucune carte bancaire n'est demandée</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Attendez la fin du téléchargement</div>
+        <div class="step-desc">Une barre de progression verte s'affiche. Le téléchargement dure généralement <strong>moins d'une minute</strong> en Wi-Fi.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Appuyez sur « Ouvrir »</div>
+        <div class="step-desc">Quand le bouton devient « Ouvrir », l'application est installée. Appuyez dessus pour la lancer. Elle apparaît aussi automatiquement dans votre liste d'applications.</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      ℹ️ <strong>Compte Google requis :</strong> le Play Store nécessite un compte Google (adresse Gmail). Si vous n'en avez pas, votre bénévole DoctoNET peut vous aider à en créer un.
+    </div>
+
+    <div class="highlight-card">
+      <h3>💡 Bon à savoir</h3>
+      <p>Une application installée depuis le Play Store peut être supprimée à tout moment : appuyez longuement sur son icône, puis sur « Désinstaller ». Vous pouvez toujours la réinstaller gratuitement.</p>
+    </div>
+
+  </div><!-- /tab-android -->
+
+  <hr class="divider">
+
+  <a class="back-link" href="Tutoriels.html">← Retour aux tutoriels</a>
+
+</main>
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => {
+      el.classList.remove('active');
+      el.setAttribute('aria-selected', 'false');
+    });
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+  }
+</script>
+
+</body>
+</html>
