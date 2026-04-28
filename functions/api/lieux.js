@@ -159,16 +159,24 @@ function detectServices(lieu) {
 
 async function fetchLieuxDoctonet(env, cp, type) {
   try {
-    // lieux-doctonet.json servi statiquement par Cloudflare Pages
-    const res = await fetch('https://www.doctonet.org/lieux-doctonet.json', {
-      cf: { cacheTtl: 60, cacheEverything: false },
-      headers: { 'Cache-Control': 'no-cache' },
-    });
-    if (!res.ok) return [];
-    const data = await res.json();
+    // Lire via env.ASSETS (Cloudflare Pages static assets binding)
+    // évite la boucle HTTP Function → même domaine
+    let data;
+    if (env.ASSETS) {
+      const req = new Request('https://dummy/lieux-doctonet.json');
+      const res = await env.ASSETS.fetch(req);
+      if (!res.ok) return [];
+      data = await res.json();
+    } else {
+      // Fallback hors Cloudflare (dev local)
+      const res = await fetch('https://www.doctonet.org/lieux-doctonet.json');
+      if (!res.ok) return [];
+      data = await res.json();
+    }
     const dataset = data[type] || [];
     return dataset.filter(l => l.code_postal === cp);
-  } catch {
+  } catch (e) {
+    console.error('fetchLieuxDoctonet error:', e.message);
     return [];
   }
 }
