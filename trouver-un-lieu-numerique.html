@@ -21,208 +21,7 @@
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YCJ6JN9CDX"></script>
-  <script>
-  (function () {
-    'use strict';
 
-    const API = '/api/lieux';
-
-    /* =====================================================================
-       CONFIG SERVICES & TYPES
-       ===================================================================== */
-    const SERVICES_CONFIG = {
-      wifi:         { icon: '📶', label: 'Wi-Fi gratuit' },
-      postes_libres:{ icon: '💻', label: 'Postes libres' },
-      impression:   { icon: '🖨️', label: 'Impression' },
-      scanner:      { icon: '📠', label: 'Scanner' }
-    };
-
-    const TYPE_CONFIG = {
-      ateliers:       { badgeClass: 'badge-atelier', label: '🖥️ Atelier numérique',            placeholder: '🖥️' },
-      france_services:{ badgeClass: 'badge-fs',      label: '🏛️ France Services',               placeholder: '🏛️' },
-      acces_libre:    { badgeClass: 'badge-libre',   label: '💻 Accès ordinateur & impression',  placeholder: '💻' }
-    };
-
-    /* =====================================================================
-       ÉTAT & DOM
-       ===================================================================== */
-    let currentType = 'ateliers';
-
-    const cpInput        = document.getElementById('cp-input');
-    const btnSearch      = document.getElementById('btn-search');
-    const stateInitial   = document.getElementById('state-initial');
-    const stateLoading   = document.getElementById('state-loading');
-    const stateError     = document.getElementById('state-error');
-    const stateNoResults = document.getElementById('state-no-results');
-    const errorMsg       = document.getElementById('error-message');
-    const resultsHeader  = document.getElementById('results-header');
-    const resultsGrid    = document.getElementById('results-grid');
-    const resultsCountEl = document.getElementById('results-count-num');
-    const resultsLocEl   = document.getElementById('results-location-label');
-    const tabs           = document.querySelectorAll('.tab-btn');
-
-    /* =====================================================================
-       UTILITAIRES
-       ===================================================================== */
-    function esc(s) {
-      return String(s || '')
-        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
-
-    function showState(state) {
-      stateInitial.style.display   = state === 'initial'    ? 'block' : 'none';
-      stateLoading.style.display   = state === 'loading'    ? 'block' : 'none';
-      stateError.style.display     = state === 'error'      ? 'block' : 'none';
-      stateNoResults.style.display = state === 'no-results' ? 'block' : 'none';
-      resultsHeader.style.display  = state === 'results'    ? 'flex'  : 'none';
-      resultsGrid.style.display    = state === 'results'    ? 'flex'  : 'none';
-    }
-
-    /* =====================================================================
-       RENDU CARTE
-       ===================================================================== */
-    function renderCard(lieu, index, type) {
-      const conf = TYPE_CONFIG[type];
-      const card = document.createElement('article');
-      card.className = 'lieu-card';
-      card.setAttribute('role', 'listitem');
-      card.style.animationDelay = `${Math.min(index * 60, 400)}ms`;
-
-      // Badge "DoctoNET sélectionné" si lieu validé manuellement
-      const isDoctonet = lieu.source === 'doctonet';
-
-      const photoHtml = lieu.photo
-        ? `<img class="card-photo" src="${esc(lieu.photo)}" alt="Photo de ${esc(lieu.nom)}" loading="lazy">`
-        : `<div class="card-photo-placeholder" aria-hidden="true">${conf.placeholder}</div>`;
-
-      let badgesHtml = `<span class="card-badge ${conf.badgeClass}">${conf.label}</span>`;
-      if (lieu.gratuit) badgesHtml += `<span class="card-badge badge-gratuit">✅ Gratuit</span>`;
-      if (isDoctonet)   badgesHtml += `<span class="card-badge badge-doctonet">⭐ Sélection DoctoNET</span>`;
-
-      const details = [];
-      if (lieu.adresse)   details.push(`<div class="card-detail"><span class="card-detail-icon">📍</span><span>${esc(lieu.adresse)}</span></div>`);
-      if (lieu.telephone) details.push(`<div class="card-detail"><span class="card-detail-icon">📞</span><a href="tel:${lieu.telephone.replace(/\s/g,'')}">${esc(lieu.telephone)}</a></div>`);
-      if (lieu.email)     details.push(`<div class="card-detail"><span class="card-detail-icon">✉️</span><a href="mailto:${esc(lieu.email)}">${esc(lieu.email)}</a></div>`);
-      if (lieu.site)      details.push(`<div class="card-detail"><span class="card-detail-icon">🌐</span><a href="${esc(lieu.site)}" target="_blank" rel="noopener noreferrer">${esc(lieu.site.replace(/^https?:\/\//,''))}</a></div>`);
-
-      const chipsHtml = (lieu.services || [])
-        .filter(s => SERVICES_CONFIG[s])
-        .map(s => {
-          const sc = SERVICES_CONFIG[s];
-          return `<span class="service-chip">${sc.icon} ${sc.label}</span>`;
-        }).join('');
-
-      card.innerHTML = `
-        ${photoHtml}
-        <div class="card-body">
-          <div class="card-top">
-            <div class="card-nom">${esc(lieu.nom)}</div>
-            <div class="card-badges">${badgesHtml}</div>
-          </div>
-          ${lieu.description ? `<p class="card-description">${esc(lieu.description)}</p>` : ''}
-          <div class="card-details">${details.join('')}</div>
-          ${lieu.horaires ? `<div class="card-horaires">🕐 ${esc(lieu.horaires)}</div>` : ''}
-          ${chipsHtml ? `<div class="card-services">${chipsHtml}</div>` : ''}
-        </div>`;
-
-      return card;
-    }
-
-    /* =====================================================================
-       RECHERCHE — appel /api/lieux
-       ===================================================================== */
-    async function search() {
-      const cp = cpInput.value.trim();
-      if (!cp) { cpInput.focus(); return; }
-      if (!/^\d{5}$/.test(cp)) {
-        errorMsg.textContent = 'Veuillez saisir un code postal valide à 5 chiffres.';
-        showState('error');
-        return;
-      }
-
-      showState('loading');
-      btnSearch.disabled = true;
-      resultsGrid.innerHTML = '';
-
-      try {
-        const res = await fetch(`${API}?cp=${cp}&type=${currentType}`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
-
-        const results = data.results || [];
-
-        if (!results.length) {
-          showState('no-results');
-        } else {
-          showState('results');
-          resultsCountEl.textContent = data.total || results.length;
-          resultsLocEl.textContent   = `Code postal : ${cp}`;
-          results.forEach((lieu, i) => resultsGrid.appendChild(renderCard(lieu, i, currentType)));
-        }
-
-        document.getElementById('panel-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-        // GA4
-        if (typeof gtag === 'function') {
-          gtag('event', 'search_lieux', { cp, type: currentType, results: results.length });
-        }
-
-      } catch (err) {
-        errorMsg.textContent = 'Le service est momentanément indisponible. Veuillez réessayer dans quelques instants.';
-        showState('error');
-        console.error('search lieux:', err);
-      } finally {
-        btnSearch.disabled = false;
-      }
-    }
-
-    /* =====================================================================
-       ONGLETS
-       ===================================================================== */
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        currentType = tab.dataset.type;
-        tabs.forEach(t => {
-          t.classList.toggle('active', t === tab);
-          t.setAttribute('aria-selected', t === tab);
-        });
-        if (/^\d{5}$/.test(cpInput.value.trim())) {
-          search();
-        } else {
-          resultsGrid.innerHTML = '';
-          showState('initial');
-        }
-      });
-    });
-
-    /* =====================================================================
-       ÉVÉNEMENTS
-       ===================================================================== */
-    btnSearch.addEventListener('click', search);
-    cpInput.addEventListener('keydown', e => { if (e.key === 'Enter') search(); });
-
-    // Menu hamburger
-    const hamburger = document.getElementById('doctonet-hamburger');
-    const navLinks  = document.getElementById('doctonet-nav-links');
-    if (hamburger && navLinks) {
-      hamburger.addEventListener('click', function () {
-        const isOpen = navLinks.classList.toggle('open');
-        hamburger.classList.toggle('open', isOpen);
-        hamburger.setAttribute('aria-expanded', isOpen);
-      });
-      navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('open');
-          hamburger.classList.remove('open');
-          hamburger.setAttribute('aria-expanded', 'false');
-        });
-      });
-    }
-
-  })();
-  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -913,6 +712,209 @@
     </p>
   </footer>
 
+
+  <script>
+  (function () {
+    'use strict';
+
+    const API = '/api/lieux';
+
+    /* =====================================================================
+       CONFIG SERVICES & TYPES
+       ===================================================================== */
+    const SERVICES_CONFIG = {
+      wifi:         { icon: '📶', label: 'Wi-Fi gratuit' },
+      postes_libres:{ icon: '💻', label: 'Postes libres' },
+      impression:   { icon: '🖨️', label: 'Impression' },
+      scanner:      { icon: '📠', label: 'Scanner' }
+    };
+
+    const TYPE_CONFIG = {
+      ateliers:       { badgeClass: 'badge-atelier', label: '🖥️ Atelier numérique',            placeholder: '🖥️' },
+      france_services:{ badgeClass: 'badge-fs',      label: '🏛️ France Services',               placeholder: '🏛️' },
+      acces_libre:    { badgeClass: 'badge-libre',   label: '💻 Accès ordinateur & impression',  placeholder: '💻' }
+    };
+
+    /* =====================================================================
+       ÉTAT & DOM
+       ===================================================================== */
+    let currentType = 'ateliers';
+
+    const cpInput        = document.getElementById('cp-input');
+    const btnSearch      = document.getElementById('btn-search');
+    const stateInitial   = document.getElementById('state-initial');
+    const stateLoading   = document.getElementById('state-loading');
+    const stateError     = document.getElementById('state-error');
+    const stateNoResults = document.getElementById('state-no-results');
+    const errorMsg       = document.getElementById('error-message');
+    const resultsHeader  = document.getElementById('results-header');
+    const resultsGrid    = document.getElementById('results-grid');
+    const resultsCountEl = document.getElementById('results-count-num');
+    const resultsLocEl   = document.getElementById('results-location-label');
+    const tabs           = document.querySelectorAll('.tab-btn');
+
+    /* =====================================================================
+       UTILITAIRES
+       ===================================================================== */
+    function esc(s) {
+      return String(s || '')
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function showState(state) {
+      stateInitial.style.display   = state === 'initial'    ? 'block' : 'none';
+      stateLoading.style.display   = state === 'loading'    ? 'block' : 'none';
+      stateError.style.display     = state === 'error'      ? 'block' : 'none';
+      stateNoResults.style.display = state === 'no-results' ? 'block' : 'none';
+      resultsHeader.style.display  = state === 'results'    ? 'flex'  : 'none';
+      resultsGrid.style.display    = state === 'results'    ? 'flex'  : 'none';
+    }
+
+    /* =====================================================================
+       RENDU CARTE
+       ===================================================================== */
+    function renderCard(lieu, index, type) {
+      const conf = TYPE_CONFIG[type];
+      const card = document.createElement('article');
+      card.className = 'lieu-card';
+      card.setAttribute('role', 'listitem');
+      card.style.animationDelay = `${Math.min(index * 60, 400)}ms`;
+
+      // Badge "DoctoNET sélectionné" si lieu validé manuellement
+      const isDoctonet = lieu.source === 'doctonet';
+
+      const photoHtml = lieu.photo
+        ? `<img class="card-photo" src="${esc(lieu.photo)}" alt="Photo de ${esc(lieu.nom)}" loading="lazy">`
+        : `<div class="card-photo-placeholder" aria-hidden="true">${conf.placeholder}</div>`;
+
+      let badgesHtml = `<span class="card-badge ${conf.badgeClass}">${conf.label}</span>`;
+      if (lieu.gratuit) badgesHtml += `<span class="card-badge badge-gratuit">✅ Gratuit</span>`;
+      if (isDoctonet)   badgesHtml += `<span class="card-badge badge-doctonet">⭐ Sélection DoctoNET</span>`;
+
+      const details = [];
+      if (lieu.adresse)   details.push(`<div class="card-detail"><span class="card-detail-icon">📍</span><span>${esc(lieu.adresse)}</span></div>`);
+      if (lieu.telephone) details.push(`<div class="card-detail"><span class="card-detail-icon">📞</span><a href="tel:${lieu.telephone.replace(/\s/g,'')}">${esc(lieu.telephone)}</a></div>`);
+      if (lieu.email)     details.push(`<div class="card-detail"><span class="card-detail-icon">✉️</span><a href="mailto:${esc(lieu.email)}">${esc(lieu.email)}</a></div>`);
+      if (lieu.site)      details.push(`<div class="card-detail"><span class="card-detail-icon">🌐</span><a href="${esc(lieu.site)}" target="_blank" rel="noopener noreferrer">${esc(lieu.site.replace(/^https?:\/\//,''))}</a></div>`);
+
+      const chipsHtml = (lieu.services || [])
+        .filter(s => SERVICES_CONFIG[s])
+        .map(s => {
+          const sc = SERVICES_CONFIG[s];
+          return `<span class="service-chip">${sc.icon} ${sc.label}</span>`;
+        }).join('');
+
+      card.innerHTML = `
+        ${photoHtml}
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-nom">${esc(lieu.nom)}</div>
+            <div class="card-badges">${badgesHtml}</div>
+          </div>
+          ${lieu.description ? `<p class="card-description">${esc(lieu.description)}</p>` : ''}
+          <div class="card-details">${details.join('')}</div>
+          ${lieu.horaires ? `<div class="card-horaires">🕐 ${esc(lieu.horaires)}</div>` : ''}
+          ${chipsHtml ? `<div class="card-services">${chipsHtml}</div>` : ''}
+        </div>`;
+
+      return card;
+    }
+
+    /* =====================================================================
+       RECHERCHE — appel /api/lieux
+       ===================================================================== */
+    async function search() {
+      const cp = cpInput.value.trim();
+      if (!cp) { cpInput.focus(); return; }
+      if (!/^\d{5}$/.test(cp)) {
+        errorMsg.textContent = 'Veuillez saisir un code postal valide à 5 chiffres.';
+        showState('error');
+        return;
+      }
+
+      showState('loading');
+      btnSearch.disabled = true;
+      resultsGrid.innerHTML = '';
+
+      try {
+        const res = await fetch(`${API}?cp=${cp}&type=${currentType}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        const results = data.results || [];
+
+        if (!results.length) {
+          showState('no-results');
+        } else {
+          showState('results');
+          resultsCountEl.textContent = data.total || results.length;
+          resultsLocEl.textContent   = `Code postal : ${cp}`;
+          results.forEach((lieu, i) => resultsGrid.appendChild(renderCard(lieu, i, currentType)));
+        }
+
+        document.getElementById('panel-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // GA4
+        if (typeof gtag === 'function') {
+          gtag('event', 'search_lieux', { cp, type: currentType, results: results.length });
+        }
+
+      } catch (err) {
+        errorMsg.textContent = 'Le service est momentanément indisponible. Veuillez réessayer dans quelques instants.';
+        showState('error');
+        console.error('search lieux:', err);
+      } finally {
+        btnSearch.disabled = false;
+      }
+    }
+
+    /* =====================================================================
+       ONGLETS
+       ===================================================================== */
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        currentType = tab.dataset.type;
+        tabs.forEach(t => {
+          t.classList.toggle('active', t === tab);
+          t.setAttribute('aria-selected', t === tab);
+        });
+        if (/^\d{5}$/.test(cpInput.value.trim())) {
+          search();
+        } else {
+          resultsGrid.innerHTML = '';
+          showState('initial');
+        }
+      });
+    });
+
+    /* =====================================================================
+       ÉVÉNEMENTS
+       ===================================================================== */
+    btnSearch.addEventListener('click', search);
+    cpInput.addEventListener('keydown', e => { if (e.key === 'Enter') search(); });
+
+    // Menu hamburger
+    const hamburger = document.getElementById('doctonet-hamburger');
+    const navLinks  = document.getElementById('doctonet-nav-links');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', function () {
+        const isOpen = navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open', isOpen);
+        hamburger.setAttribute('aria-expanded', isOpen);
+      });
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('open');
+          hamburger.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+
+  })();
+  </script>
 
 </body>
 </html>
