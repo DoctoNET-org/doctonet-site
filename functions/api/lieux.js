@@ -19,11 +19,16 @@
 
 // API data·inclusion — cartographie nationale médiation numérique
 // Doc : https://api.data.inclusion.beta.gouv.fr/api/v0/docs
+// ⚠️  Depuis fin 2024, l'API requiert un token Bearer (gratuit, inscription sur data.inclusion.beta.gouv.fr)
+// Stocker dans Cloudflare Pages → Settings → Variables : DATA_INCLUSION_TOKEN
 const DATA_INCLUSION_BASE = 'https://api.data.inclusion.beta.gouv.fr/api/v0';
 
 // API Conseillers Numériques France Services
 // Doc : https://api.conseiller-numerique.gouv.fr/
 const CNFS_BASE = 'https://api.conseiller-numerique.gouv.fr';
+
+// Fallback public — cartographie societenumerique.gouv.fr (sans auth)
+const CARTO_BASE = 'https://cartographie.societenumerique.gouv.fr/api/v0';
 
 // ── Thématiques data·inclusion par type ─────────────────────────────────────
 // Valeurs officielles du schéma data·inclusion
@@ -154,9 +159,10 @@ function detectServices(lieu) {
 
 async function fetchLieuxDoctonet(env, cp, type) {
   try {
-    // lieux-doctonet.json est servi statiquement par Cloudflare Pages
-    const url = `${env.ASSETS?.fetch ? '' : 'https://www.doctonet.org'}/lieux-doctonet.json`;
-    const res = await fetch(url);
+    // lieux-doctonet.json servi statiquement par Cloudflare Pages
+    const res = await fetch('https://www.doctonet.org/lieux-doctonet.json', {
+      cf: { cacheTtl: 3600 },
+    });
     if (!res.ok) return [];
     const data = await res.json();
     const dataset = data[type] || [];
@@ -168,18 +174,31 @@ async function fetchLieuxDoctonet(env, cp, type) {
 
 // ── Fetchers par type ────────────────────────────────────────────────────────
 
-async function fetchAteliers(cp) {
+async function fetchAteliers(cp, token) {
+  // Avec token : API data·inclusion complète
+  // Sans token : cartographie societenumerique (public, sans auth)
   const thematiques = THEMATIQUES.ateliers.join(',');
-  const url = `${DATA_INCLUSION_BASE}/lieux?code_postal=${cp}&thematiques=${encodeURIComponent(thematiques)}&page_size=50`;
 
+  if (token) {
+    const url = `${DATA_INCLUSION_BASE}/lieux?code_postal=${cp}&thematiques=${encodeURIComponent(thematiques)}&page_size=50`;
+    const res = await fetch(url, {
+      headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+      cf: { cacheTtl: 3600 },
+    });
+    if (!res.ok) throw new Error(`data·inclusion ateliers : HTTP ${res.status}`);
+    const data = await res.json();
+    return (data.items || []).map(normaliseLieuDataInclusion);
+  }
+
+  // Fallback public — cartographie societenumerique
+  const url = `${CARTO_BASE}/lieux-inclusion-numerique?code_postal=${cp}&page_size=50`;
   const res = await fetch(url, {
     headers: { Accept: 'application/json' },
     cf: { cacheTtl: 3600 },
   });
-
-  if (!res.ok) throw new Error(`data·inclusion ateliers : HTTP ${res.status}`);
+  if (!res.ok) throw new Error(`carto societenumerique ateliers : HTTP ${res.status}`);
   const data = await res.json();
-  return (data.items || []).map(normaliseLieuDataInclusion);
+  return (data.items || data.results || []).map(normaliseLieuDataInclusion);
 }
 
 async function fetchFranceServices(cp) {
@@ -198,25 +217,33 @@ async function fetchFranceServices(cp) {
   return items.map(normalisePermanenceCNFS);
 }
 
-async function fetchAccesLibre(cp) {
+async function fetchAccesLibre(cp, token) {
   const thematiques = THEMATIQUES.acces_libre.join(',');
-  const url = `${DATA_INCLUSION_BASE}/lieux?code_postal=${cp}&thematiques=${encodeURIComponent(thematiques)}&page_size=50`;
+  const motsCles = ['biblioth', 'médiath', 'espace public numérique', 'epn', 'cyb'];
 
+  if (token) {
+    const url = `${DATA_INCLUSION_BASE}/lieux?code_postal=${cp}&thematiques=${encodeURIComponent(thematiques)}&page_size=50`;
+    const res = await fetch(url, {
+      headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+      cf: { cacheTtl: 3600 },
+    });
+    if (!res.ok) throw new Error(`data·inclusion accès libre : HTTP ${res.status}`);
+    const data = await res.json();
+    return (data.items || [])
+      .filter(l => motsCles.some(m => (l.nom || l.structure?.nom || '').toLowerCase().includes(m)))
+      .map(normaliseLieuDataInclusion);
+  }
+
+  // Fallback public
+  const url = `${CARTO_BASE}/lieux-inclusion-numerique?code_postal=${cp}&page_size=50`;
   const res = await fetch(url, {
     headers: { Accept: 'application/json' },
     cf: { cacheTtl: 3600 },
   });
-
-  if (!res.ok) throw new Error(`data·inclusion accès libre : HTTP ${res.status}`);
+  if (!res.ok) throw new Error(`carto societenumerique accès libre : HTTP ${res.status}`);
   const data = await res.json();
-
-  // Filtrer uniquement médiathèques, bibliothèques, EPN
-  const motsCles = ['biblioth', 'médiath', 'espace public numérique', 'epn', 'cyb'];
-  return (data.items || [])
-    .filter(l => {
-      const nom = (l.nom || l.structure?.nom || '').toLowerCase();
-      return motsCles.some(m => nom.includes(m));
-    })
+  return (data.items || data.results || [])
+    .filter(l => motsCles.some(m => (l.nom || l.structure?.nom || '').toLowerCase().includes(m)))
     .map(normaliseLieuDataInclusion);
 }
 
@@ -238,10 +265,11 @@ export async function onRequestGet({ request, env }) {
 
   try {
     // Requêtes en parallèle : API nationale + lieux DoctoNET
+    const token = env.DATA_INCLUSION_TOKEN || null;
     const [lieuxNationaux, lieuxDoctonet] = await Promise.all([
-      type === 'ateliers'        ? fetchAteliers(cp)
+      type === 'ateliers'          ? fetchAteliers(cp, token)
       : type === 'france_services' ? fetchFranceServices(cp)
-      : fetchAccesLibre(cp),
+      : fetchAccesLibre(cp, token),
       fetchLieuxDoctonet(env, cp, type),
     ]);
 
