@@ -264,47 +264,34 @@ export async function onRequestGet({ request, env }) {
     return errorResponse(`Type invalide. Valeurs acceptées : ${typesValides.join(', ')}.`);
   }
 
+  // ── Lieux DoctoNET — toujours chargés en premier, indépendamment de l'API nationale
+  const lieuxDoctonet = await fetchLieuxDoctonet(env, cp, type);
+
+  // ── API nationale — tentative, échec silencieux
+  let lieuxNationaux = [];
   try {
-    // Requêtes en parallèle : API nationale + lieux DoctoNET
     const token = env.DATA_INCLUSION_TOKEN || null;
-    const [lieuxNationaux, lieuxDoctonet] = await Promise.all([
+    lieuxNationaux = await (
       type === 'ateliers'          ? fetchAteliers(cp, token)
       : type === 'france_services' ? fetchFranceServices(cp)
-      : fetchAccesLibre(cp, token),
-      fetchLieuxDoctonet(env, cp, type),
-    ]);
-
-    // Fusion : lieux DoctoNET en premier (validés manuellement)
-    // Dédoublonnage par nom+adresse pour éviter les doublons si un lieu est dans les deux sources
-    const vus = new Set(lieuxDoctonet.map(l => `${l.nom}|${l.adresse}`));
-    const lieuxFiltres = lieuxNationaux.filter(l => !vus.has(`${l.nom}|${l.adresse}`));
-
-    const results = [...lieuxDoctonet, ...lieuxFiltres];
-
-    return jsonResponse({
-      cp,
-      type,
-      total: results.length,
-      doctonet_count: lieuxDoctonet.length,
-      results,
-    });
-
+      : fetchAccesLibre(cp, token)
+    );
   } catch (err) {
-    // Fallback : si l'API nationale est indisponible, on renvoie au moins les lieux DoctoNET
-    console.error('lieux.js error:', err.message);
-
-    try {
-      const lieuxDoctonet = await fetchLieuxDoctonet(env, cp, type);
-      return jsonResponse({
-        cp,
-        type,
-        total: lieuxDoctonet.length,
-        doctonet_count: lieuxDoctonet.length,
-        fallback: true,
-        results: lieuxDoctonet,
-      });
-    } catch {
-      return errorResponse("Service temporairement indisponible. Veuillez réessayer.", 503);
-    }
+    console.error('lieux.js — API nationale indisponible:', err.message);
+    // On continue avec les lieux DoctoNET seuls
   }
+
+  // ── Fusion : DoctoNET en premier, dédoublonnage par nom+adresse
+  const vus = new Set(lieuxDoctonet.map(l => `${l.nom}|${l.adresse}`));
+  const lieuxFiltres = lieuxNationaux.filter(l => !vus.has(`${l.nom}|${l.adresse}`));
+  const results = [...lieuxDoctonet, ...lieuxFiltres];
+
+  return jsonResponse({
+    cp,
+    type,
+    total: results.length,
+    doctonet_count: lieuxDoctonet.length,
+    api_count: lieuxFiltres.length,
+    results,
+  });
 }
