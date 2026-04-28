@@ -161,7 +161,8 @@ async function fetchLieuxDoctonet(env, cp, type) {
   try {
     // lieux-doctonet.json servi statiquement par Cloudflare Pages
     const res = await fetch('https://www.doctonet.org/lieux-doctonet.json', {
-      cf: { cacheTtl: 3600 },
+      cf: { cacheTtl: 60, cacheEverything: false },
+      headers: { 'Cache-Control': 'no-cache' },
     });
     if (!res.ok) return [];
     const data = await res.json();
