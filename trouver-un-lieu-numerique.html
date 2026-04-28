@@ -1,0 +1,918 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Trouver un lieu numérique près de chez vous – DoctoNET</title>
+  <meta name="description" content="Vous n'avez qu'un smartphone ? Trouvez près de chez vous un atelier numérique, un conseiller France Services ou un accès gratuit à un ordinateur pour vos démarches administratives — DoctoNET.">
+  <meta name="keywords" content="atelier numérique, conseiller numérique France Services, accès ordinateur gratuit, impression gratuite, inclusion numérique, démarches en ligne, DoctoNET">
+  <meta name="author" content="Association DoctoNET">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <link rel="canonical" href="https://www.doctonet.org/trouver-un-lieu-numerique.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.doctonet.org/trouver-un-lieu-numerique.html">
+  <meta property="og:title" content="Trouver un lieu numérique près de chez vous – DoctoNET">
+  <meta property="og:description" content="Ateliers, conseillers France Services et accès gratuit à un ordinateur près de chez vous. Saisissez votre code postal.">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="DoctoNET">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YCJ6JN9CDX"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    const API = '/api/lieux';
+
+    /* =====================================================================
+       CONFIG SERVICES & TYPES
+       ===================================================================== */
+    const SERVICES_CONFIG = {
+      wifi:         { icon: '📶', label: 'Wi-Fi gratuit' },
+      postes_libres:{ icon: '💻', label: 'Postes libres' },
+      impression:   { icon: '🖨️', label: 'Impression' },
+      scanner:      { icon: '📠', label: 'Scanner' }
+    };
+
+    const TYPE_CONFIG = {
+      ateliers:       { badgeClass: 'badge-atelier', label: '🖥️ Atelier numérique',            placeholder: '🖥️' },
+      france_services:{ badgeClass: 'badge-fs',      label: '🏛️ France Services',               placeholder: '🏛️' },
+      acces_libre:    { badgeClass: 'badge-libre',   label: '💻 Accès ordinateur & impression',  placeholder: '💻' }
+    };
+
+    /* =====================================================================
+       ÉTAT & DOM
+       ===================================================================== */
+    let currentType = 'ateliers';
+
+    const cpInput        = document.getElementById('cp-input');
+    const btnSearch      = document.getElementById('btn-search');
+    const stateInitial   = document.getElementById('state-initial');
+    const stateLoading   = document.getElementById('state-loading');
+    const stateError     = document.getElementById('state-error');
+    const stateNoResults = document.getElementById('state-no-results');
+    const errorMsg       = document.getElementById('error-message');
+    const resultsHeader  = document.getElementById('results-header');
+    const resultsGrid    = document.getElementById('results-grid');
+    const resultsCountEl = document.getElementById('results-count-num');
+    const resultsLocEl   = document.getElementById('results-location-label');
+    const tabs           = document.querySelectorAll('.tab-btn');
+
+    /* =====================================================================
+       UTILITAIRES
+       ===================================================================== */
+    function esc(s) {
+      return String(s || '')
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function showState(state) {
+      stateInitial.style.display   = state === 'initial'    ? 'block' : 'none';
+      stateLoading.style.display   = state === 'loading'    ? 'block' : 'none';
+      stateError.style.display     = state === 'error'      ? 'block' : 'none';
+      stateNoResults.style.display = state === 'no-results' ? 'block' : 'none';
+      resultsHeader.style.display  = state === 'results'    ? 'flex'  : 'none';
+      resultsGrid.style.display    = state === 'results'    ? 'flex'  : 'none';
+    }
+
+    /* =====================================================================
+       RENDU CARTE
+       ===================================================================== */
+    function renderCard(lieu, index, type) {
+      const conf = TYPE_CONFIG[type];
+      const card = document.createElement('article');
+      card.className = 'lieu-card';
+      card.setAttribute('role', 'listitem');
+      card.style.animationDelay = `${Math.min(index * 60, 400)}ms`;
+
+      // Badge "DoctoNET sélectionné" si lieu validé manuellement
+      const isDoctonet = lieu.source === 'doctonet';
+
+      const photoHtml = lieu.photo
+        ? `<img class="card-photo" src="${esc(lieu.photo)}" alt="Photo de ${esc(lieu.nom)}" loading="lazy">`
+        : `<div class="card-photo-placeholder" aria-hidden="true">${conf.placeholder}</div>`;
+
+      let badgesHtml = `<span class="card-badge ${conf.badgeClass}">${conf.label}</span>`;
+      if (lieu.gratuit) badgesHtml += `<span class="card-badge badge-gratuit">✅ Gratuit</span>`;
+      if (isDoctonet)   badgesHtml += `<span class="card-badge badge-doctonet">⭐ Sélection DoctoNET</span>`;
+
+      const details = [];
+      if (lieu.adresse)   details.push(`<div class="card-detail"><span class="card-detail-icon">📍</span><span>${esc(lieu.adresse)}</span></div>`);
+      if (lieu.telephone) details.push(`<div class="card-detail"><span class="card-detail-icon">📞</span><a href="tel:${lieu.telephone.replace(/\s/g,'')}">${esc(lieu.telephone)}</a></div>`);
+      if (lieu.email)     details.push(`<div class="card-detail"><span class="card-detail-icon">✉️</span><a href="mailto:${esc(lieu.email)}">${esc(lieu.email)}</a></div>`);
+      if (lieu.site)      details.push(`<div class="card-detail"><span class="card-detail-icon">🌐</span><a href="${esc(lieu.site)}" target="_blank" rel="noopener noreferrer">${esc(lieu.site.replace(/^https?:\/\//,''))}</a></div>`);
+
+      const chipsHtml = (lieu.services || [])
+        .filter(s => SERVICES_CONFIG[s])
+        .map(s => {
+          const sc = SERVICES_CONFIG[s];
+          return `<span class="service-chip">${sc.icon} ${sc.label}</span>`;
+        }).join('');
+
+      card.innerHTML = `
+        ${photoHtml}
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-nom">${esc(lieu.nom)}</div>
+            <div class="card-badges">${badgesHtml}</div>
+          </div>
+          ${lieu.description ? `<p class="card-description">${esc(lieu.description)}</p>` : ''}
+          <div class="card-details">${details.join('')}</div>
+          ${lieu.horaires ? `<div class="card-horaires">🕐 ${esc(lieu.horaires)}</div>` : ''}
+          ${chipsHtml ? `<div class="card-services">${chipsHtml}</div>` : ''}
+        </div>`;
+
+      return card;
+    }
+
+    /* =====================================================================
+       RECHERCHE — appel /api/lieux
+       ===================================================================== */
+    async function search() {
+      const cp = cpInput.value.trim();
+      if (!cp) { cpInput.focus(); return; }
+      if (!/^\d{5}$/.test(cp)) {
+        errorMsg.textContent = 'Veuillez saisir un code postal valide à 5 chiffres.';
+        showState('error');
+        return;
+      }
+
+      showState('loading');
+      btnSearch.disabled = true;
+      resultsGrid.innerHTML = '';
+
+      try {
+        const res = await fetch(`${API}?cp=${cp}&type=${currentType}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        const results = data.results || [];
+
+        if (!results.length) {
+          showState('no-results');
+        } else {
+          showState('results');
+          resultsCountEl.textContent = data.total || results.length;
+          resultsLocEl.textContent   = `Code postal : ${cp}`;
+          results.forEach((lieu, i) => resultsGrid.appendChild(renderCard(lieu, i, currentType)));
+        }
+
+        document.getElementById('panel-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // GA4
+        if (typeof gtag === 'function') {
+          gtag('event', 'search_lieux', { cp, type: currentType, results: results.length });
+        }
+
+      } catch (err) {
+        errorMsg.textContent = 'Le service est momentanément indisponible. Veuillez réessayer dans quelques instants.';
+        showState('error');
+        console.error('search lieux:', err);
+      } finally {
+        btnSearch.disabled = false;
+      }
+    }
+
+    /* =====================================================================
+       ONGLETS
+       ===================================================================== */
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        currentType = tab.dataset.type;
+        tabs.forEach(t => {
+          t.classList.toggle('active', t === tab);
+          t.setAttribute('aria-selected', t === tab);
+        });
+        if (/^\d{5}$/.test(cpInput.value.trim())) {
+          search();
+        } else {
+          resultsGrid.innerHTML = '';
+          showState('initial');
+        }
+      });
+    });
+
+    /* =====================================================================
+       ÉVÉNEMENTS
+       ===================================================================== */
+    btnSearch.addEventListener('click', search);
+    cpInput.addEventListener('keydown', e => { if (e.key === 'Enter') search(); });
+
+    // Menu hamburger
+    const hamburger = document.getElementById('doctonet-hamburger');
+    const navLinks  = document.getElementById('doctonet-nav-links');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', function () {
+        const isOpen = navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open', isOpen);
+        hamburger.setAttribute('aria-expanded', isOpen);
+      });
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('open');
+          hamburger.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+
+  })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== VARIABLES & BASE ===== */
+    :root {
+      --primary: #0a2540;
+      --accent: #00c2ff;
+      --accent2: #00e5a0;
+      --light: #f4f8ff;
+      --white: #ffffff;
+      --gray: #6b7a90;
+      --shadow: 0 8px 40px rgba(10,37,64,0.10);
+      --radius: 16px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; background: #0a2540; overflow-x: hidden; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--light);
+      color: var(--primary);
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
+    /* ===== NAV ===== */
+    #doctonet-nav {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      position: fixed !important;
+      top: 0 !important; left: 0 !important; right: 0 !important;
+      z-index: 999999 !important;
+      background: #ffffff !important;
+      border-bottom: 2px solid rgba(0,194,255,0.25) !important;
+      padding: 0 5% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      height: 68px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      box-shadow: 0 2px 16px rgba(10,37,64,0.10) !important;
+    }
+    #doctonet-logo {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      font-weight: 800 !important;
+      font-size: 1.5rem !important;
+      color: #0a2540 !important;
+      text-decoration: none !important;
+      letter-spacing: -0.5px !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+    }
+    #doctonet-logo span { color: #00c2ff !important; font-family: 'Syne', sans-serif !important; font-weight: 800 !important; }
+    #doctonet-nav-links {
+      all: initial !important;
+      display: flex !important;
+      gap: 2rem !important;
+      align-items: center !important;
+    }
+    #doctonet-nav-links a {
+      all: initial !important;
+      font-family: 'DM Sans', sans-serif !important;
+      text-decoration: none !important;
+      color: #6b7a90 !important;
+      font-size: 0.95rem !important;
+      font-weight: 500 !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+    }
+    #doctonet-nav-links a:hover { color: #0a2540 !important; }
+    #doctonet-nav-links a.active { color: #00c2ff !important; font-weight: 700 !important; }
+    #doctonet-nav-cta {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      background: #0a2540 !important;
+      color: #ffffff !important;
+      padding: 0.5rem 1.2rem !important;
+      border-radius: 50px !important;
+      font-weight: 700 !important;
+      font-size: 0.9rem !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+    }
+    #doctonet-nav-cta:hover { background: #00c2ff !important; color: #0a2540 !important; }
+    #doctonet-hamburger {
+      all: initial !important;
+      display: none !important;
+      flex-direction: column !important;
+      gap: 5px !important;
+      cursor: pointer !important;
+      padding: 6px !important;
+      background: transparent !important;
+      border: none !important;
+    }
+    #doctonet-hamburger span {
+      display: block !important;
+      width: 24px !important; height: 2px !important;
+      background: #0a2540 !important;
+      border-radius: 2px !important;
+      transition: all 0.3s !important;
+    }
+    @media (max-width: 768px) {
+      #doctonet-hamburger { display: flex !important; }
+      #doctonet-nav-links {
+        all: initial !important;
+        display: none !important;
+        position: fixed !important;
+        top: 68px !important; left: 0 !important; right: 0 !important;
+        background: #ffffff !important;
+        flex-direction: column !important;
+        padding: 1.5rem 5% !important;
+        gap: 1.2rem !important;
+        border-bottom: 2px solid rgba(0,194,255,0.15) !important;
+        box-shadow: 0 8px 24px rgba(10,37,64,0.12) !important;
+        z-index: 999998 !important;
+      }
+      #doctonet-nav-links.open { display: flex !important; }
+      #doctonet-nav-links a {
+        all: initial !important;
+        font-family: 'DM Sans', sans-serif !important;
+        font-size: 1.1rem !important; font-weight: 500 !important;
+        color: #0a2540 !important;
+        text-decoration: none !important;
+        cursor: pointer !important;
+        display: block !important;
+        padding: 0.4rem 0 !important;
+        border-bottom: 1px solid rgba(0,194,255,0.10) !important;
+      }
+      #doctonet-nav-cta { display: none !important; }
+    }
+
+    /* ===== HERO ===== */
+    .page-hero {
+      background: linear-gradient(135deg, #0a2540 0%, #0d3060 60%, #0a2540 100%);
+      padding: 120px 5% 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(0,194,255,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -60px;
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(0,229,160,0.10) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .page-hero-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+    .page-hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.5rem, 6vw, 3rem);
+      color: #ffffff;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .page-hero h1 span { color: #00c2ff; }
+    .page-hero p {
+      color: rgba(255,255,255,0.75);
+      font-size: clamp(0.92rem, 2.2vw, 1.05rem);
+      max-width: 660px;
+      margin: 0 auto 0;
+      line-height: 1.65;
+    }
+
+    /* Encart reassurance — style fidèle à partager-son-ecran-teams.html */
+    .reassurance-box {
+      background: linear-gradient(135deg, var(--primary), #1a4a7a);
+      color: white;
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin: 1.5rem auto 0;
+      max-width: 640px;
+      font-size: 0.93rem;
+      line-height: 1.65;
+      text-align: left;
+    }
+    .reassurance-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #7ee8ff;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .reassurance-box strong { color: #7ee8ff; }
+    .reassurance-box em {
+      display: block;
+      margin-top: 10px;
+      font-style: italic;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.9rem;
+    }
+
+    .source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(0,194,255,0.10);
+      border: 1px solid rgba(0,194,255,0.25);
+      border-radius: 50px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.78rem;
+      color: #00c2ff;
+      font-weight: 600;
+      margin-top: 1.25rem;
+    }
+
+    /* ===== ONGLETS ===== */
+    .tabs-wrapper {
+      background: var(--white);
+      border-bottom: 1px solid rgba(10,37,64,0.08);
+      position: sticky;
+      top: 68px;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(10,37,64,0.06);
+    }
+    .tabs-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 5%;
+      display: flex;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 1rem 0.4rem;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--gray);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--primary); }
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--accent);
+    }
+    .tab-btn .tab-icon { font-size: 1.05rem; }
+    @media (max-width: 520px) {
+      .tab-btn { font-size: 0.72rem; padding: 0.8rem 0.2rem; gap: 0.25rem; }
+      .tab-btn .tab-label { display: none; }
+      .tab-btn .tab-label-short { display: inline; }
+    }
+    @media (min-width: 521px) {
+      .tab-btn .tab-label-short { display: none; }
+    }
+
+    /* ===== SEARCH SECTION ===== */
+    .search-section {
+      background: var(--white);
+      padding: 2rem 5% 1.75rem;
+      border-bottom: 1px solid rgba(10,37,64,0.06);
+    }
+    .search-card { max-width: 720px; margin: 0 auto; }
+    .search-label {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .search-row { display: flex; gap: 0.75rem; align-items: stretch; }
+    #cp-input {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      border: 2px solid rgba(10,37,64,0.12);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.05rem;
+      color: var(--primary);
+      background: var(--light);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      min-width: 0;
+      letter-spacing: 0.5px;
+    }
+    #cp-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,194,255,0.15);
+      background: #fff;
+    }
+    #cp-input::placeholder { color: var(--gray); }
+    .btn-search {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 0.9rem 1.5rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-search:hover { background: var(--accent); color: var(--primary); }
+    .btn-search:active { transform: scale(0.98); }
+    .search-hint { margin-top: 0.75rem; font-size: 0.85rem; color: var(--gray); }
+    @media (max-width: 480px) {
+      .search-row { flex-wrap: wrap; }
+      .btn-search { width: 100%; justify-content: center; }
+    }
+
+    /* ===== RESULTS ===== */
+    .results-section {
+      padding: 2rem 5% 4rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .state-empty { text-align: center; padding: 4rem 1rem; }
+    .state-empty .state-icon { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
+    .state-empty h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    .state-empty p { color: var(--gray); font-size: 0.95rem; line-height: 1.6; }
+    .state-empty a { color: var(--accent); font-weight: 600; text-decoration: none; }
+
+    .state-error {
+      background: #fff5f5;
+      border: 1.5px solid #fcc;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      display: none;
+    }
+    .state-error p { color: #c0392b; font-size: 0.95rem; }
+
+    .state-loading { text-align: center; padding: 3rem 1rem; }
+    .loader {
+      width: 48px; height: 48px;
+      border: 4px solid rgba(0,194,255,0.15);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1.25rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .state-loading p { color: var(--gray); font-size: 0.95rem; }
+
+    .results-header {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .results-count {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--primary);
+    }
+    .results-count span { color: var(--accent); }
+    .results-location { font-size: 0.85rem; color: var(--gray); }
+
+    /* ─── Carte lieu ─── */
+    .results-grid { display: flex; flex-direction: column; gap: 1rem; }
+
+    .lieu-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1.5px solid transparent;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+      animation: fadeUp 0.35s ease both;
+    }
+    .lieu-card:hover {
+      border-color: rgba(0,194,255,0.28);
+      box-shadow: 0 12px 40px rgba(10,37,64,0.13);
+      transform: translateY(-2px);
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-photo-placeholder {
+      width: 100%;
+      height: 130px;
+      background: linear-gradient(135deg, #0a2540 0%, #133a6e 60%, #0d3060 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+    .card-photo {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-body { padding: 1.25rem 1.5rem 1.5rem; }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .card-nom {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--primary);
+      line-height: 1.25;
+    }
+    .card-badges { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+    .card-badge {
+      display: inline-block;
+      padding: 0.22rem 0.65rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+    }
+    .badge-atelier   { background: rgba(0,194,255,0.12); color: #0085b3; }
+    .badge-fs        { background: rgba(0,229,160,0.12); color: #007a57; }
+    .badge-libre     { background: rgba(124,100,255,0.12); color: #5b3fd6; }
+    .badge-gratuit   { background: rgba(255,193,7,0.13); color: #7a5700; }
+    .badge-doctonet  { background: rgba(0,194,255,0.12); color: #005f80; border: 1px solid rgba(0,194,255,0.25); }
+
+    .card-description {
+      color: var(--gray);
+      font-size: 0.875rem;
+      line-height: 1.55;
+      margin-bottom: 0.9rem;
+    }
+
+    .card-details { display: flex; flex-direction: column; gap: 0.4rem; }
+    .card-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.86rem;
+      color: var(--gray);
+    }
+    .card-detail-icon { flex-shrink: 0; font-size: 0.95rem; margin-top: 0.05rem; }
+    .card-detail a { color: var(--primary); text-decoration: none; font-weight: 500; }
+    .card-detail a:hover { color: var(--accent); text-decoration: underline; }
+
+    /* Horaires pill */
+    .card-horaires {
+      margin-top: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--light);
+      border-radius: 8px;
+      padding: 0.38rem 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Services disponibles */
+    .card-services {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.85rem;
+    }
+    .service-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: var(--light);
+      border: 1px solid rgba(10,37,64,0.09);
+      border-radius: 50px;
+      padding: 0.22rem 0.65rem;
+      font-size: 0.77rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--primary);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 3rem 5% 2rem;
+      font-size: 0.88rem;
+      line-height: 1.8;
+    }
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+    .footer-logo span { color: var(--accent); }
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0 1.5rem;
+      margin-top: 1rem;
+    }
+    .footer-phone {
+      display: inline-block;
+      color: var(--accent) !important;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .page-hero { padding: 100px 5% 40px; }
+      .search-section { padding: 1.5rem 4%; }
+      .results-section { padding: 1.5rem 4% 3rem; }
+      .card-body { padding: 1rem 1.1rem 1.25rem; }
+      .card-nom { font-size: 0.98rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAV ===== -->
+  <nav id="doctonet-nav" role="navigation" aria-label="Navigation principale">
+    <a href="index.html" id="doctonet-logo">Docto<span>NET</span></a>
+    <div id="doctonet-nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="Tutoriels.html">Tutoriels</a>
+      <a href="trouver-un-professionnel.html">Trouver un professionnel</a>
+      <a href="trouver-un-lieu-numerique.html" class="active">Lieux numériques</a>
+      <a href="index.html#contact" id="doctonet-nav-cta">Demander de l'aide</a>
+    </div>
+    <button id="doctonet-hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="doctonet-nav-links">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="page-hero">
+    <span class="page-hero-icon">🗺️</span>
+    <h1>Trouver un lieu<br><span>numérique</span> près de chez vous</h1>
+    <p>Ateliers collectifs, conseillers France Services et accès gratuit à un ordinateur — saisissez votre code postal pour trouver les lieux disponibles dans votre secteur.</p>
+
+    <div class="source-badge">✅ Base DoctoNET · Entrée libre &amp; gratuit privilégiés</div>
+
+    <div class="reassurance-box">
+      <div class="reassurance-title">📱 Vous n'avez qu'un smartphone ?</div>
+      Certaines démarches nécessitent <strong>impérativement un ordinateur</strong> : remplir un dossier CAF, imprimer un justificatif, scanner un document, faire une demande de logement social…
+      L'onglet <strong>« Accès ordinateur »</strong> vous indique les lieux où vous pouvez utiliser un poste <strong>gratuitement</strong>, sans rendez-vous.
+      <em>Médiathèques, bibliothèques, Espaces Publics Numériques — l'accès est libre et gratuit dans la grande majorité des cas.</em>
+    </div>
+  </div>
+
+  <!-- ===== ONGLETS ===== -->
+  <div class="tabs-wrapper" role="tablist" aria-label="Type de lieu numérique">
+    <div class="tabs-inner">
+      <button class="tab-btn active" id="tab-ateliers" role="tab" aria-selected="true" data-type="ateliers">
+        <span class="tab-icon">🖥️</span>
+        <span class="tab-label">Ateliers numériques</span>
+        <span class="tab-label-short">Ateliers</span>
+      </button>
+      <button class="tab-btn" id="tab-fs" role="tab" aria-selected="false" data-type="france_services">
+        <span class="tab-icon">🏛️</span>
+        <span class="tab-label">Conseillers France Services</span>
+        <span class="tab-label-short">France Services</span>
+      </button>
+      <button class="tab-btn" id="tab-libre" role="tab" aria-selected="false" data-type="acces_libre">
+        <span class="tab-icon">💻</span>
+        <span class="tab-label">Accès ordinateur &amp; impression</span>
+        <span class="tab-label-short">Accès ordi</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== SEARCH ===== -->
+  <section class="search-section" aria-label="Recherche par code postal">
+    <div class="search-card">
+      <label class="search-label" for="cp-input">Votre code postal</label>
+      <div class="search-row">
+        <input
+          type="text"
+          id="cp-input"
+          placeholder="Ex : 95230, 75011, 69003…"
+          autocomplete="postal-code"
+          inputmode="numeric"
+          maxlength="5"
+          aria-label="Saisir votre code postal"
+        >
+        <button class="btn-search" id="btn-search" aria-label="Lancer la recherche">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Rechercher
+        </button>
+      </div>
+      <p class="search-hint">💡 Saisissez un code postal à 5 chiffres</p>
+    </div>
+  </section>
+
+  <!-- ===== RESULTS ===== -->
+  <main class="results-section" id="panel-results" aria-live="polite" aria-label="Résultats">
+
+    <div class="state-empty" id="state-initial">
+      <span class="state-icon">🗺️</span>
+      <h2>Commencez votre recherche</h2>
+      <p>Saisissez votre code postal pour trouver<br>les lieux numériques proches de chez vous.</p>
+    </div>
+
+    <div class="state-loading" id="state-loading" style="display:none;" aria-live="polite">
+      <div class="loader"></div>
+      <p>Recherche en cours…</p>
+    </div>
+
+    <div class="state-error" id="state-error" role="alert">
+      <p id="error-message">Une erreur est survenue. Veuillez réessayer.</p>
+    </div>
+
+    <div class="results-header" id="results-header">
+      <div class="results-count"><span id="results-count-num">0</span> lieu(x) trouvé(s)</div>
+      <div class="results-location" id="results-location-label"></div>
+    </div>
+
+    <div class="results-grid" id="results-grid" role="list"></div>
+
+    <div class="state-empty" id="state-no-results" style="display:none;">
+      <span class="state-icon">🔎</span>
+      <h2>Aucun lieu trouvé pour ce code postal</h2>
+      <p>Nous n'avons pas encore référencé de lieu pour cette zone.<br>
+        <a href="index.html#contact">Contactez-nous</a> pour nous signaler un lieu à ajouter — nous l'intégrerons rapidement.</p>
+    </div>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer role="contentinfo">
+    <div class="footer-logo">Docto<span>NET</span></div>
+    <p>Association régie par la loi du 1er juillet 1901 · RNA : W751281281</p>
+    <p>24 rue Jouffroy d'Abbans · 75017 Paris</p>
+    <a href="tel:+33180064649" class="footer-phone">01 80 06 46 49</a>
+    <nav class="footer-links" aria-label="Liens de pied de page">
+      <a href="index.html">Accueil</a>
+      <a href="Tutoriels.html">Tutoriels</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="donnees-personnelles.html">Données personnelles</a>
+    </nav>
+    <p style="font-size:0.8rem; margin-top:1rem; opacity:0.5;">© 2026 DoctoNET · Tous droits réservés</p>
+    <p style="font-size:0.75rem; margin-top:0.5rem; opacity:0.45;">
+      Base de données DoctoNET · Mise à jour régulière ·
+      <a href="index.html#contact" style="color:inherit;">Signaler un lieu manquant</a>
+    </p>
+  </footer>
+
+
+</body>
+</html>

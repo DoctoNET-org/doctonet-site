@@ -1,0 +1,44 @@
+{
+  "_info": {
+    "description": "Lieux numériques validés manuellement par DoctoNET. Ces lieux apparaissent en tête de résultats, avant les données nationales.",
+    "format": "Même structure que l'API /api/lieux. Champ 'source' toujours 'doctonet'.",
+    "mise_a_jour": "Manuelle — ajouter/modifier/supprimer les entrées ci-dessous.",
+    "derniere_maj": "2026-04-28"
+  },
+  "ateliers": [
+    {
+      "id": "doctonet-atelier-001",
+      "nom": "Le Trèfle",
+      "adresse": "12 rue des Lilas, 95230 Soisy-sous-Montmorency",
+      "code_postal": "95230",
+      "ville": "Soisy-sous-Montmorency",
+      "telephone": "01 39 59 00 00",
+      "email": "contact@letrefle95.fr",
+      "site": "https://www.letrefle95.fr",
+      "horaires": "Lun–Ven 9h–12h et 14h–17h",
+      "description": "Ateliers collectifs d'initiation et de perfectionnement au numérique. Petits groupes, ambiance conviviale, animateurs bénévoles formés.",
+      "photo": "",
+      "gratuit": true,
+      "services": ["wifi", "postes_libres", "impression"],
+      "source": "doctonet"
+    },
+    {
+      "id": "doctonet-atelier-002",
+      "nom": "Aide numérique pour les seniors — Mairie du 17e",
+      "adresse": "Salle 228, 2e étage — Mairie du 17e, 16 rue des Batignolles, 75017 Paris",
+      "code_postal": "75017",
+      "ville": "Paris 17e",
+      "telephone": "01 44 69 16 01",
+      "email": "delegationseniors17@gmail.com",
+      "site": "",
+      "horaires": "Mercredis 14h–17h (séances d'1h, sur rendez-vous)",
+      "description": "Un aidant numérique vous accompagne pendant 1h : naviguer sur internet, utiliser un ordinateur, réaliser ses démarches en ligne. Apportez votre téléphone, ordinateur ou tablette. Animé par des bénévoles Heure Civique.",
+      "photo": "",
+      "gratuit": true,
+      "services": ["wifi"],
+      "source": "doctonet"
+    }
+  ],
+  "france_services": [],
+  "acces_libre": []
+}
