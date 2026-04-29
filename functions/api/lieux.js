@@ -2,57 +2,61 @@
  * DoctoNET — /api/lieux
  * Cloudflare Pages Function
  *
- * Interroge 3 sources publiques selon le type demandé :
- *   - ateliers       → API data·inclusion (cartographie médiation numérique)
- *   - france_services → API Conseillers Numériques France Services
- *   - acces_libre    → API data·inclusion (bibliothèques / médiathèques)
+ * Stratégie :
+ *   1. Code postal → coordonnées GPS via api-adresse.data.gouv.fr (public, sans token)
+ *   2. Coordonnées → lieux via cartographie.societenumerique.gouv.fr/api/lieux/chunk (public, sans token)
+ *   3. Lieux DoctoNET validés manuellement fusionnés en tête
  *
- * Route : GET /api/lieux?cp=75017&type=ateliers
- *
- * Les lieux validés manuellement par DoctoNET (lieux-doctonet.json)
- * sont fusionnés en tête de résultats.
- *
- * Aucune variable d'environnement requise — APIs publiques sans clé.
+ * Route : GET /api/lieux?cp=75020&type=ateliers
  */
 
-// ── Sources API ──────────────────────────────────────────────────────────────
-
-// API data·inclusion — cartographie nationale médiation numérique
-// Doc : https://api.data.inclusion.beta.gouv.fr/api/v0/docs
-// ⚠️  Depuis fin 2024, l'API requiert un token Bearer (gratuit, inscription sur data.inclusion.beta.gouv.fr)
-// Stocker dans Cloudflare Pages → Settings → Variables : DATA_INCLUSION_TOKEN
-const DATA_INCLUSION_BASE = 'https://api.data.inclusion.beta.gouv.fr/api/v0';
-
-// API Conseillers Numériques France Services
-// Doc : https://api.conseiller-numerique.gouv.fr/
-const CNFS_BASE = 'https://api.conseiller-numerique.gouv.fr';
-
-// Fallback public — cartographie societenumerique.gouv.fr (sans auth)
-const CARTO_BASE = 'https://cartographie.societenumerique.gouv.fr/api/v0';
-
-// ── Thématiques data·inclusion par type ─────────────────────────────────────
-// Valeurs officielles du schéma data·inclusion
-const THEMATIQUES = {
+// ── Lieux DoctoNET embarqués directement (évite tout problème de fetch interne) ──
+const LIEUX_DOCTONET = {
   ateliers: [
-    'numerique--acceder-a-du-materiel',
-    'numerique--s-initier-aux-outils-numeriques',
-    'numerique--approfondir-ma-culture-numerique',
+    {
+      id: "doctonet-atelier-001",
+      nom: "Le Trèfle",
+      adresse: "12 rue des Lilas, 95230 Soisy-sous-Montmorency",
+      code_postal: "95230",
+      ville: "Soisy-sous-Montmorency",
+      telephone: "01 39 59 00 00",
+      email: "contact@letrefle95.fr",
+      site: "https://www.letrefle95.fr",
+      horaires: "Lun–Ven 9h–12h et 14h–17h",
+      description: "Ateliers collectifs d'initiation et de perfectionnement au numérique. Petits groupes, ambiance conviviale, animateurs bénévoles formés.",
+      gratuit: true,
+      services: ["wifi", "postes_libres", "impression"],
+      source: "doctonet",
+    },
+    {
+      id: "doctonet-atelier-002",
+      nom: "Aide numérique pour les seniors — Mairie du 17e",
+      adresse: "Salle 228, 2e étage — Mairie du 17e, 16 rue des Batignolles, 75017 Paris",
+      code_postal: "75017",
+      ville: "Paris 17e",
+      telephone: "01 44 69 16 01",
+      email: "delegationseniors17@gmail.com",
+      site: "",
+      horaires: "Mercredis 14h–17h (séances d'1h, sur rendez-vous)",
+      description: "Un aidant numérique vous accompagne pendant 1h : naviguer sur internet, utiliser un ordinateur, réaliser ses démarches en ligne. Apportez votre téléphone, ordinateur ou tablette. Animé par des bénévoles Heure Civique.",
+      gratuit: true,
+      services: ["wifi"],
+      source: "doctonet",
+    },
   ],
-  acces_libre: [
-    'numerique--acceder-a-du-materiel',
-    'numerique--acceder-a-internet',
-  ],
+  france_services: [],
+  acces_libre: [],
 };
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
 function jsonResponse(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-      'Access-Control-Allow-Origin': '*',
-      'Cache-Control': 'public, max-age=3600', // cache 1h côté Cloudflare
+      "Content-Type": "application/json;charset=UTF-8",
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "public, max-age=3600",
     },
   });
 }
@@ -62,241 +66,174 @@ function errorResponse(message, status = 400) {
 }
 
 /**
- * Normalise un lieu data·inclusion vers le format DoctoNET.
+ * Étape 1 — Code postal → {latitude, longitude, ville}
+ * API adresse.data.gouv.fr — publique, sans token
  */
-function normaliseLieuDataInclusion(lieu) {
-  return {
-    id:          lieu.id          || '',
-    nom:         lieu.nom         || lieu.structure?.nom || '',
-    adresse:     [lieu.adresse, lieu.complement_adresse].filter(Boolean).join(', '),
-    code_postal: lieu.code_postal || '',
-    ville:       lieu.commune     || '',
-    telephone:   lieu.telephone   || '',
-    email:       lieu.courriel    || '',
-    site:        lieu.site_web    || lieu.structure?.site_web || '',
-    horaires:    lieu.horaires_ouverture || '',
-    description: lieu.presentation_resume || lieu.presentation_detail || '',
-    photo:       '',
-    gratuit:     lieu.frais_autres === 'gratuit' || lieu.frais === null || true,
-    services:    detectServices(lieu),
-    source:      'data-inclusion',
-  };
+async function codePostalToCoords(cp) {
+  const url = `https://api-adresse.data.gouv.fr/search/?q=${cp}&type=municipality&limit=1`;
+  const res = await fetch(url, { headers: { Accept: "application/json" } });
+  if (!res.ok) throw new Error(`api-adresse HTTP ${res.status}`);
+  const data = await res.json();
+  const feature = data.features?.[0];
+  if (!feature) throw new Error(`Aucune commune trouvée pour le CP ${cp}`);
+  const [longitude, latitude] = feature.geometry.coordinates;
+  const ville = feature.properties.city || feature.properties.label || "";
+  const codePostal = feature.properties.postcode || cp;
+  return { latitude, longitude, ville, codePostal };
 }
 
 /**
- * Normalise une permanence CNFS vers le format DoctoNET.
+ * Étape 2 — Coordonnées → lieux via cartographie.societenumerique.gouv.fr
+ * Endpoint découvert par reverse engineering — public, sans token
  */
-function normalisePermanenceCNFS(p) {
-  const structure = p.structureInfo || {};
-  const adresseParts = [
-    p.adresse?.numeroRue,
-    p.adresse?.rue,
-    p.adresse?.codePostal,
-    p.adresse?.ville,
-  ].filter(Boolean);
+async function fetchLieuxCarto(latitude, longitude) {
+  const url = `https://cartographie.societenumerique.gouv.fr/api/lieux/chunk?latitude=${latitude}&longitude=${longitude}`;
+  const res = await fetch(url, {
+    headers: { Accept: "application/json" },
+    cf: { cacheTtl: 3600 },
+  });
+  if (!res.ok) throw new Error(`cartographie.societenumerique HTTP ${res.status}`);
+  const data = await res.json();
+  return Array.isArray(data) ? data : [];
+}
 
+/**
+ * Calcule la distance en km entre deux points GPS (formule Haversine simplifiée)
+ */
+function distanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+/**
+ * Normalise un lieu cartographie vers le format DoctoNET
+ */
+function normaliseLieu(lieu, distKm) {
   return {
-    id:          p._id            || '',
-    nom:         structure.nom    || p.nomEnseigne || '',
-    adresse:     adresseParts.join(', '),
-    code_postal: p.adresse?.codePostal || '',
-    ville:       p.adresse?.ville || '',
-    telephone:   p.telephone      || structure.contact?.telephone || '',
-    email:       p.email          || structure.contact?.email || '',
-    site:        structure.siteWeb || '',
-    horaires:    formatHorairesCNFS(p.horaires),
-    description: 'Conseiller Numérique France Services — accompagnement aux démarches en ligne, accès aux services publics (CAF, CPAM, Pôle Emploi, impôts…).',
-    photo:       '',
+    id:          lieu.id || "",
+    nom:         lieu.nom || "",
+    adresse:     [lieu.adresse, lieu.commune].filter(Boolean).join(", "),
+    code_postal: lieu.codePostal || "",
+    ville:       lieu.commune || "",
+    telephone:   lieu.telephone || "",
+    email:       lieu.courriel || "",
+    site:        lieu.siteWeb || "",
+    horaires:    lieu.horaires || "",
+    description: lieu.presentationResume || lieu.presentationDetail || "",
     gratuit:     true,
-    services:    ['wifi', 'postes_libres'],
-    source:      'cnfs',
+    services:    detectServices(lieu),
+    distance_km: Math.round(distKm * 10) / 10,
+    source:      "societenumerique",
   };
 }
 
 /**
- * Formate les horaires CNFS (tableau de créneaux) en chaîne lisible.
- */
-function formatHorairesCNFS(horaires) {
-  if (!horaires || !Array.isArray(horaires)) return '';
-  const jours = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
-  return horaires
-    .map(h => {
-      const jour = jours[h.jour] || '';
-      const matin = h.matin ? `${h.matin.debut}–${h.matin.fin}` : '';
-      const apresMidi = h.apresMidi ? `${h.apresMidi.debut}–${h.apresMidi.fin}` : '';
-      return [jour, [matin, apresMidi].filter(Boolean).join(' / ')].filter(Boolean).join(' ');
-    })
-    .join(', ');
-}
-
-/**
- * Détecte les services disponibles à partir des données data·inclusion.
+ * Détecte les services à partir des données du lieu
  */
 function detectServices(lieu) {
   const services = [];
-  const desc = (lieu.presentation_resume || '' + lieu.presentation_detail || '').toLowerCase();
-  const thematiques = lieu.thematiques || [];
-
-  if (desc.includes('wifi') || desc.includes('wi-fi') || desc.includes('internet')) {
-    services.push('wifi');
-  }
-  if (
-    desc.includes('ordinateur') || desc.includes('poste') ||
-    thematiques.some(t => t.includes('materiel') || t.includes('internet'))
-  ) {
-    services.push('postes_libres');
-  }
-  if (desc.includes('impression') || desc.includes('imprimer') || desc.includes('imprimante')) {
-    services.push('impression');
-  }
-  if (desc.includes('scan') || desc.includes('numériser')) {
-    services.push('scanner');
-  }
+  const desc = ((lieu.presentationResume || "") + " " + (lieu.presentationDetail || "")).toLowerCase();
+  if (desc.includes("wifi") || desc.includes("wi-fi") || desc.includes("internet")) services.push("wifi");
+  if (desc.includes("ordinateur") || desc.includes("poste") || desc.includes("materiel")) services.push("postes_libres");
+  if (desc.includes("impression") || desc.includes("imprimer") || desc.includes("imprimante")) services.push("impression");
+  if (desc.includes("scan") || desc.includes("numériser")) services.push("scanner");
   return services;
 }
 
-// ── Chargement des lieux DoctoNET (JSON statique dans le dépôt) ──────────────
+/**
+ * Filtre les lieux par type demandé
+ */
+function filtrerParType(lieux, type) {
+  if (type === "all") return lieux;
 
-async function fetchLieuxDoctonet(env, cp, type) {
-  try {
-    // Lire via env.ASSETS (Cloudflare Pages static assets binding)
-    // évite la boucle HTTP Function → même domaine
-    let data;
-    if (env.ASSETS) {
-      const req = new Request('https://dummy/lieux-doctonet.json');
-      const res = await env.ASSETS.fetch(req);
-      if (!res.ok) return [];
-      data = await res.json();
-    } else {
-      // Fallback hors Cloudflare (dev local)
-      const res = await fetch('https://www.doctonet.org/lieux-doctonet.json');
-      if (!res.ok) return [];
-      data = await res.json();
-    }
-    const dataset = data[type] || [];
-    return dataset.filter(l => l.code_postal === cp);
-  } catch (e) {
-    console.error('fetchLieuxDoctonet error:', e.message);
-    return [];
-  }
-}
+  // Mots-clés par type pour filtrer les noms
+  const motsCles = {
+    ateliers: ["atelier", "coop", "numérique", "inclusion", "médiation", "formation", "initiation", "espace public", "epn", "cyberbase", "maison de quartier", "centre social"],
+    france_services: ["france services", "conseiller numérique", "maison de services", "msap", "cnfs"],
+    acces_libre: ["bibliothèque", "médiathèque", "biblioth", "médiath", "ludothèque", "espace lecture"],
+  };
 
-// ── Fetchers par type ────────────────────────────────────────────────────────
+  const mots = motsCles[type] || [];
+  if (mots.length === 0) return lieux;
 
-async function fetchAteliers(cp, token) {
-  // Avec token : API data·inclusion complète
-  // Sans token : cartographie societenumerique (public, sans auth)
-  const thematiques = THEMATIQUES.ateliers.join(',');
-
-  if (token) {
-    const url = `${DATA_INCLUSION_BASE}/lieux?code_postal=${cp}&thematiques=${encodeURIComponent(thematiques)}&page_size=50`;
-    const res = await fetch(url, {
-      headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
-      cf: { cacheTtl: 3600 },
-    });
-    if (!res.ok) throw new Error(`data·inclusion ateliers : HTTP ${res.status}`);
-    const data = await res.json();
-    return (data.items || []).map(normaliseLieuDataInclusion);
-  }
-
-  // Fallback public — cartographie societenumerique
-  const url = `${CARTO_BASE}/lieux-inclusion-numerique?code_postal=${cp}&page_size=50`;
-  const res = await fetch(url, {
-    headers: { Accept: 'application/json' },
-    cf: { cacheTtl: 3600 },
+  return lieux.filter(l => {
+    const texte = (l.nom + " " + l.description).toLowerCase();
+    return mots.some(m => texte.includes(m));
   });
-  if (!res.ok) throw new Error(`carto societenumerique ateliers : HTTP ${res.status}`);
-  const data = await res.json();
-  return (data.items || data.results || []).map(normaliseLieuDataInclusion);
-}
-
-async function fetchFranceServices(cp) {
-  const url = `${CNFS_BASE}/permanences?codePostal=${cp}&limit=50`;
-
-  const res = await fetch(url, {
-    headers: { Accept: 'application/json' },
-    cf: { cacheTtl: 3600 },
-  });
-
-  if (!res.ok) throw new Error(`CNFS : HTTP ${res.status}`);
-  const data = await res.json();
-
-  // L'API renvoie soit un tableau directement, soit { data: [...] }
-  const items = Array.isArray(data) ? data : (data.data || []);
-  return items.map(normalisePermanenceCNFS);
-}
-
-async function fetchAccesLibre(cp, token) {
-  const thematiques = THEMATIQUES.acces_libre.join(',');
-  const motsCles = ['biblioth', 'médiath', 'espace public numérique', 'epn', 'cyb'];
-
-  if (token) {
-    const url = `${DATA_INCLUSION_BASE}/lieux?code_postal=${cp}&thematiques=${encodeURIComponent(thematiques)}&page_size=50`;
-    const res = await fetch(url, {
-      headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
-      cf: { cacheTtl: 3600 },
-    });
-    if (!res.ok) throw new Error(`data·inclusion accès libre : HTTP ${res.status}`);
-    const data = await res.json();
-    return (data.items || [])
-      .filter(l => motsCles.some(m => (l.nom || l.structure?.nom || '').toLowerCase().includes(m)))
-      .map(normaliseLieuDataInclusion);
-  }
-
-  // Fallback public
-  const url = `${CARTO_BASE}/lieux-inclusion-numerique?code_postal=${cp}&page_size=50`;
-  const res = await fetch(url, {
-    headers: { Accept: 'application/json' },
-    cf: { cacheTtl: 3600 },
-  });
-  if (!res.ok) throw new Error(`carto societenumerique accès libre : HTTP ${res.status}`);
-  const data = await res.json();
-  return (data.items || data.results || [])
-    .filter(l => motsCles.some(m => (l.nom || l.structure?.nom || '').toLowerCase().includes(m)))
-    .map(normaliseLieuDataInclusion);
 }
 
 // ── Handler principal ─────────────────────────────────────────────────────────
 
-export async function onRequestGet({ request, env }) {
-  const url    = new URL(request.url);
-  const cp     = (url.searchParams.get('cp') || '').trim();
-  const type   = (url.searchParams.get('type') || 'ateliers').trim();
+export async function onRequestGet({ request }) {
+  const url  = new URL(request.url);
+  const cp   = (url.searchParams.get("cp") || "").trim();
+  const type = (url.searchParams.get("type") || "ateliers").trim();
 
   // Validation
   if (!cp) return errorResponse("Paramètre 'cp' (code postal) requis.");
   if (!/^\d{5}$/.test(cp)) return errorResponse("Code postal invalide — 5 chiffres attendus.");
 
-  const typesValides = ['ateliers', 'france_services', 'acces_libre'];
+  const typesValides = ["ateliers", "france_services", "acces_libre", "all"];
   if (!typesValides.includes(type)) {
-    return errorResponse(`Type invalide. Valeurs acceptées : ${typesValides.join(', ')}.`);
+    return errorResponse(`Type invalide. Valeurs acceptées : ${typesValides.join(", ")}.`);
   }
 
-  // ── Lieux DoctoNET — toujours chargés en premier, indépendamment de l'API nationale
-  const lieuxDoctonet = await fetchLieuxDoctonet(env, cp, type);
+  // ── Lieux DoctoNET — toujours en premier
+  const lieuxDoctonet = (LIEUX_DOCTONET[type] || []).filter(l => l.code_postal === cp);
 
-  // ── API nationale — tentative, échec silencieux
+  // ── Étape 1 : CP → coordonnées
+  let coords;
+  try {
+    coords = await codePostalToCoords(cp);
+  } catch (err) {
+    console.error("codePostalToCoords error:", err.message);
+    // Même sans coordonnées, on retourne les lieux DoctoNET
+    return jsonResponse({
+      cp, type, ville: "",
+      total: lieuxDoctonet.length,
+      doctonet_count: lieuxDoctonet.length,
+      api_count: 0,
+      results: lieuxDoctonet,
+      warning: "Impossible de géolocaliser ce code postal.",
+    });
+  }
+
+  // ── Étape 2 : coordonnées → lieux nationaux
   let lieuxNationaux = [];
   try {
-    const token = env.DATA_INCLUSION_TOKEN || null;
-    lieuxNationaux = await (
-      type === 'ateliers'          ? fetchAteliers(cp, token)
-      : type === 'france_services' ? fetchFranceServices(cp)
-      : fetchAccesLibre(cp, token)
-    );
+    const raw = await fetchLieuxCarto(coords.latitude, coords.longitude);
+
+    // Calculer distance + filtrer à 15km max + trier par proximité
+    const avecDistance = raw
+      .map(l => ({
+        ...normaliseLieu(l, distanceKm(coords.latitude, coords.longitude, l.latitude, l.longitude)),
+        _lat: l.latitude,
+        _lon: l.longitude,
+      }))
+      .filter(l => l.distance_km <= 15)
+      .sort((a, b) => a.distance_km - b.distance_km);
+
+    lieuxNationaux = filtrerParType(avecDistance, type).slice(0, 20);
   } catch (err) {
-    console.error('lieux.js — API nationale indisponible:', err.message);
-    // On continue avec les lieux DoctoNET seuls
+    console.error("fetchLieuxCarto error:", err.message);
   }
 
-  // ── Fusion : DoctoNET en premier, dédoublonnage par nom+adresse
-  const vus = new Set(lieuxDoctonet.map(l => `${l.nom}|${l.adresse}`));
-  const lieuxFiltres = lieuxNationaux.filter(l => !vus.has(`${l.nom}|${l.adresse}`));
+  // ── Fusion : DoctoNET en premier, dédoublonnage par nom
+  const vus = new Set(lieuxDoctonet.map(l => l.nom.toLowerCase()));
+  const lieuxFiltres = lieuxNationaux.filter(l => !vus.has(l.nom.toLowerCase()));
   const results = [...lieuxDoctonet, ...lieuxFiltres];
 
   return jsonResponse({
     cp,
     type,
+    ville: coords.ville,
     total: results.length,
     doctonet_count: lieuxDoctonet.length,
     api_count: lieuxFiltres.length,
