@@ -101,23 +101,33 @@ async function fetchChunk(latitude, longitude) {
 
 /**
  * Détail complet d'un lieu par son id
- * Cloudflare Workers encode automatiquement les caractères non-ASCII dans fetch().
- * On pré-encode uniquement les accents avec encodeURIComponent sur l'ID seul,
- * puis on reconstruit l'URL manuellement pour éviter le double-encodage.
+ *
+ * Cloudflare Workers ré-encode les URLs passées à fetch() si elles contiennent
+ * des caractères non-ASCII. On utilise new Request() avec l'URL pré-construite
+ * via une concaténation simple pour éviter tout ré-encodage.
  */
 async function fetchDetail(id) {
-  // encodeURIComponent encode tout sauf A-Z a-z 0-9 - _ . ! ~ * ' ( )
-  // L'API accepte les tirets et underscores non encodés — on les restaure
-  const idEncode = encodeURIComponent(id)
-    .replace(/%2D/g, '-')   // tiret
-    .replace(/%5F/g, '_')   // underscore
-    .replace(/%20/g, '%20'); // espace (déjà encodé)
+  // On encode uniquement les caractères non-ASCII (accents) mais on préserve
+  // les caractères valides dans un path URL : - _ . ~ 0-9 A-Z a-z
+  let idEncode = '';
+  for (const ch of id) {
+    const code = ch.charCodeAt(0);
+    if (
+      (code >= 0x41 && code <= 0x5A) || // A-Z
+      (code >= 0x61 && code <= 0x7A) || // a-z
+      (code >= 0x30 && code <= 0x39) || // 0-9
+      ch === '-' || ch === '_' || ch === '.' || ch === '~'
+    ) {
+      idEncode += ch;
+    } else {
+      // Encode le caractère en UTF-8 percent-encoded
+      idEncode += encodeURIComponent(ch);
+    }
+  }
 
-  const url = `${CARTO_BASE}/${idEncode}`;
-  const res = await fetch(url, {
-    headers: { Accept: "application/json" },
-    cf: { cacheTtl: 3600 },
-  });
+  const url = CARTO_BASE + '/' + idEncode;
+  const req = new Request(url, { method: 'GET', headers: { Accept: 'application/json' } });
+  const res = await fetch(req, { cf: { cacheTtl: 3600 } });
   if (!res.ok) return null;
   return res.json();
 }
