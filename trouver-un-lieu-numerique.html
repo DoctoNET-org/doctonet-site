@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -797,6 +798,12 @@
       if (lieu.telephone) details.push(`<div class="card-detail"><span class="card-detail-icon">📞</span><a href="tel:${lieu.telephone.replace(/\s/g,'')}">${esc(lieu.telephone)}</a></div>`);
       if (lieu.email)     details.push(`<div class="card-detail"><span class="card-detail-icon">✉️</span><a href="mailto:${esc(lieu.email)}">${esc(lieu.email)}</a></div>`);
       if (lieu.site)      details.push(`<div class="card-detail"><span class="card-detail-icon">🌐</span><a href="${esc(lieu.site)}" target="_blank" rel="noopener noreferrer">${esc(lieu.site.replace(/^https?:\/\//,''))}</a></div>`);
+      if (lieu.distance_km != null) details.push(`<div class="card-detail"><span class="card-detail-icon">📏</span><span>${lieu.distance_km} km</span></div>`);
+
+      // Publics spécifiques (seniors, familles…)
+      const publicsHtml = (lieu.publics || []).length
+        ? `<div class="card-detail"><span class="card-detail-icon">👥</span><span>${esc((lieu.publics || []).join(', '))}</span></div>`
+        : '';
 
       const chipsHtml = (lieu.services || [])
         .filter(s => SERVICES_CONFIG[s])
@@ -813,7 +820,7 @@
             <div class="card-badges">${badgesHtml}</div>
           </div>
           ${lieu.description ? `<p class="card-description">${esc(lieu.description)}</p>` : ''}
-          <div class="card-details">${details.join('')}</div>
+          <div class="card-details">${details.join('')}${publicsHtml}</div>
           ${lieu.horaires ? `<div class="card-horaires">🕐 ${esc(lieu.horaires)}</div>` : ''}
           ${chipsHtml ? `<div class="card-services">${chipsHtml}</div>` : ''}
         </div>`;
