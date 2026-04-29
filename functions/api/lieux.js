@@ -126,10 +126,8 @@ async function fetchDetail(id) {
   }
 
   const url = CARTO_BASE + '/' + idEncode;
-  console.log('fetchDetail URL:', url);
   const req = new Request(url, { method: 'GET', headers: { Accept: 'application/json' } });
   const res = await fetch(req, { cf: { cacheTtl: 3600 } });
-  console.log('fetchDetail status:', res.status, 'for id:', id);
   if (!res.ok) return null;
   return res.json();
 }
