@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -248,8 +249,8 @@
       margin-top: 1.25rem;
     }
 
-    /* ===== ONGLETS ===== */
-    .tabs-wrapper {
+    /* ===== FILTRES ===== */
+    .filters-wrapper {
       background: var(--white);
       border-bottom: 1px solid rgba(10,37,64,0.08);
       position: sticky;
@@ -257,43 +258,46 @@
       z-index: 100;
       box-shadow: 0 2px 12px rgba(10,37,64,0.06);
     }
-    .tabs-inner {
+    .filters-inner {
       max-width: 800px;
       margin: 0 auto;
-      padding: 0 5%;
+      padding: 0.75rem 5%;
       display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
-    .tab-btn {
-      flex: 1;
-      padding: 1rem 0.4rem;
-      background: transparent;
-      border: none;
-      border-bottom: 3px solid transparent;
+    .filter-label {
       font-family: 'Syne', sans-serif;
-      font-size: 0.88rem;
+      font-size: 0.8rem;
       font-weight: 700;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-right: 0.25rem;
+    }
+    .filter-btn {
+      padding: 0.45rem 1rem;
+      background: var(--light);
+      border: 1.5px solid rgba(10,37,64,0.10);
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
       color: var(--gray);
       cursor: pointer;
       transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
       white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
     }
-    .tab-btn:hover { color: var(--primary); }
-    .tab-btn.active {
-      color: var(--primary);
-      border-bottom-color: var(--accent);
-    }
-    .tab-btn .tab-icon { font-size: 1.05rem; }
-    @media (max-width: 520px) {
-      .tab-btn { font-size: 0.72rem; padding: 0.8rem 0.2rem; gap: 0.25rem; }
-      .tab-btn .tab-label { display: none; }
-      .tab-btn .tab-label-short { display: inline; }
-    }
-    @media (min-width: 521px) {
-      .tab-btn .tab-label-short { display: none; }
+    .filter-btn:hover { border-color: var(--accent); color: var(--primary); }
+    .filter-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+    @media (max-width: 480px) {
+      .filters-inner { gap: 0.4rem; }
+      .filter-btn { font-size: 0.78rem; padding: 0.4rem 0.75rem; }
+      .filter-label { width: 100%; }
     }
 
     /* ===== SEARCH SECTION ===== */
@@ -611,29 +615,19 @@
     <div class="reassurance-box">
       <div class="reassurance-title">📱 Vous n'avez qu'un smartphone ?</div>
       Certaines démarches nécessitent <strong>impérativement un ordinateur</strong> : remplir un dossier CAF, imprimer un justificatif, scanner un document, faire une demande de logement social…
-      L'onglet <strong>« Accès ordinateur »</strong> vous indique les lieux où vous pouvez utiliser un poste <strong>gratuitement</strong>, sans rendez-vous.
+      Le filtre <strong>« Accès ordi »</strong> vous indique les lieux où vous pouvez utiliser un poste <strong>gratuitement</strong>, sans rendez-vous.
       <em>Médiathèques, bibliothèques, Espaces Publics Numériques — l'accès est libre et gratuit dans la grande majorité des cas.</em>
     </div>
   </div>
 
-  <!-- ===== ONGLETS ===== -->
-  <div class="tabs-wrapper" role="tablist" aria-label="Type de lieu numérique">
-    <div class="tabs-inner">
-      <button class="tab-btn active" id="tab-ateliers" role="tab" aria-selected="true" data-type="ateliers">
-        <span class="tab-icon">🖥️</span>
-        <span class="tab-label">Ateliers numériques</span>
-        <span class="tab-label-short">Ateliers</span>
-      </button>
-      <button class="tab-btn" id="tab-fs" role="tab" aria-selected="false" data-type="france_services">
-        <span class="tab-icon">🏛️</span>
-        <span class="tab-label">Conseillers France Services</span>
-        <span class="tab-label-short">France Services</span>
-      </button>
-      <button class="tab-btn" id="tab-libre" role="tab" aria-selected="false" data-type="acces_libre">
-        <span class="tab-icon">💻</span>
-        <span class="tab-label">Accès ordinateur &amp; impression</span>
-        <span class="tab-label-short">Accès ordi</span>
-      </button>
+  <!-- ===== FILTRES ===== -->
+  <div class="filters-wrapper">
+    <div class="filters-inner">
+      <span class="filter-label">Filtrer :</span>
+      <button class="filter-btn active" data-type="all">🗺️ Tous</button>
+      <button class="filter-btn" data-type="ateliers">🖥️ Ateliers</button>
+      <button class="filter-btn" data-type="france_services">🏛️ France Services</button>
+      <button class="filter-btn" data-type="acces_libre">💻 Accès ordi</button>
     </div>
   </div>
 
@@ -739,7 +733,7 @@
     /* =====================================================================
        ÉTAT & DOM
        ===================================================================== */
-    let currentType = 'ateliers';
+    let currentType = 'all';
 
     const cpInput        = document.getElementById('cp-input');
     const btnSearch      = document.getElementById('btn-search');
@@ -752,7 +746,7 @@
     const resultsGrid    = document.getElementById('results-grid');
     const resultsCountEl = document.getElementById('results-count-num');
     const resultsLocEl   = document.getElementById('results-location-label');
-    const tabs           = document.querySelectorAll('.tab-btn');
+    const filterBtns     = document.querySelectorAll('.filter-btn');
 
     /* =====================================================================
        UTILITAIRES
@@ -845,20 +839,18 @@
       resultsGrid.innerHTML = '';
 
       try {
-        const res = await fetch(`${API}?cp=${cp}&type=${currentType}`);
+        const res = await fetch(`${API}?cp=${cp}&type=all`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (data.error) throw new Error(data.error);
 
-        const results = data.results || [];
+        allResults = data.results || [];
+        resultsLocEl.textContent = `Code postal : ${cp}`;
 
-        if (!results.length) {
+        if (!allResults.length) {
           showState('no-results');
         } else {
-          showState('results');
-          resultsCountEl.textContent = data.total || results.length;
-          resultsLocEl.textContent   = `Code postal : ${cp}`;
-          results.forEach((lieu, i) => resultsGrid.appendChild(renderCard(lieu, i, currentType)));
+          applyFilter();
         }
 
         document.getElementById('panel-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -878,20 +870,34 @@
     }
 
     /* =====================================================================
-       ONGLETS
+       FILTRES — côté client, sans rappel API
        ===================================================================== */
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        currentType = tab.dataset.type;
-        tabs.forEach(t => {
-          t.classList.toggle('active', t === tab);
-          t.setAttribute('aria-selected', t === tab);
-        });
-        if (/^\d{5}$/.test(cpInput.value.trim())) {
+    let allResults = [];
+
+    function applyFilter() {
+      filterBtns.forEach(b => b.classList.toggle('active', b.dataset.type === currentType));
+
+      const filtered = currentType === 'all'
+        ? allResults
+        : allResults.filter(l => l.type === currentType);
+
+      resultsGrid.innerHTML = '';
+      if (!filtered.length) {
+        showState('no-results');
+        return;
+      }
+      showState('results');
+      resultsCountEl.textContent = filtered.length;
+      filtered.forEach((lieu, i) => resultsGrid.appendChild(renderCard(lieu, i, lieu.type || 'ateliers')));
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentType = btn.dataset.type;
+        if (allResults.length) {
+          applyFilter();
+        } else if (/^\d{5}$/.test(cpInput.value.trim())) {
           search();
-        } else {
-          resultsGrid.innerHTML = '';
-          showState('initial');
         }
       });
     });
