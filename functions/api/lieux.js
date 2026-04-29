@@ -101,10 +101,28 @@ async function fetchChunk(latitude, longitude) {
 
 /**
  * Détail complet d'un lieu par son id
- * ⚠️ Ne pas encoder l'ID — l'API attend l'ID brut avec accents (ex: Coop-numérique_xxx)
+ * L'API attend "Coop-numérique_xxx" avec le é encodé en %C3%A9
+ * mais pas les autres caractères (tirets, underscores, UUID)
  */
 async function fetchDetail(id) {
-  const url = `${CARTO_BASE}/${id}`;
+  // Encodage sélectif : uniquement les caractères non-ASCII (accents)
+  // encodeURIComponent encode trop (tirets, underscores…), on corrige manuellement
+  const idEncode = id
+    .replace(/é/g, '%C3%A9')
+    .replace(/è/g, '%C3%A8')
+    .replace(/ê/g, '%C3%AA')
+    .replace(/à/g, '%C3%A0')
+    .replace(/â/g, '%C3%A2')
+    .replace(/î/g, '%C3%AE')
+    .replace(/ô/g, '%C3%B4')
+    .replace(/ù/g, '%C3%B9')
+    .replace(/û/g, '%C3%BB')
+    .replace(/ç/g, '%C3%A7')
+    .replace(/É/g, '%C3%89')
+    .replace(/È/g, '%C3%88')
+    .replace(/À/g, '%C3%80');
+
+  const url = `${CARTO_BASE}/${idEncode}`;
   const res = await fetch(url, {
     headers: { Accept: "application/json" },
     cf: { cacheTtl: 3600 },
