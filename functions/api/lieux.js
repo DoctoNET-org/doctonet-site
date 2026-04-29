@@ -101,9 +101,10 @@ async function fetchChunk(latitude, longitude) {
 
 /**
  * Détail complet d'un lieu par son id
+ * ⚠️ Ne pas encoder l'ID — l'API attend l'ID brut avec accents (ex: Coop-numérique_xxx)
  */
 async function fetchDetail(id) {
-  const url = `${CARTO_BASE}/${encodeURIComponent(id)}`;
+  const url = `${CARTO_BASE}/${id}`;
   const res = await fetch(url, {
     headers: { Accept: "application/json" },
     cf: { cacheTtl: 3600 },
