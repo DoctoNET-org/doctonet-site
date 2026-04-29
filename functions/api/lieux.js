@@ -101,26 +101,17 @@ async function fetchChunk(latitude, longitude) {
 
 /**
  * Détail complet d'un lieu par son id
- * L'API attend "Coop-numérique_xxx" avec le é encodé en %C3%A9
- * mais pas les autres caractères (tirets, underscores, UUID)
+ * Cloudflare Workers encode automatiquement les caractères non-ASCII dans fetch().
+ * On pré-encode uniquement les accents avec encodeURIComponent sur l'ID seul,
+ * puis on reconstruit l'URL manuellement pour éviter le double-encodage.
  */
 async function fetchDetail(id) {
-  // Encodage sélectif : uniquement les caractères non-ASCII (accents)
-  // encodeURIComponent encode trop (tirets, underscores…), on corrige manuellement
-  const idEncode = id
-    .replace(/é/g, '%C3%A9')
-    .replace(/è/g, '%C3%A8')
-    .replace(/ê/g, '%C3%AA')
-    .replace(/à/g, '%C3%A0')
-    .replace(/â/g, '%C3%A2')
-    .replace(/î/g, '%C3%AE')
-    .replace(/ô/g, '%C3%B4')
-    .replace(/ù/g, '%C3%B9')
-    .replace(/û/g, '%C3%BB')
-    .replace(/ç/g, '%C3%A7')
-    .replace(/É/g, '%C3%89')
-    .replace(/È/g, '%C3%88')
-    .replace(/À/g, '%C3%80');
+  // encodeURIComponent encode tout sauf A-Z a-z 0-9 - _ . ! ~ * ' ( )
+  // L'API accepte les tirets et underscores non encodés — on les restaure
+  const idEncode = encodeURIComponent(id)
+    .replace(/%2D/g, '-')   // tiret
+    .replace(/%5F/g, '_')   // underscore
+    .replace(/%20/g, '%20'); // espace (déjà encodé)
 
   const url = `${CARTO_BASE}/${idEncode}`;
   const res = await fetch(url, {
