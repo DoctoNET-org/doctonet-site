@@ -136,12 +136,31 @@ async function searchBySpeciality(specialite, cp, headers, rawDebug) {
         }
       }
 
-      if (rawDebug) return jsonResponse({ _url: fhirUrl, _bundle1: bundle1, orgIds: [...missingOrgs] });
-
       // Requête 2 : récupération des Organizations pour avoir les adresses
+      let orgBundle = null;
       if (missingOrgs.size > 0) {
-        const extra = await fetchOrgs([...missingOrgs], headers);
-        Object.assign(orgs, extra);
+        const fp2 = new URLSearchParams();
+        fp2.set("_id", [...missingOrgs].join(","));
+        fp2.set("_count", "100");
+        const orgUrl = `${BASE}/Organization?${fp2}`;
+        const resp2 = await fetch(orgUrl, { headers });
+        if (resp2.ok) {
+          orgBundle = await resp2.json();
+          for (const entry of (orgBundle.entry || [])) {
+            const res = entry.resource;
+            if (res?.resourceType === "Organization") orgs[res.id] = res;
+          }
+        }
+        if (rawDebug) return jsonResponse({
+          _url: fhirUrl,
+          _bundle1: bundle1,
+          orgIds: [...missingOrgs],
+          _orgUrl: orgUrl,
+          _orgBundle: orgBundle,
+          orgsFound: Object.keys(orgs).length,
+        });
+      } else if (rawDebug) {
+        return jsonResponse({ _url: fhirUrl, _bundle1: bundle1, orgIds: [], orgsFound: 0 });
       }
 
     } else {
