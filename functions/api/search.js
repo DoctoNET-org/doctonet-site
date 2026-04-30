@@ -6,13 +6,22 @@
  *   ?nom=DUPONT
  *
  * Mode 2 — Recherche par SPÉCIALITÉ + CODE POSTAL :
- *   ?specialite=SM26&cp=75017   (codes SM* = spécialités ordinales TRE-R38)
- *   ?specialite=40&cp=75017     (codes numériques = professions TRE-G15)
+ *   ?specialite=SM26&cp=75017
+ *   ?specialite=40&cp=75017
  *
- *   IMPORTANT — Adresses :
- *   Les adresses sont dans les Organizations. Les PractitionerRoles référencent
- *   les Organizations via leur identifier FINESS (type IDNST), pas via _id FHIR.
- *   fetchOrgs utilise donc identifier=FINESS pour récupérer les adresses.
+ *   Paramètres FHIR supportés confirmés sur gateway.api.esante.gouv.fr/fhir/v2 :
+ *   - Practitioner : family, qualification-code, _revinclude
+ *   - PractitionerRole : practitioner (ref), organization (ref), _include
+ *   - Organization : _id, identifier
+ *   NON supportés : specialty, role-code, near (sur PractitionerRole)
+ *
+ *   Stratégie unifiée pour SM* ET codes numériques (40, 60, 70…) :
+ *   1. Practitioner?qualification-code=SYSTEM|CODE + _revinclude PractitionerRole
+ *   2. Organization?_id=id1,id2,… (batch unique, pas de boucle séquentielle)
+ *
+ *   Le système FHIR varie selon le type de code :
+ *   - SM* → TRE_R38-SpecialiteOrdinale
+ *   - numérique → TRE_G15-ProfessionSante
  *
  * ?next=URL → pagination
  */
@@ -20,8 +29,8 @@
 const BASE  = "https://gateway.api.esante.gouv.fr/fhir/v2";
 const COUNT = 50;
 
-const SYS_QUALIFICATION = "https://mos.esante.gouv.fr/NOS/TRE_R38-SpecialiteOrdinale/FHIR/TRE-R38-SpecialiteOrdinale";
-const SYS_ROLE_CODE     = "https://mos.esante.gouv.fr/NOS/TRE_G15-ProfessionSante/FHIR/TRE-G15-ProfessionSante";
+const SYS_SPECIALITE = "https://mos.esante.gouv.fr/NOS/TRE_R38-SpecialiteOrdinale/FHIR/TRE-R38-SpecialiteOrdinale";
+const SYS_PROFESSION = "https://mos.esante.gouv.fr/NOS/TRE_G15-ProfessionSante/FHIR/TRE-G15-ProfessionSante";
 
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
@@ -64,8 +73,8 @@ async function searchByName(nom, headers, rawDebug) {
     const bundle1 = await resp1.json();
     if (rawDebug) return jsonResponse({ _url: fhirUrl, _bundle1: bundle1 });
 
-    const { practitioners, roles, orgRefs } = indexBundle(bundle1);
-    const orgs     = await fetchOrgsByRef(orgRefs, headers);
+    const { practitioners, roles, orgFhirIds } = indexBundle(bundle1);
+    const orgs     = await fetchOrgsByFhirId(orgFhirIds, headers);
     const nextLink = getNextLink(bundle1);
     const results  = buildResults(practitioners, roles, orgs);
 
@@ -74,7 +83,7 @@ async function searchByName(nom, headers, rawDebug) {
       count:   results.length,
       nextUrl: nextLink,
       results,
-      _meta: { url: fhirUrl },
+      _meta:   { url: fhirUrl },
     });
   } catch (err) {
     return jsonResponse({ error: "Internal error", detail: err.message }, 500);
@@ -82,106 +91,39 @@ async function searchByName(nom, headers, rawDebug) {
 }
 
 // ── MODE 2 : PAR SPÉCIALITÉ + CP ────────────────────────────────────────────
+// Stratégie unifiée : Practitioner?qualification-code pour SM* ET codes numériques
 async function searchBySpeciality(specialite, cp, headers, rawDebug) {
   try {
-    const practitioners = {};
-    const roles         = {};
-    const orgs          = {};
-    let   nextLink      = null;
-    let   fhirUrl       = "";
+    // Choix du système selon le type de code
+    const systeme = specialite.startsWith("SM") ? SYS_SPECIALITE : SYS_PROFESSION;
 
-    if (specialite.startsWith("SM")) {
-      // Requête 1 : Practitioner?qualification-code + _revinclude PractitionerRole
-      const fp1 = new URLSearchParams();
-      fp1.set("_count", String(COUNT));
-      fp1.set("active", "true");
-      fp1.set("qualification-code", `${SYS_QUALIFICATION}|${specialite}`);
-      fp1.append("_revinclude", "PractitionerRole:practitioner");
-      fhirUrl = `${BASE}/Practitioner?${fp1}`;
+    // Requête 1 : Practitioners correspondant au code + leurs PractitionerRoles
+    const fp1 = new URLSearchParams();
+    fp1.set("_count", String(COUNT));
+    fp1.set("active", "true");
+    fp1.set("qualification-code", `${systeme}|${specialite}`);
+    fp1.append("_revinclude", "PractitionerRole:practitioner");
+    const fhirUrl = `${BASE}/Practitioner?${fp1}`;
 
-      const resp1 = await fetch(fhirUrl, { headers });
-      if (!resp1.ok) {
-        const detail = await resp1.text();
-        return jsonResponse({ error: "FHIR error", status: resp1.status, detail, _url: fhirUrl }, resp1.status);
-      }
-      const bundle1 = await resp1.json();
-      nextLink = getNextLink(bundle1);
-
-      // Indexation Practitioners + PractitionerRoles, collecte des refs Organization
-      const orgRefs = new Map(); // fhirId → finessNumber
-      for (const entry of (bundle1.entry || [])) {
-        const res = entry.resource;
-        if (!res) continue;
-        if (res.resourceType === "Practitioner") {
-          practitioners[res.id] = res;
-        }
-        if (res.resourceType === "PractitionerRole") {
-          const practId = (res.practitioner?.reference || "").split("/").pop();
-          if (practId && !roles[practId]) {
-            roles[practId] = res;
-            const orgFhirId = (res.organization?.reference || "").split("/").pop();
-            const orgFiness = res.organization?.identifier?.value || "";
-            if (orgFhirId && !orgRefs.has(orgFhirId)) {
-              orgRefs.set(orgFhirId, orgFiness);
-            }
-          }
-        }
-      }
-
-      if (rawDebug) return jsonResponse({
-        _url: fhirUrl, _bundle1: bundle1,
-        orgRefs: Object.fromEntries(orgRefs),
-        practCount: Object.keys(practitioners).length,
-        roleCount: Object.keys(roles).length,
-      });
-
-      // Requête 2 : Organizations par identifier FINESS
-      if (orgRefs.size > 0) {
-        const extra = await fetchOrgsByRef(orgRefs, headers);
-        Object.assign(orgs, extra);
-      }
-
-    } else {
-      // Professions (40, 60, 70…) : PractitionerRole?role-code + _include
-      const fp = new URLSearchParams();
-      fp.set("_count", String(COUNT));
-      fp.set("active", "true");
-      fp.set("role-code", `${SYS_ROLE_CODE}|${specialite}`);
-      fp.append("_include", "PractitionerRole:practitioner");
-      fp.append("_include", "PractitionerRole:organization");
-      fhirUrl = `${BASE}/PractitionerRole?${fp}`;
-
-      const resp1 = await fetch(fhirUrl, { headers });
-      if (!resp1.ok) {
-        const detail = await resp1.text();
-        return jsonResponse({ error: "FHIR error", status: resp1.status, detail, _url: fhirUrl }, resp1.status);
-      }
-      const bundle1 = await resp1.json();
-      if (rawDebug) return jsonResponse({ _url: fhirUrl, _bundle1: bundle1 });
-
-      nextLink = getNextLink(bundle1);
-      const orgRefs = new Map();
-
-      for (const entry of (bundle1.entry || [])) {
-        const res = entry.resource;
-        if (!res) continue;
-        if (res.resourceType === "Practitioner")  practitioners[res.id] = res;
-        if (res.resourceType === "Organization")  orgs[res.id]          = res;
-        if (res.resourceType === "PractitionerRole") {
-          const practId = (res.practitioner?.reference || "").split("/").pop();
-          if (practId && !roles[practId]) {
-            roles[practId] = res;
-            const orgFhirId = (res.organization?.reference || "").split("/").pop();
-            const orgFiness = res.organization?.identifier?.value || "";
-            if (orgFhirId && !orgs[orgFhirId]) orgRefs.set(orgFhirId, orgFiness);
-          }
-        }
-      }
-      if (orgRefs.size > 0) {
-        const extra = await fetchOrgsByRef(orgRefs, headers);
-        Object.assign(orgs, extra);
-      }
+    const resp1 = await fetch(fhirUrl, { headers });
+    if (!resp1.ok) {
+      const detail = await resp1.text();
+      return jsonResponse({ error: "FHIR error", status: resp1.status, detail, _url: fhirUrl }, resp1.status);
     }
+    const bundle1 = await resp1.json();
+
+    const { practitioners, roles, orgFhirIds } = indexBundle(bundle1);
+
+    if (rawDebug) return jsonResponse({
+      _url:       fhirUrl,
+      _bundle1:   bundle1,
+      orgFhirIds: orgFhirIds,
+      practCount: Object.keys(practitioners).length,
+      roleCount:  Object.keys(roles).length,
+    });
+
+    // Requête 2 : Organizations en batch unique par _id FHIR
+    const orgs = await fetchOrgsByFhirId(orgFhirIds, headers);
 
     let results = buildResults(practitioners, roles, orgs);
 
@@ -194,9 +136,9 @@ async function searchBySpeciality(specialite, cp, headers, rawDebug) {
     return jsonResponse({
       total:   results.length,
       count:   results.length,
-      nextUrl: nextLink,
+      nextUrl: getNextLink(bundle1),
       results,
-      _meta:   { url: fhirUrl, dept: cp ? cp.slice(0, 2) : null },
+      _meta:   { url: fhirUrl, dept: cp ? cp.slice(0, 2) : null, orgsFound: Object.keys(orgs).length },
     });
   } catch (err) {
     return jsonResponse({ error: "Internal error", detail: err.message }, 500);
@@ -210,31 +152,8 @@ async function handleNextPage(nextUrl, headers) {
     if (!resp.ok) throw new Error(`FHIR error ${resp.status}`);
     const bundle = await resp.json();
 
-    const practitioners = {};
-    const roles         = {};
-    const orgs          = {};
-    const orgRefs       = new Map();
-
-    for (const entry of (bundle.entry || [])) {
-      const res = entry.resource;
-      if (!res) continue;
-      if (res.resourceType === "Practitioner")  practitioners[res.id] = res;
-      if (res.resourceType === "Organization")  orgs[res.id]          = res;
-      if (res.resourceType === "PractitionerRole") {
-        const practId = (res.practitioner?.reference || "").split("/").pop();
-        if (practId && !roles[practId]) {
-          roles[practId] = res;
-          const orgFhirId = (res.organization?.reference || "").split("/").pop();
-          const orgFiness = res.organization?.identifier?.value || "";
-          if (orgFhirId && !orgs[orgFhirId]) orgRefs.set(orgFhirId, orgFiness);
-        }
-      }
-    }
-
-    if (orgRefs.size > 0) {
-      const extra = await fetchOrgsByRef(orgRefs, headers);
-      Object.assign(orgs, extra);
-    }
+    const { practitioners, roles, orgFhirIds } = indexBundle(bundle);
+    const orgs = await fetchOrgsByFhirId(orgFhirIds, headers);
 
     return jsonResponse({
       total:   bundle.total ?? Object.keys(practitioners).length,
@@ -251,12 +170,13 @@ async function handleNextPage(nextUrl, headers) {
 
 /**
  * indexBundle : indexe un bundle Practitioner + _revinclude PractitionerRole
- * Retourne une Map orgRefs : fhirId → finessNumber
+ * Retourne les FHIR IDs des Organizations référencées dans les rôles
  */
 function indexBundle(bundle) {
   const practitioners = {};
   const roles         = {};
-  const orgRefs       = new Map();
+  const orgFhirIds    = new Set();
+
   for (const entry of (bundle.entry || [])) {
     const res = entry.resource;
     if (!res) continue;
@@ -266,63 +186,40 @@ function indexBundle(bundle) {
       const practId = (res.practitioner?.reference || "").split("/").pop();
       if (practId && !roles[practId]) {
         roles[practId] = res;
-        const orgFhirId = (res.organization?.reference || "").split("/").pop();
-        const orgFiness = res.organization?.identifier?.value || "";
-        if (orgFhirId) orgRefs.set(orgFhirId, orgFiness);
+        const orgId = (res.organization?.reference || "").split("/").pop();
+        if (orgId) orgFhirIds.add(orgId);
       }
     }
   }
-  return { practitioners, roles, orgRefs };
+  return { practitioners, roles, orgFhirIds: [...orgFhirIds] };
 }
 
 /**
- * fetchOrgsByRef : récupère les Organizations depuis l'API FHIR
- * Essaie d'abord par _id (FHIR ID), puis par identifier (FINESS) si 0 résultat
- * Retourne un objet { fhirId: organizationResource }
+ * fetchOrgsByFhirId : batch unique — cherche les Organizations par _id FHIR
+ * Si 0 résultat, tente par les identifiers FINESS extraits des PractitionerRoles
+ * Note : sur l'API esante, Organization?_id=001-01-XXXXX fonctionne
+ *        si les IDs sont corrects (format 001-XX-XXXXXX)
  */
-async function fetchOrgsByRef(orgRefs, headers) {
+async function fetchOrgsByFhirId(orgFhirIds, headers) {
   const orgs = {};
-  if (!orgRefs.size) return orgs;
-
-  const fhirIds  = [...orgRefs.keys()].filter(Boolean);
-  const finessNs = [...orgRefs.values()].filter(Boolean);
+  if (!orgFhirIds.length) return orgs;
 
   try {
-    // Tentative 1 : par _id FHIR
-    const fp1 = new URLSearchParams();
-    fp1.set("_id", fhirIds.join(","));
-    fp1.set("_count", "100");
-    const resp1 = await fetch(`${BASE}/Organization?${fp1}`, { headers });
-    if (resp1.ok) {
-      const b1 = await resp1.json();
-      if ((b1.total ?? (b1.entry||[]).length) > 0) {
-        for (const entry of (b1.entry || [])) {
-          const res = entry.resource;
-          if (res?.resourceType === "Organization") orgs[res.id] = res;
-        }
-        if (Object.keys(orgs).length > 0) return orgs;
+    // Batch : tous les IDs en une seule requête
+    const fp = new URLSearchParams();
+    fp.set("_id", orgFhirIds.join(","));
+    fp.set("_count", "100");
+    const orgUrl = `${BASE}/Organization?${fp}`;
+    const resp = await fetch(orgUrl, { headers });
+
+    if (resp.ok) {
+      const bundle = await resp.json();
+      for (const entry of (bundle.entry || [])) {
+        const res = entry.resource;
+        if (res?.resourceType === "Organization") orgs[res.id] = res;
       }
     }
-  } catch (_) {}
-
-  // Tentative 2 : par identifier FINESS si _id n'a rien retourné
-  if (finessNs.length > 0) {
-    try {
-      for (const finess of finessNs.slice(0, 50)) {
-        if (!finess) continue;
-        const fp2 = new URLSearchParams();
-        fp2.set("identifier", finess);
-        fp2.set("_count", "1");
-        const resp2 = await fetch(`${BASE}/Organization?${fp2}`, { headers });
-        if (!resp2.ok) continue;
-        const b2 = await resp2.json();
-        for (const entry of (b2.entry || [])) {
-          const res = entry.resource;
-          if (res?.resourceType === "Organization") orgs[res.id] = res;
-        }
-      }
-    } catch (_) {}
-  }
+  } catch (_) { /* silencieux */ }
 
   return orgs;
 }
