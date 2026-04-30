@@ -4,25 +4,29 @@
  *
  * Mode 1 — Recherche par NOM :
  *   ?nom=DUPONT
+ *   Practitioner?family + _revinclude PractitionerRole → fetchOrgs
  *
  * Mode 2 — Recherche par SPÉCIALITÉ + CODE POSTAL :
- *   ?specialite=SM26&cp=75017
+ *   ?specialite=SM26&cp=75017   (codes SM* = spécialités ordinales TRE-R38)
+ *   ?specialite=40&cp=75017     (codes numériques = professions TRE-G15)
  *
- *   Stratégie :
- *   - L'API esante ne supporte PAS `specialty` sur PractitionerRole
- *   - On passe par Practitioner?qualification-code pour les spécialités SM*
- *   - Pour les professions (code numérique : 40, 60, 70…) on utilise
- *     PractitionerRole?role-code (paramètre supporté par l'API)
- *   - Filtrage département côté Worker sur les 2 premiers chiffres du CP
+ *   Stratégie SM* (2 requêtes) :
+ *   1. Practitioner?qualification-code=TRE-R38|SMxx + _revinclude PractitionerRole
+ *      → on récupère Practitioners + PractitionerRoles (avec org references)
+ *   2. PractitionerRole?practitioner=id1,id2… + _include Organization
+ *      → on récupère les Organizations pour les adresses
  *
- * ?next=URL  → pagination
+ *   Stratégie codes numériques (1 requête) :
+ *   PractitionerRole?role-code=TRE-G15|xx + _include Practitioner + Organization
+ *
+ *   Filtrage département côté Worker (2 premiers chiffres du CP)
+ *
+ * ?next=URL → pagination
  */
 
 const BASE  = "https://gateway.api.esante.gouv.fr/fhir/v2";
 const COUNT = 50;
 
-// Codes profession (TRE-G15) → PractitionerRole?role-code
-// Codes SM* (spécialités ordinales TRE-R38) → Practitioner?qualification-code
 const SYS_QUALIFICATION = "https://mos.esante.gouv.fr/NOS/TRE_R38-SpecialiteOrdinale/FHIR/TRE-R38-SpecialiteOrdinale";
 const SYS_ROLE_CODE     = "https://mos.esante.gouv.fr/NOS/TRE_G15-ProfessionSante/FHIR/TRE-G15-ProfessionSante";
 
@@ -87,63 +91,101 @@ async function searchByName(nom, headers, rawDebug) {
 // ── MODE 2 : PAR SPÉCIALITÉ + CP ────────────────────────────────────────────
 async function searchBySpeciality(specialite, cp, headers, rawDebug) {
   try {
-    let fhirUrl;
-    const fp = new URLSearchParams();
-    fp.set("_count", String(COUNT));
-    fp.set("active", "true");
+    const practitioners = {};
+    const roles         = {};
+    const orgs          = {};
+    let   nextLink      = null;
+    let   fhirUrl       = "";
 
     if (specialite.startsWith("SM")) {
-      // ── Spécialités ordinales (SM26, SM49…) ──────────────────────────────
-      // Practitioner?qualification-code + _revinclude PractitionerRole
-      fp.set("qualification-code", `${SYS_QUALIFICATION}|${specialite}`);
-      fp.append("_revinclude", "PractitionerRole:practitioner");
-      fhirUrl = `${BASE}/Practitioner?${fp}`;
+      // ── STRATÉGIE 2 REQUÊTES pour les spécialités ordinales (SM*) ─────────
+      //
+      // Requête 1 : Practitioner?qualification-code + _revinclude PractitionerRole
+      const fp1 = new URLSearchParams();
+      fp1.set("_count", String(COUNT));
+      fp1.set("active", "true");
+      fp1.set("qualification-code", `${SYS_QUALIFICATION}|${specialite}`);
+      fp1.append("_revinclude", "PractitionerRole:practitioner");
+      fhirUrl = `${BASE}/Practitioner?${fp1}`;
+
+      const resp1 = await fetch(fhirUrl, { headers });
+      if (!resp1.ok) {
+        const detail = await resp1.text();
+        return jsonResponse({ error: "FHIR error", status: resp1.status, detail, _url: fhirUrl }, resp1.status);
+      }
+      const bundle1 = await resp1.json();
+      nextLink = getNextLink(bundle1);
+
+      // Indexation Practitioners + PractitionerRoles
+      const practIds   = [];
+      const missingOrgs = new Set();
+      for (const entry of (bundle1.entry || [])) {
+        const res = entry.resource;
+        if (!res) continue;
+        if (res.resourceType === "Practitioner") {
+          practitioners[res.id] = res;
+          practIds.push(res.id);
+        }
+        if (res.resourceType === "PractitionerRole") {
+          const practId = (res.practitioner?.reference || "").split("/").pop();
+          if (practId && !roles[practId]) {
+            roles[practId] = res;
+            const orgId = (res.organization?.reference || "").split("/").pop();
+            if (orgId) missingOrgs.add(orgId);
+          }
+        }
+      }
+
+      if (rawDebug) return jsonResponse({ _url: fhirUrl, _bundle1: bundle1, orgIds: [...missingOrgs] });
+
+      // Requête 2 : récupération des Organizations pour avoir les adresses
+      if (missingOrgs.size > 0) {
+        const extra = await fetchOrgs([...missingOrgs], headers);
+        Object.assign(orgs, extra);
+      }
+
     } else {
-      // ── Professions de santé (40, 60, 70…) ──────────────────────────────
-      // PractitionerRole?role-code + _include Practitioner + Organization
+      // ── STRATÉGIE 1 REQUÊTE pour les professions (40, 60, 70…) ───────────
+      const fp = new URLSearchParams();
+      fp.set("_count", String(COUNT));
+      fp.set("active", "true");
       fp.set("role-code", `${SYS_ROLE_CODE}|${specialite}`);
       fp.append("_include", "PractitionerRole:practitioner");
       fp.append("_include", "PractitionerRole:organization");
       fhirUrl = `${BASE}/PractitionerRole?${fp}`;
-    }
 
-    const resp1 = await fetch(fhirUrl, { headers });
-    if (!resp1.ok) {
-      const detail = await resp1.text();
-      return jsonResponse({ error: "FHIR error", status: resp1.status, detail, _url: fhirUrl }, resp1.status);
-    }
-    const bundle1 = await resp1.json();
-    if (rawDebug) return jsonResponse({ _url: fhirUrl, _bundle1: bundle1 });
+      const resp1 = await fetch(fhirUrl, { headers });
+      if (!resp1.ok) {
+        const detail = await resp1.text();
+        return jsonResponse({ error: "FHIR error", status: resp1.status, detail, _url: fhirUrl }, resp1.status);
+      }
+      const bundle1 = await resp1.json();
+      if (rawDebug) return jsonResponse({ _url: fhirUrl, _bundle1: bundle1 });
 
-    // Indexation — les deux stratégies produisent des bundles différents
-    const practitioners = {};
-    const roles         = {};
-    const orgs          = {};
-    const missingOrgIds = new Set();
+      nextLink = getNextLink(bundle1);
+      const missingOrgIds = new Set();
 
-    for (const entry of (bundle1.entry || [])) {
-      const res = entry.resource;
-      if (!res) continue;
-      if (res.resourceType === "Practitioner")     practitioners[res.id] = res;
-      if (res.resourceType === "Organization")     orgs[res.id]          = res;
-      if (res.resourceType === "PractitionerRole") {
-        const practId = (res.practitioner?.reference || "").split("/").pop();
-        if (practId && !roles[practId]) {
-          roles[practId] = res;
-          const orgId = (res.organization?.reference || "").split("/").pop();
-          if (orgId && !orgs[orgId]) missingOrgIds.add(orgId);
+      for (const entry of (bundle1.entry || [])) {
+        const res = entry.resource;
+        if (!res) continue;
+        if (res.resourceType === "Practitioner")     practitioners[res.id] = res;
+        if (res.resourceType === "Organization")     orgs[res.id]          = res;
+        if (res.resourceType === "PractitionerRole") {
+          const practId = (res.practitioner?.reference || "").split("/").pop();
+          if (practId && !roles[practId]) {
+            roles[practId] = res;
+            const orgId = (res.organization?.reference || "").split("/").pop();
+            if (orgId && !orgs[orgId]) missingOrgIds.add(orgId);
+          }
         }
+      }
+      if (missingOrgIds.size > 0) {
+        const extra = await fetchOrgs([...missingOrgIds], headers);
+        Object.assign(orgs, extra);
       }
     }
 
-    // Orgs non incluses dans le bundle
-    if (missingOrgIds.size > 0) {
-      const extra = await fetchOrgs([...missingOrgIds], headers);
-      Object.assign(orgs, extra);
-    }
-
-    const nextLink = getNextLink(bundle1);
-    let results    = buildResults(practitioners, roles, orgs);
+    let results = buildResults(practitioners, roles, orgs);
 
     // Filtrage département (2 premiers chiffres du CP)
     if (cp && cp.length >= 2) {
@@ -156,7 +198,7 @@ async function searchBySpeciality(specialite, cp, headers, rawDebug) {
       count:   results.length,
       nextUrl: nextLink,
       results,
-      _meta: { url: fhirUrl, dept: cp ? cp.slice(0, 2) : null },
+      _meta:   { url: fhirUrl, dept: cp ? cp.slice(0, 2) : null },
     });
   } catch (err) {
     return jsonResponse({ error: "Internal error", detail: err.message }, 500);
@@ -190,7 +232,7 @@ async function handleNextPage(nextUrl, headers) {
       }
     }
 
-    // Fallback bundle Practitioner pur (mode nom ou spécialité SM*)
+    // Fallback bundle Practitioner pur
     if (!Object.keys(roles).length) {
       const indexed = indexBundle(bundle);
       Object.assign(practitioners, indexed.practitioners);
@@ -203,14 +245,11 @@ async function handleNextPage(nextUrl, headers) {
       Object.assign(orgs, extra);
     }
 
-    const nextLink = getNextLink(bundle);
-    const results  = buildResults(practitioners, roles, orgs);
-
     return jsonResponse({
-      total:   bundle.total ?? results.length,
-      count:   results.length,
-      nextUrl: nextLink,
-      results,
+      total:   bundle.total ?? Object.keys(practitioners).length,
+      count:   Object.keys(practitioners).length,
+      nextUrl: getNextLink(bundle),
+      results: buildResults(practitioners, roles, orgs),
     });
   } catch (err) {
     return jsonResponse({ error: "Internal error", detail: err.message }, 500);
