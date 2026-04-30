@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -194,15 +193,6 @@
     .btn-geo:hover { border-color: var(--accent); color: var(--accent); }
     .btn-geo.loading { opacity: 0.6; cursor: wait; }
 
-    .radius-select {
-      padding: 0.9rem 1rem;
-      border: 2px solid rgba(10,37,64,0.12); border-radius: 12px;
-      font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--primary);
-      background: var(--light); outline: none; cursor: pointer;
-      transition: border-color 0.2s;
-    }
-    .radius-select:focus { border-color: var(--accent); }
-
     .geo-status {
       margin-top: 0.6rem; font-size: 0.82rem; color: var(--gray);
       display: flex; align-items: center; gap: 0.35rem; min-height: 1.2em;
@@ -225,7 +215,7 @@
       .search-row { flex-direction: column; }
       .btn-search { width: 100%; justify-content: center; }
       .loc-row { flex-direction: column; }
-      .btn-geo, .radius-select { width: 100%; }
+      .btn-geo { width: 100%; }
     }
 
     /* ===== RESULTS SECTION ===== */
@@ -401,13 +391,6 @@
           <button class="btn-geo" id="btn-geo" aria-label="Utiliser ma position GPS">
             📍 Ma position
           </button>
-          <select class="radius-select" id="radius-select" aria-label="Rayon de recherche">
-            <option value="5">5 km</option>
-            <option value="10">10 km</option>
-            <option value="15" selected>15 km</option>
-            <option value="30">30 km</option>
-            <option value="50">50 km</option>
-          </select>
         </div>
         <div class="geo-status" id="geo-status" aria-live="polite"></div>
 
@@ -480,13 +463,12 @@
     const API_PROXY = '/api/search';
 
     // ── État ─────────────────────────────────────────────────────────────────
-    let currentMode    = 'nom';   // 'nom' | 'specialite'
+    let currentMode    = 'nom';
     let nextUrl        = null;
     let displayedCount = 0;
 
-    // GPS
-    let gpsLat = null;
-    let gpsLng = null;
+    // CP résolu (saisi manuellement ou via GPS → Nominatim)
+    let resolvedCp    = '';
 
     // Spécialité sélectionnée
     let selectedCode  = null;
@@ -503,7 +485,6 @@
 
     const cpInput      = document.getElementById('cp-input');
     const btnGeo       = document.getElementById('btn-geo');
-    const radiusSel    = document.getElementById('radius-select');
     const geoStatus    = document.getElementById('geo-status');
     const btnSearchSpec= document.getElementById('btn-search-spec');
 
@@ -529,18 +510,13 @@
       tabNom.setAttribute('aria-selected', mode === 'nom');
       tabSpec.setAttribute('aria-selected', mode === 'specialite');
       if (mode === 'nom') {
-        panelNom.style.display = 'block';
-        panelNom.removeAttribute('hidden');
-        panelSpec.style.display = 'none';
-        panelSpec.setAttribute('hidden', '');
+        panelNom.style.display = 'block'; panelNom.removeAttribute('hidden');
+        panelSpec.style.display = 'none'; panelSpec.setAttribute('hidden', '');
       } else {
-        panelNom.style.display = 'none';
-        panelNom.setAttribute('hidden', '');
-        panelSpec.style.display = 'block';
-        panelSpec.removeAttribute('hidden');
+        panelNom.style.display = 'none'; panelNom.setAttribute('hidden', '');
+        panelSpec.style.display = 'block'; panelSpec.removeAttribute('hidden');
       }
     }
-
     tabNom.addEventListener('click',  () => switchTab('nom'));
     tabSpec.addEventListener('click', () => switchTab('specialite'));
 
@@ -554,34 +530,55 @@
       });
     });
 
-    // ── Géolocalisation GPS ──────────────────────────────────────────────────
-    btnGeo.addEventListener('click', () => {
+    // ── Géolocalisation GPS → Nominatim → CP ─────────────────────────────────
+    btnGeo.addEventListener('click', async () => {
       if (!navigator.geolocation) {
         setGeoStatus('La géolocalisation n\'est pas disponible sur ce navigateur.', 'err');
         return;
       }
-      btnGeo.classList.add('loading');
+      btnGeo.disabled = true;
       btnGeo.textContent = '⏳ Localisation…';
       setGeoStatus('', '');
 
       navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          gpsLat = pos.coords.latitude.toFixed(5);
-          gpsLng = pos.coords.longitude.toFixed(5);
-          cpInput.value = '';
-          btnGeo.classList.remove('loading');
-          btnGeo.innerHTML = '📍 Ma position';
-          setGeoStatus(`✓ Position détectée (${gpsLat}, ${gpsLng})`, 'ok');
+        async (pos) => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          setGeoStatus('Position GPS obtenue, recherche du code postal…', '');
+
+          try {
+            // Reverse geocoding via Nominatim (API publique, gratuite, sans clé)
+            const r = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`,
+              { headers: { 'Accept-Language': 'fr', 'User-Agent': 'DoctoNET/1.0 (contact@doctonet.org)' } }
+            );
+            const geo = await r.json();
+            const cp  = geo?.address?.postcode?.replace(/\s/g, '').slice(0, 5) || '';
+
+            if (cp && /^\d{5}$/.test(cp)) {
+              resolvedCp    = cp;
+              cpInput.value = cp;
+              btnGeo.disabled = false;
+              btnGeo.innerHTML = '📍 Ma position';
+              setGeoStatus(`✓ Code postal détecté : ${cp} (${geo?.address?.city || geo?.address?.town || geo?.address?.village || ''})`, 'ok');
+            } else {
+              throw new Error('Code postal non trouvé');
+            }
+          } catch (_) {
+            btnGeo.disabled = false;
+            btnGeo.innerHTML = '📍 Ma position';
+            setGeoStatus('Impossible de détecter le code postal. Saisissez-le manuellement.', 'err');
+          }
         },
         (err) => {
-          btnGeo.classList.remove('loading');
+          btnGeo.disabled = false;
           btnGeo.innerHTML = '📍 Ma position';
           const msgs = {
             1: 'Accès à la position refusé. Activez la localisation dans votre navigateur.',
-            2: 'Position indisponible.',
-            3: 'Délai dépassé. Réessayez.',
+            2: 'Position indisponible. Saisissez votre code postal.',
+            3: 'Délai dépassé. Saisissez votre code postal.',
           };
-          setGeoStatus(msgs[err.code] || 'Erreur de géolocalisation.', 'err');
+          setGeoStatus(msgs[err.code] || 'Erreur GPS. Saisissez votre code postal.', 'err');
         },
         { timeout: 10000, maximumAge: 60000 }
       );
@@ -592,12 +589,10 @@
       geoStatus.className = 'geo-status' + (type ? ' ' + type : '');
     }
 
-    // Effacer GPS si l'utilisateur tape un CP
+    // Synchro CP manuel → resolvedCp
     cpInput.addEventListener('input', () => {
-      if (cpInput.value.length > 0) {
-        gpsLat = null; gpsLng = null;
-        setGeoStatus('', '');
-      }
+      resolvedCp = cpInput.value.trim();
+      setGeoStatus('', '');
     });
 
     // ── États ────────────────────────────────────────────────────────────────
@@ -610,19 +605,16 @@
       if (state === 'no-results') stateNoResults.style.display = 'block';
       if (state === 'results')  { resultsHeader.style.display  = 'flex'; resultsGrid.style.display = 'flex'; }
     }
-
     function showError(msg) { errorMsg.textContent = msg; showState('error'); }
 
-    // ── Helpers rendu ────────────────────────────────────────────────────────
+    // ── Rendu cartes ─────────────────────────────────────────────────────────
     function initials(name) {
       const p = (name || '?').trim().split(/\s+/);
       return p.length >= 2 ? (p[0][0] + p[1][0]).toUpperCase() : (name || '?').slice(0, 2).toUpperCase();
     }
-
     function escapeHtml(s) {
       return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
-
     function renderCard(pro, index) {
       const card = document.createElement('article');
       card.className = 'pro-card';
@@ -643,7 +635,6 @@
         </div>`;
       return card;
     }
-
     function appendResults(results, offset) {
       results.forEach((pro, i) => resultsGrid.appendChild(renderCard(pro, offset + i)));
     }
@@ -664,7 +655,6 @@
         if (!res.ok) throw new Error(`Erreur serveur (${res.status}).`);
         const data = await res.json();
         if (data.error) throw new Error('L\'annuaire est momentanément indisponible.');
-
         const results = data.results || [];
         nextUrl = data.nextUrl || null;
         if (!results.length) {
@@ -689,23 +679,17 @@
         alert('Veuillez sélectionner une spécialité.');
         return;
       }
-
-      const hasGps = gpsLat && gpsLng;
-      const cp = cpInput.value.trim();
-      const hasCp = /^\d{5}$/.test(cp);
-
-      if (!hasGps && !hasCp) {
+      const cp = resolvedCp || cpInput.value.trim();
+      if (!/^\d{5}$/.test(cp)) {
         cpInput.focus();
-        setGeoStatus('Indiquez votre code postal ou utilisez "Ma position".', 'err');
+        setGeoStatus('Indiquez un code postal valide (5 chiffres) ou utilisez "Ma position".', 'err');
         return;
       }
 
-      const radius = radiusSel.value;
-      const params = new URLSearchParams({ specialite: selectedCode, radius });
-      if (hasGps) { params.set('lat', gpsLat); params.set('lng', gpsLng); }
-      else         params.set('cp', cp);
+      // N'envoie que specialite + cp — le Worker gère tout
+      const params = new URLSearchParams({ specialite: selectedCode, cp });
 
-      loadingText.textContent = `Recherche de ${selectedLabel} dans un rayon de ${radius} km…`;
+      loadingText.textContent = `Recherche de ${selectedLabel} dans le département ${cp.slice(0,2)}…`;
       showState('loading');
       resultsGrid.innerHTML = '';
       nextUrl = null; displayedCount = 0;
@@ -715,18 +699,15 @@
         if (!res.ok) throw new Error(`Erreur serveur (${res.status}).`);
         const data = await res.json();
         if (data.error) throw new Error('L\'annuaire est momentanément indisponible.');
-
         const results = data.results || [];
         nextUrl = data.nextUrl || null;
-
         if (!results.length) {
-          noResultsHint.textContent = `Aucun ${selectedLabel.toLowerCase()} trouvé dans ce rayon. Essayez d'élargir la distance.`;
+          noResultsHint.textContent = `Aucun ${selectedLabel.toLowerCase()} trouvé dans le département ${cp.slice(0,2)}. Essayez un département voisin.`;
           showState('no-results'); return;
         }
         showState('results');
-        const locLabel = hasGps ? `à ${radius} km de votre position` : `autour du CP ${cp}`;
-        resultsCountEl.textContent = data.total >= 9856 ? '9000+' : (data.total || results.length);
-        resultsLocEl.textContent   = `${selectedLabel} · ${locLabel}`;
+        resultsCountEl.textContent = data.total || results.length;
+        resultsLocEl.textContent   = `${selectedLabel} · Département ${cp.slice(0,2)}`;
         appendResults(results, 0);
         displayedCount = results.length;
         loadMoreWrap.style.display = nextUrl ? 'block' : 'none';
@@ -762,6 +743,7 @@
     btnSearchNom.addEventListener('click', searchByNom);
     nomInput.addEventListener('keydown', e => { if (e.key === 'Enter') searchByNom(); });
     btnSearchSpec.addEventListener('click', searchBySpec);
+    cpInput.addEventListener('keydown', e => { if (e.key === 'Enter') searchBySpec(); });
     btnLoadMore.addEventListener('click', loadMore);
 
     // ── Menu hamburger ───────────────────────────────────────────────────────

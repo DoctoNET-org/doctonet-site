@@ -5,15 +5,25 @@
  * Mode 1 — Recherche par NOM :
  *   ?nom=DUPONT
  *
- * Mode 2 — Recherche par SPÉCIALITÉ + LOCALISATION :
- *   ?specialite=SM26&lat=48.85&lng=2.35&radius=15
+ * Mode 2 — Recherche par SPÉCIALITÉ + CODE POSTAL :
  *   ?specialite=SM26&cp=75017
+ *   ?specialite=40&cp=69000
+ *
+ *   Stratégie :
+ *   - Codes SM* → spécialités ordinales  (système TRE-R38)
+ *   - Codes numériques courts → professions de santé (système TRE-G15)
+ *   - Filtrage géo côté serveur sur le département (2 premiers chiffres du CP)
+ *     car le paramètre FHIR `near` n'est pas supporté sur gateway.api.esante.gouv.fr/fhir/v2
  *
  * ?next=URL  → pagination (les deux modes)
  */
 
 const BASE  = "https://gateway.api.esante.gouv.fr/fhir/v2";
-const COUNT = 20;
+const COUNT = 50; // Plus large pour compenser l'absence de filtre géo FHIR natif
+
+// Systèmes FHIR de l'Annuaire Santé (requis pour que le filtre specialty fonctionne)
+const SYS_SPECIALITE = "https://mos.esante.gouv.fr/NOS/TRE_R38-SpecialiteOrdinale/FHIR/TRE-R38-SpecialiteOrdinale";
+const SYS_PROFESSION = "https://mos.esante.gouv.fr/NOS/TRE_G15-ProfessionSante/FHIR/TRE-G15-ProfessionSante";
 
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
@@ -21,10 +31,7 @@ export async function onRequestGet({ request, env }) {
 
   const nom        = (p.get("nom")        || "").trim();
   const specialite = (p.get("specialite") || "").trim();
-  const lat        = p.get("lat");
-  const lng        = p.get("lng");
-  const radius     = parseInt(p.get("radius") || "15", 10);
-  const cp         = (p.get("cp") || "").trim();
+  const cp         = (p.get("cp")         || "").trim();
   const nextUrl    = p.get("next") || "";
   const rawDebug   = p.get("_raw") === "1";
 
@@ -35,9 +42,9 @@ export async function onRequestGet({ request, env }) {
 
   if (nextUrl)    return handleNextPage(nextUrl, headers);
   if (nom)        return searchByName(nom, headers, rawDebug);
-  if (specialite) return searchBySpeciality(specialite, { lat, lng, radius, cp }, headers, rawDebug);
+  if (specialite) return searchBySpeciality(specialite, cp, headers, rawDebug);
 
-  return jsonResponse({ error: "Paramètre 'nom' ou 'specialite' requis." }, 400);
+  return jsonResponse({ error: "Parametre 'nom' ou 'specialite' requis." }, 400);
 }
 
 // ── MODE 1 : PAR NOM ────────────────────────────────────────────────────────
@@ -60,13 +67,13 @@ async function searchByName(nom, headers, rawDebug) {
     if (rawDebug) return jsonResponse({ _url: fhirUrl, _bundle1: bundle1 });
 
     const { practitioners, roles, orgIds } = indexBundle(bundle1);
-    const orgs = await fetchOrgs([...orgIds], headers);
+    const orgs     = await fetchOrgs([...orgIds], headers);
     const nextLink = getNextLink(bundle1);
     const results  = buildResults(practitioners, roles, orgs);
 
     return jsonResponse({
-      total: bundle1.total ?? results.length,
-      count: results.length,
+      total:   bundle1.total ?? results.length,
+      count:   results.length,
       nextUrl: nextLink,
       results,
       _meta: { url: fhirUrl },
@@ -76,23 +83,25 @@ async function searchByName(nom, headers, rawDebug) {
   }
 }
 
-// ── MODE 2 : PAR SPÉCIALITÉ ──────────────────────────────────────────────────
-async function searchBySpeciality(specialite, { lat, lng, radius, cp }, headers, rawDebug) {
+// ── MODE 2 : PAR SPÉCIALITÉ + CP ────────────────────────────────────────────
+async function searchBySpeciality(specialite, cp, headers, rawDebug) {
   try {
+    // Choisir le bon système FHIR selon le format du code
+    const systeme = specialite.startsWith("SM")
+      ? SYS_SPECIALITE
+      : SYS_PROFESSION;
+
     const fp = new URLSearchParams();
     fp.set("_count", String(COUNT));
     fp.set("active", "true");
-    fp.set("specialty", specialite);
-
-    if (lat && lng) {
-      fp.set("near", `${lat}|${lng}|${radius}|km`);
-    }
-
+    // Format système|code obligatoire pour l'API esante
+    fp.set("specialty", `${systeme}|${specialite}`);
     fp.append("_include", "PractitionerRole:practitioner");
     fp.append("_include", "PractitionerRole:organization");
 
     const fhirUrl = `${BASE}/PractitionerRole?${fp}`;
-    const resp1 = await fetch(fhirUrl, { headers });
+    const resp1   = await fetch(fhirUrl, { headers });
+
     if (!resp1.ok) {
       const detail = await resp1.text();
       return jsonResponse({ error: "FHIR error", status: resp1.status, detail, _url: fhirUrl }, resp1.status);
@@ -100,6 +109,7 @@ async function searchBySpeciality(specialite, { lat, lng, radius, cp }, headers,
     const bundle1 = await resp1.json();
     if (rawDebug) return jsonResponse({ _url: fhirUrl, _bundle1: bundle1 });
 
+    // Indexation du bundle (_include ramène Practitioner + Organization)
     const practitioners = {};
     const roles         = {};
     const orgs          = {};
@@ -108,8 +118,8 @@ async function searchBySpeciality(specialite, { lat, lng, radius, cp }, headers,
     for (const entry of (bundle1.entry || [])) {
       const res = entry.resource;
       if (!res) continue;
-      if (res.resourceType === "Practitioner")     practitioners[res.id] = res;
-      if (res.resourceType === "Organization")     orgs[res.id]          = res;
+      if (res.resourceType === "Practitioner")  practitioners[res.id] = res;
+      if (res.resourceType === "Organization")  orgs[res.id]          = res;
       if (res.resourceType === "PractitionerRole") {
         const practId = (res.practitioner?.reference || "").split("/").pop();
         if (practId && !roles[practId]) {
@@ -120,6 +130,7 @@ async function searchBySpeciality(specialite, { lat, lng, radius, cp }, headers,
       }
     }
 
+    // Orgs manquantes non incluses dans le bundle
     if (missingOrgIds.size > 0) {
       const extra = await fetchOrgs([...missingOrgIds], headers);
       Object.assign(orgs, extra);
@@ -128,19 +139,19 @@ async function searchBySpeciality(specialite, { lat, lng, radius, cp }, headers,
     const nextLink = getNextLink(bundle1);
     let results    = buildResults(practitioners, roles, orgs);
 
-    // Filtrage CP côté client si pas de coordonnées GPS
-    if (cp && !(lat && lng)) {
-      results = results.filter(r =>
-        r.codePostal === cp || r.codePostal.startsWith(cp.slice(0, 2))
-      );
+    // Filtrage géographique côté serveur par département (2 premiers chiffres du CP)
+    // Ex : cp=75017 → département "75", cp=69003 → département "69"
+    if (cp && cp.length >= 2) {
+      const dept = cp.slice(0, 2);
+      results = results.filter(r => r.codePostal.startsWith(dept));
     }
 
     return jsonResponse({
-      total:   bundle1.total ?? results.length,
+      total:   results.length,
       count:   results.length,
       nextUrl: nextLink,
       results,
-      _meta: { url: fhirUrl },
+      _meta:   { url: fhirUrl, dept: cp ? cp.slice(0, 2) : null },
     });
   } catch (err) {
     return jsonResponse({ error: "Internal error", detail: err.message }, 500);
@@ -174,7 +185,7 @@ async function handleNextPage(nextUrl, headers) {
       }
     }
 
-    // Mode Practitioner pur (sans roles dans bundle)
+    // Fallback : bundle Practitioner pur (mode nom, page suivante)
     if (!Object.keys(roles).length) {
       const indexed = indexBundle(bundle);
       Object.assign(practitioners, indexed.practitioners);
