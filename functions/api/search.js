@@ -7,23 +7,24 @@
  *
  * Mode 2 — Recherche par SPÉCIALITÉ + CODE POSTAL :
  *   ?specialite=SM26&cp=75017
- *   ?specialite=40&cp=69000
  *
  *   Stratégie :
- *   - Codes SM* → spécialités ordinales  (système TRE-R38)
- *   - Codes numériques courts → professions de santé (système TRE-G15)
- *   - Filtrage géo côté serveur sur le département (2 premiers chiffres du CP)
- *     car le paramètre FHIR `near` n'est pas supporté sur gateway.api.esante.gouv.fr/fhir/v2
+ *   - L'API esante ne supporte PAS `specialty` sur PractitionerRole
+ *   - On passe par Practitioner?qualification-code pour les spécialités SM*
+ *   - Pour les professions (code numérique : 40, 60, 70…) on utilise
+ *     PractitionerRole?role-code (paramètre supporté par l'API)
+ *   - Filtrage département côté Worker sur les 2 premiers chiffres du CP
  *
- * ?next=URL  → pagination (les deux modes)
+ * ?next=URL  → pagination
  */
 
 const BASE  = "https://gateway.api.esante.gouv.fr/fhir/v2";
-const COUNT = 50; // Plus large pour compenser l'absence de filtre géo FHIR natif
+const COUNT = 50;
 
-// Systèmes FHIR de l'Annuaire Santé (requis pour que le filtre specialty fonctionne)
-const SYS_SPECIALITE = "https://mos.esante.gouv.fr/NOS/TRE_R38-SpecialiteOrdinale/FHIR/TRE-R38-SpecialiteOrdinale";
-const SYS_PROFESSION = "https://mos.esante.gouv.fr/NOS/TRE_G15-ProfessionSante/FHIR/TRE-G15-ProfessionSante";
+// Codes profession (TRE-G15) → PractitionerRole?role-code
+// Codes SM* (spécialités ordinales TRE-R38) → Practitioner?qualification-code
+const SYS_QUALIFICATION = "https://mos.esante.gouv.fr/NOS/TRE_R38-SpecialiteOrdinale/FHIR/TRE-R38-SpecialiteOrdinale";
+const SYS_ROLE_CODE     = "https://mos.esante.gouv.fr/NOS/TRE_G15-ProfessionSante/FHIR/TRE-G15-ProfessionSante";
 
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
@@ -86,22 +87,27 @@ async function searchByName(nom, headers, rawDebug) {
 // ── MODE 2 : PAR SPÉCIALITÉ + CP ────────────────────────────────────────────
 async function searchBySpeciality(specialite, cp, headers, rawDebug) {
   try {
-    // Choisir le bon système FHIR selon le format du code
-    const systeme = specialite.startsWith("SM")
-      ? SYS_SPECIALITE
-      : SYS_PROFESSION;
-
+    let fhirUrl;
     const fp = new URLSearchParams();
     fp.set("_count", String(COUNT));
     fp.set("active", "true");
-    // Format système|code obligatoire pour l'API esante
-    fp.set("specialty", `${systeme}|${specialite}`);
-    fp.append("_include", "PractitionerRole:practitioner");
-    fp.append("_include", "PractitionerRole:organization");
 
-    const fhirUrl = `${BASE}/PractitionerRole?${fp}`;
-    const resp1   = await fetch(fhirUrl, { headers });
+    if (specialite.startsWith("SM")) {
+      // ── Spécialités ordinales (SM26, SM49…) ──────────────────────────────
+      // Practitioner?qualification-code + _revinclude PractitionerRole
+      fp.set("qualification-code", `${SYS_QUALIFICATION}|${specialite}`);
+      fp.append("_revinclude", "PractitionerRole:practitioner");
+      fhirUrl = `${BASE}/Practitioner?${fp}`;
+    } else {
+      // ── Professions de santé (40, 60, 70…) ──────────────────────────────
+      // PractitionerRole?role-code + _include Practitioner + Organization
+      fp.set("role-code", `${SYS_ROLE_CODE}|${specialite}`);
+      fp.append("_include", "PractitionerRole:practitioner");
+      fp.append("_include", "PractitionerRole:organization");
+      fhirUrl = `${BASE}/PractitionerRole?${fp}`;
+    }
 
+    const resp1 = await fetch(fhirUrl, { headers });
     if (!resp1.ok) {
       const detail = await resp1.text();
       return jsonResponse({ error: "FHIR error", status: resp1.status, detail, _url: fhirUrl }, resp1.status);
@@ -109,7 +115,7 @@ async function searchBySpeciality(specialite, cp, headers, rawDebug) {
     const bundle1 = await resp1.json();
     if (rawDebug) return jsonResponse({ _url: fhirUrl, _bundle1: bundle1 });
 
-    // Indexation du bundle (_include ramène Practitioner + Organization)
+    // Indexation — les deux stratégies produisent des bundles différents
     const practitioners = {};
     const roles         = {};
     const orgs          = {};
@@ -118,8 +124,8 @@ async function searchBySpeciality(specialite, cp, headers, rawDebug) {
     for (const entry of (bundle1.entry || [])) {
       const res = entry.resource;
       if (!res) continue;
-      if (res.resourceType === "Practitioner")  practitioners[res.id] = res;
-      if (res.resourceType === "Organization")  orgs[res.id]          = res;
+      if (res.resourceType === "Practitioner")     practitioners[res.id] = res;
+      if (res.resourceType === "Organization")     orgs[res.id]          = res;
       if (res.resourceType === "PractitionerRole") {
         const practId = (res.practitioner?.reference || "").split("/").pop();
         if (practId && !roles[practId]) {
@@ -130,7 +136,7 @@ async function searchBySpeciality(specialite, cp, headers, rawDebug) {
       }
     }
 
-    // Orgs manquantes non incluses dans le bundle
+    // Orgs non incluses dans le bundle
     if (missingOrgIds.size > 0) {
       const extra = await fetchOrgs([...missingOrgIds], headers);
       Object.assign(orgs, extra);
@@ -139,8 +145,7 @@ async function searchBySpeciality(specialite, cp, headers, rawDebug) {
     const nextLink = getNextLink(bundle1);
     let results    = buildResults(practitioners, roles, orgs);
 
-    // Filtrage géographique côté serveur par département (2 premiers chiffres du CP)
-    // Ex : cp=75017 → département "75", cp=69003 → département "69"
+    // Filtrage département (2 premiers chiffres du CP)
     if (cp && cp.length >= 2) {
       const dept = cp.slice(0, 2);
       results = results.filter(r => r.codePostal.startsWith(dept));
@@ -151,7 +156,7 @@ async function searchBySpeciality(specialite, cp, headers, rawDebug) {
       count:   results.length,
       nextUrl: nextLink,
       results,
-      _meta:   { url: fhirUrl, dept: cp ? cp.slice(0, 2) : null },
+      _meta: { url: fhirUrl, dept: cp ? cp.slice(0, 2) : null },
     });
   } catch (err) {
     return jsonResponse({ error: "Internal error", detail: err.message }, 500);
@@ -185,7 +190,7 @@ async function handleNextPage(nextUrl, headers) {
       }
     }
 
-    // Fallback : bundle Practitioner pur (mode nom, page suivante)
+    // Fallback bundle Practitioner pur (mode nom ou spécialité SM*)
     if (!Object.keys(roles).length) {
       const indexed = indexBundle(bundle);
       Object.assign(practitioners, indexed.practitioners);
