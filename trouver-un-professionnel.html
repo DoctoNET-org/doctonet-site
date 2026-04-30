@@ -1,11 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Trouver un professionnel de santé – DoctoNET</title>
-  <meta name="description" content="Recherchez un médecin, spécialiste ou professionnel de santé par nom ou spécialité. Annuaire officiel du Ministère de la Santé, données toujours à jour — par DoctoNET.">
+  <meta name="description" content="Recherchez un médecin, spécialiste ou professionnel de santé par nom ou spécialité près de chez vous. Annuaire officiel du Ministère de la Santé — DoctoNET.">
   <meta name="keywords" content="trouver médecin, annuaire santé, professionnel de santé, médecin généraliste, spécialiste, DREES, DoctoNET">
   <meta name="author" content="Association DoctoNET">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
@@ -13,19 +13,10 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.doctonet.org/trouver-un-professionnel.html">
   <meta property="og:title" content="Trouver un professionnel de santé – DoctoNET">
-  <meta property="og:description" content="Recherchez un médecin ou spécialiste via l'annuaire officiel du Ministère de la Santé. Données officielles, toujours à jour.">
+  <meta property="og:description" content="Recherchez un médecin ou spécialiste via l'annuaire officiel du Ministère de la Santé. Par nom ou spécialité, près de chez vous.">
   <meta property="og:image" content="https://www.doctonet.org/images/logos-1.png">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="DoctoNET">
-  <meta name="description" content="Trouvez un professionnel de santé proche de chez vous grâce à l'annuaire officiel de santé. DoctoNET vous aide à localiser médecins, infirmiers, kinésithérapeutes et plus près de chez vous.">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://www.doctonet.org/trouver-un-professionnel">
-
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.doctonet.org/trouver-un-professionnel">
-  <meta property="og:title" content="Trouver un professionnel de santé – DoctoNET">
-  <meta property="og:description" content="Annuaire des professionnels de santé près de chez vous. Données officielles, gratuites et à jour.">
-  <meta property="og:image" content="https://www.doctonet.org/images/logos-1.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -33,628 +24,279 @@
   <style>
     /* ===== VARIABLES & BASE ===== */
     :root {
-      --primary: #0a2540;
-      --accent: #00c2ff;
-      --accent2: #00e5a0;
-      --light: #f4f8ff;
-      --white: #ffffff;
-      --gray: #6b7a90;
-      --card-bg: #ffffff;
-      --shadow: 0 8px 40px rgba(10,37,64,0.10);
-      --radius: 16px;
+      --primary:  #0a2540;
+      --accent:   #00c2ff;
+      --accent2:  #00e5a0;
+      --light:    #f4f8ff;
+      --white:    #ffffff;
+      --gray:     #6b7a90;
+      --card-bg:  #ffffff;
+      --shadow:   0 8px 40px rgba(10,37,64,0.10);
+      --radius:   16px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html {
-      scroll-behavior: smooth;
-      background: #0a2540;
-      overflow-x: hidden;
-    }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--light);
-      color: var(--primary);
-      overflow-x: hidden;
-      max-width: 100%;
-    }
+    html { scroll-behavior: smooth; background: #0a2540; overflow-x: hidden; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--light); color: var(--primary); overflow-x: hidden; max-width: 100%; }
 
     /* ===== NAV ===== */
     #doctonet-nav {
       all: initial !important;
       font-family: 'Syne', sans-serif !important;
-      position: fixed !important;
-      top: 0 !important; left: 0 !important; right: 0 !important;
-      z-index: 999999 !important;
-      background: #ffffff !important;
+      position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important;
+      z-index: 999999 !important; background: #ffffff !important;
       border-bottom: 2px solid rgba(0,194,255,0.25) !important;
-      padding: 0 5% !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: space-between !important;
-      height: 68px !important;
-      width: 100% !important;
-      box-sizing: border-box !important;
-      box-shadow: 0 2px 16px rgba(10,37,64,0.10) !important;
+      padding: 0 5% !important; display: flex !important; align-items: center !important;
+      justify-content: space-between !important; height: 68px !important; width: 100% !important;
+      box-sizing: border-box !important; box-shadow: 0 2px 16px rgba(10,37,64,0.10) !important;
     }
-
-    #doctonet-logo {
-      all: initial !important;
-      font-family: 'Syne', sans-serif !important;
-      font-weight: 800 !important;
-      font-size: 1.5rem !important;
-      color: #0a2540 !important;
-      text-decoration: none !important;
-      letter-spacing: -0.5px !important;
-      cursor: pointer !important;
-      display: inline-block !important;
-    }
+    #doctonet-logo { all: initial !important; font-family: 'Syne', sans-serif !important; font-weight: 800 !important; font-size: 1.5rem !important; color: #0a2540 !important; text-decoration: none !important; cursor: pointer !important; display: inline-block !important; }
     #doctonet-logo span { color: #00c2ff !important; font-family: 'Syne', sans-serif !important; font-weight: 800 !important; }
-
-    #doctonet-nav-links {
-      all: initial !important;
-      display: flex !important;
-      gap: 2rem !important;
-      align-items: center !important;
-    }
-    #doctonet-nav-links a {
-      all: initial !important;
-      font-family: 'DM Sans', sans-serif !important;
-      text-decoration: none !important;
-      color: #6b7a90 !important;
-      font-size: 0.95rem !important;
-      font-weight: 500 !important;
-      cursor: pointer !important;
-      display: inline-block !important;
-    }
+    #doctonet-nav-links { all: initial !important; display: flex !important; gap: 2rem !important; align-items: center !important; }
+    #doctonet-nav-links a { all: initial !important; font-family: 'DM Sans', sans-serif !important; text-decoration: none !important; color: #6b7a90 !important; font-size: 0.95rem !important; font-weight: 500 !important; cursor: pointer !important; display: inline-block !important; }
     #doctonet-nav-links a:hover { color: #0a2540 !important; }
     #doctonet-nav-links a.active { color: #00c2ff !important; font-weight: 700 !important; }
-
-    #doctonet-nav-cta {
-      all: initial !important;
-      font-family: 'Syne', sans-serif !important;
-      background: #0a2540 !important;
-      color: #ffffff !important;
-      padding: 0.5rem 1.2rem !important;
-      border-radius: 50px !important;
-      font-weight: 700 !important;
-      font-size: 0.9rem !important;
-      text-decoration: none !important;
-      cursor: pointer !important;
-      display: inline-block !important;
-    }
+    #doctonet-nav-cta { all: initial !important; font-family: 'Syne', sans-serif !important; background: #0a2540 !important; color: #ffffff !important; padding: 0.5rem 1.2rem !important; border-radius: 50px !important; font-weight: 700 !important; font-size: 0.9rem !important; text-decoration: none !important; cursor: pointer !important; display: inline-block !important; }
     #doctonet-nav-cta:hover { background: #00c2ff !important; color: #0a2540 !important; }
-
-    /* Hamburger */
-    #doctonet-hamburger {
-      all: initial !important;
-      display: none !important;
-      flex-direction: column !important;
-      gap: 5px !important;
-      cursor: pointer !important;
-      padding: 6px !important;
-      background: transparent !important;
-      border: none !important;
-    }
-    #doctonet-hamburger span {
-      display: block !important;
-      width: 24px !important;
-      height: 2px !important;
-      background: #0a2540 !important;
-      border-radius: 2px !important;
-      transition: all 0.3s !important;
-    }
+    #doctonet-hamburger { all: initial !important; display: none !important; flex-direction: column !important; gap: 5px !important; cursor: pointer !important; padding: 6px !important; background: transparent !important; border: none !important; }
+    #doctonet-hamburger span { display: block !important; width: 24px !important; height: 2px !important; background: #0a2540 !important; border-radius: 2px !important; transition: all 0.3s !important; }
 
     @media (max-width: 768px) {
       #doctonet-hamburger { display: flex !important; }
-      #doctonet-nav-links {
-        all: initial !important;
-        display: none !important;
-        position: fixed !important;
-        top: 68px !important; left: 0 !important; right: 0 !important;
-        background: #ffffff !important;
-        flex-direction: column !important;
-        padding: 1.5rem 5% !important;
-        gap: 1.2rem !important;
-        border-bottom: 2px solid rgba(0,194,255,0.15) !important;
-        box-shadow: 0 8px 24px rgba(10,37,64,0.12) !important;
-        z-index: 999998 !important;
-      }
-      #doctonet-nav-links.open {
-        display: flex !important;
-      }
-      #doctonet-nav-links a {
-        all: initial !important;
-        font-family: 'DM Sans', sans-serif !important;
-        font-size: 1.1rem !important;
-        font-weight: 500 !important;
-        color: #0a2540 !important;
-        text-decoration: none !important;
-        cursor: pointer !important;
-        display: block !important;
-        padding: 0.4rem 0 !important;
-        border-bottom: 1px solid rgba(0,194,255,0.10) !important;
-      }
+      #doctonet-nav-links { all: initial !important; display: none !important; position: fixed !important; top: 68px !important; left: 0 !important; right: 0 !important; background: #ffffff !important; flex-direction: column !important; padding: 1.5rem 5% !important; gap: 1.2rem !important; border-bottom: 2px solid rgba(0,194,255,0.15) !important; box-shadow: 0 8px 24px rgba(10,37,64,0.12) !important; z-index: 999998 !important; }
+      #doctonet-nav-links.open { display: flex !important; }
+      #doctonet-nav-links a { all: initial !important; font-family: 'DM Sans', sans-serif !important; font-size: 1.1rem !important; font-weight: 500 !important; color: #0a2540 !important; text-decoration: none !important; cursor: pointer !important; display: block !important; padding: 0.4rem 0 !important; border-bottom: 1px solid rgba(0,194,255,0.10) !important; }
       #doctonet-nav-cta { display: none !important; }
     }
 
-    /* ===== PAGE HERO ===== */
+    /* ===== HERO ===== */
     .page-hero {
       background: linear-gradient(135deg, #0a2540 0%, #0d3060 60%, #0a2540 100%);
-      padding: 120px 5% 60px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      padding: 120px 5% 60px; text-align: center; position: relative; overflow: hidden;
     }
-    .page-hero::before {
-      content: '';
-      position: absolute;
-      top: -80px; right: -80px;
-      width: 320px; height: 320px;
-      background: radial-gradient(circle, rgba(0,194,255,0.15) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-    .page-hero::after {
-      content: '';
-      position: absolute;
-      bottom: -60px; left: -60px;
-      width: 240px; height: 240px;
-      background: radial-gradient(circle, rgba(0,229,160,0.10) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-    .page-hero-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      display: block;
-    }
-    .page-hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(1.5rem, 6vw, 3rem);
-      color: #ffffff;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-      word-break: keep-all;
-      overflow-wrap: break-word;
-    }
+    .page-hero::before { content: ''; position: absolute; top: -80px; right: -80px; width: 320px; height: 320px; background: radial-gradient(circle, rgba(0,194,255,0.15) 0%, transparent 70%); border-radius: 50%; }
+    .page-hero::after  { content: ''; position: absolute; bottom: -60px; left: -60px; width: 240px; height: 240px; background: radial-gradient(circle, rgba(0,229,160,0.10) 0%, transparent 70%); border-radius: 50%; }
+    .page-hero-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+    .page-hero h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.5rem, 6vw, 3rem); color: #ffffff; line-height: 1.2; margin-bottom: 1rem; overflow-wrap: break-word; }
     .page-hero h1 span { color: #00c2ff; }
+    .page-hero p { color: rgba(255,255,255,0.75); font-size: clamp(0.95rem, 2.5vw, 1.1rem); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+    @media (max-width: 400px) { .page-hero h1 { font-size: 1.45rem; } }
 
-    @media (max-width: 400px) {
-      .page-hero h1 { font-size: 1.45rem; }
-    }
-    .page-hero p {
-      color: rgba(255,255,255,0.75);
-      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
+    .source-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(0,229,160,0.10); border: 1px solid rgba(0,229,160,0.3); border-radius: 50px; padding: 0.3rem 0.8rem; font-size: 0.78rem; color: #007a57; font-weight: 600; margin-top: 0.5rem; }
 
     /* ===== SEARCH SECTION ===== */
     .search-section {
       background: var(--white);
-      padding: 2.5rem 5%;
+      padding: 2rem 5% 2.5rem;
       border-bottom: 1px solid rgba(10,37,64,0.08);
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
     }
+    .search-card { max-width: 760px; margin: 0 auto; }
 
-    .search-card {
-      max-width: 720px;
-      margin: 0 auto;
-    }
-
-    .search-label {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--primary);
-      margin-bottom: 0.75rem;
-      display: block;
-    }
-
-    .search-row {
+    /* ===== ONGLETS MODE ===== */
+    .mode-tabs {
       display: flex;
-      gap: 0.75rem;
-      align-items: stretch;
-    }
-
-    #location-input {
-      flex: 1;
-      padding: 0.9rem 1.2rem;
-      border: 2px solid rgba(10,37,64,0.12);
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1rem;
-      color: var(--primary);
+      gap: 0;
+      margin-bottom: 1.75rem;
       background: var(--light);
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      min-width: 0;
-    }
-    #location-input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(0,194,255,0.15);
-      background: #fff;
-    }
-    #location-input::placeholder { color: var(--gray); }
-
-    .btn-search {
-      background: var(--primary);
-      color: #fff;
-      border: none;
       border-radius: 12px;
-      padding: 0.9rem 1.5rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
+      padding: 4px;
+      width: fit-content;
+    }
+    .mode-tab {
+      padding: 0.55rem 1.25rem;
+      border-radius: 9px;
+      border: none;
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gray);
       cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.2s, transform 0.1s;
+      transition: all 0.2s;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+    .mode-tab.active {
+      background: var(--white);
+      color: var(--primary);
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(10,37,64,0.10);
+    }
+    .mode-tab:hover:not(.active) { color: var(--primary); }
+
+    /* ===== PANNEAU NOM ===== */
+    #panel-nom { display: block; }
+    #panel-specialite { display: none; }
+
+    .search-label { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--primary); margin-bottom: 0.6rem; display: block; }
+
+    .search-row { display: flex; gap: 0.75rem; align-items: stretch; }
+    .search-input {
+      flex: 1; padding: 0.9rem 1.2rem;
+      border: 2px solid rgba(10,37,64,0.12);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif; font-size: 1rem; color: var(--primary);
+      background: var(--light); outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+      min-width: 0;
+    }
+    .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,194,255,0.15); background: #fff; }
+    .search-input::placeholder { color: var(--gray); }
+
+    .btn-search {
+      background: var(--primary); color: #fff; border: none; border-radius: 12px;
+      padding: 0.9rem 1.5rem; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem;
+      cursor: pointer; white-space: nowrap; transition: background 0.2s, transform 0.1s;
+      display: flex; align-items: center; gap: 0.5rem;
     }
     .btn-search:hover { background: var(--accent); color: var(--primary); }
     .btn-search:active { transform: scale(0.98); }
 
-    .btn-geo {
-      background: var(--light);
-      color: var(--primary);
-      border: 2px solid rgba(10,37,64,0.12);
-      border-radius: 12px;
-      padding: 0.9rem 1rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    .btn-geo:hover { border-color: var(--accent); color: var(--accent); }
+    .search-hint { margin-top: 0.7rem; font-size: 0.83rem; color: var(--gray); display: flex; align-items: center; gap: 0.4rem; }
 
-    .search-hint {
-      margin-top: 0.75rem;
-      font-size: 0.85rem;
-      color: var(--gray);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
+    /* ===== PANNEAU SPÉCIALITÉ ===== */
+    .spec-section-label {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.6rem; display: block;
     }
 
-    /* Filtres spécialité */
-    .filters-row {
-      margin-top: 1.25rem;
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      align-items: center;
+    /* Chips de spécialité */
+    .specialites-grid {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 1.5rem;
     }
-    .filter-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--gray);
-      margin-right: 0.25rem;
-    }
-    .filter-chip {
-      padding: 0.4rem 0.9rem;
-      border-radius: 50px;
+    .spec-chip {
+      padding: 0.45rem 1rem; border-radius: 50px;
       border: 1.5px solid rgba(10,37,64,0.12);
       background: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--gray);
-      cursor: pointer;
-      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--gray);
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; gap: 0.35rem;
     }
-    .filter-chip:hover { border-color: var(--accent); color: var(--accent); }
-    .filter-chip.active {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #fff;
-    }
+    .spec-chip:hover { border-color: var(--accent); color: var(--accent); }
+    .spec-chip.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .spec-chip .chip-icon { font-size: 1rem; }
 
-    @media (max-width: 480px) {
-      .search-row { flex-wrap: wrap; }
-      .btn-geo { width: 100%; justify-content: center; }
+    /* Localisation */
+    .loc-row { display: flex; gap: 0.75rem; align-items: stretch; flex-wrap: wrap; }
+    .loc-input-wrap { flex: 1; min-width: 180px; position: relative; }
+    .loc-input-wrap .search-input { width: 100%; }
+
+    .btn-geo {
+      background: var(--light); color: var(--primary);
+      border: 2px solid rgba(10,37,64,0.12); border-radius: 12px;
+      padding: 0.9rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      cursor: pointer; white-space: nowrap; transition: all 0.2s;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .btn-geo:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-geo.loading { opacity: 0.6; cursor: wait; }
+
+    .radius-select {
+      padding: 0.9rem 1rem;
+      border: 2px solid rgba(10,37,64,0.12); border-radius: 12px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--primary);
+      background: var(--light); outline: none; cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .radius-select:focus { border-color: var(--accent); }
+
+    .geo-status {
+      margin-top: 0.6rem; font-size: 0.82rem; color: var(--gray);
+      display: flex; align-items: center; gap: 0.35rem; min-height: 1.2em;
+    }
+    .geo-status.ok { color: #007a57; }
+    .geo-status.err { color: #c0392b; }
+
+    .btn-search-spec {
+      width: 100%; margin-top: 1.25rem;
+      padding: 1rem; background: var(--primary); color: #fff;
+      border: none; border-radius: 12px;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem;
+      cursor: pointer; transition: background 0.2s, transform 0.1s;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .btn-search-spec:hover { background: var(--accent); color: var(--primary); }
+    .btn-search-spec:active { transform: scale(0.98); }
+
+    @media (max-width: 540px) {
+      .search-row { flex-direction: column; }
       .btn-search { width: 100%; justify-content: center; }
+      .loc-row { flex-direction: column; }
+      .btn-geo, .radius-select { width: 100%; }
     }
 
     /* ===== RESULTS SECTION ===== */
-    .results-section {
-      padding: 2rem 5% 4rem;
-      max-width: 960px;
-      margin: 0 auto;
-    }
+    .results-section { padding: 2rem 5% 4rem; max-width: 960px; margin: 0 auto; }
 
-    /* État vide / initial */
-    .state-empty {
-      text-align: center;
-      padding: 4rem 1rem;
-    }
+    .state-empty { text-align: center; padding: 4rem 1rem; }
     .state-empty .state-icon { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
-    .state-empty h2 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1.4rem;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-    }
+    .state-empty h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.4rem; color: var(--primary); margin-bottom: 0.5rem; }
     .state-empty p { color: var(--gray); font-size: 0.95rem; line-height: 1.6; }
 
-    /* Loading */
-    .state-loading {
-      text-align: center;
-      padding: 3rem 1rem;
-      display: none;
-    }
-    .loader {
-      width: 48px; height: 48px;
-      border: 4px solid rgba(0,194,255,0.15);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 1.25rem;
-    }
+    .state-loading { text-align: center; padding: 3rem 1rem; display: none; }
+    .loader { width: 48px; height: 48px; border: 4px solid rgba(0,194,255,0.15); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1.25rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .state-loading p { color: var(--gray); font-size: 0.95rem; }
 
-    /* Résultats header */
-    .results-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.25rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      display: none;
-    }
-    .results-count {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--primary);
-    }
+    .results-header { display: none; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem; }
+    .results-count { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--primary); }
     .results-count span { color: var(--accent); }
     .results-location { font-size: 0.85rem; color: var(--gray); }
 
-    /* Cards */
-    .results-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.875rem;
-    }
+    .results-grid { display: flex; flex-direction: column; gap: 0.875rem; }
 
     .pro-card {
-      background: var(--white);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      box-shadow: var(--shadow);
+      background: var(--white); border-radius: var(--radius);
+      padding: 1.25rem 1.5rem; box-shadow: var(--shadow);
       border: 1.5px solid transparent;
       transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
       animation: fadeUp 0.35s ease both;
     }
-    .pro-card:hover {
-      border-color: rgba(0,194,255,0.30);
-      box-shadow: 0 12px 40px rgba(10,37,64,0.13);
-      transform: translateY(-2px);
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    .pro-card:hover { border-color: rgba(0,194,255,0.30); box-shadow: 0 12px 40px rgba(10,37,64,0.13); transform: translateY(-2px); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
-    .pro-card-top {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      margin-bottom: 0.75rem;
-    }
-    .pro-avatar {
-      width: 48px; height: 48px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: var(--primary);
-      flex-shrink: 0;
-    }
+    .pro-card-top { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem; }
+    .pro-avatar { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--primary); flex-shrink: 0; }
     .pro-info { flex: 1; min-width: 0; }
-    .pro-name {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--primary);
-      line-height: 1.2;
-      margin-bottom: 0.25rem;
-      word-break: break-word;
-    }
-    .pro-specialty {
-      display: inline-block;
-      background: rgba(0,194,255,0.10);
-      color: #0085b3;
-      font-size: 0.78rem;
-      font-weight: 600;
-      padding: 0.2rem 0.6rem;
-      border-radius: 50px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+    .pro-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--primary); line-height: 1.2; margin-bottom: 0.25rem; word-break: break-word; }
+    .pro-specialty { display: inline-block; background: rgba(0,194,255,0.10); color: #0085b3; font-size: 0.78rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    .pro-distance {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--accent2);
-      white-space: nowrap;
-    }
-    .pro-distance svg { width: 14px; height: 14px; }
-
-    .pro-details {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem 1.25rem;
-      font-size: 0.88rem;
-      color: var(--gray);
-    }
-    .pro-detail-item {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-    .pro-detail-item a {
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 500;
-    }
+    .pro-details { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-size: 0.88rem; color: var(--gray); }
+    .pro-detail-item { display: flex; align-items: center; gap: 0.35rem; }
+    .pro-detail-item a { color: var(--primary); text-decoration: none; font-weight: 500; }
     .pro-detail-item a:hover { color: var(--accent); }
 
-    /* Erreur */
-    .state-error {
-      background: #fff5f5;
-      border: 1.5px solid #fcc;
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      text-align: center;
-      display: none;
-      margin-top: 1rem;
-    }
+    .state-error { background: #fff5f5; border: 1.5px solid #fcc; border-radius: var(--radius); padding: 1.5rem; text-align: center; display: none; margin-top: 1rem; }
     .state-error p { color: #c0392b; font-size: 0.95rem; }
 
-    /* Plus de résultats */
-    .load-more-wrap {
-      text-align: center;
-      margin-top: 1.5rem;
-      display: none;
-    }
-    .btn-load-more {
-      background: transparent;
-      border: 2px solid var(--primary);
-      color: var(--primary);
-      border-radius: 50px;
-      padding: 0.75rem 2rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
+    .load-more-wrap { text-align: center; margin-top: 1.5rem; display: none; }
+    .btn-load-more { background: transparent; border: 2px solid var(--primary); color: var(--primary); border-radius: 50px; padding: 0.75rem 2rem; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
     .btn-load-more:hover { background: var(--primary); color: #fff; }
 
     /* ===== FOOTER ===== */
-    footer {
-      background: var(--primary);
-      color: rgba(255,255,255,0.7);
-      text-align: center;
-      padding: 3rem 5% 2rem;
-      font-size: 0.88rem;
-      line-height: 1.8;
-    }
-    .footer-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.5rem;
-      color: #fff;
-      margin-bottom: 0.75rem;
-    }
+    footer { background: var(--primary); color: rgba(255,255,255,0.7); text-align: center; padding: 3rem 5% 2rem; font-size: 0.88rem; line-height: 1.8; }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; color: #fff; margin-bottom: 0.75rem; }
     .footer-logo span { color: var(--accent); }
     footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
     footer a:hover { color: var(--accent); }
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0 1.5rem;
-      margin-top: 1rem;
-    }
-    .footer-phone {
-      display: inline-block;
-      color: var(--accent) !important;
-      font-weight: 600;
-      font-size: 1rem;
-      margin-top: 0.5rem;
-    }
-
-    /* ===== SOURCE BADGE ===== */
-    .source-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(0,229,160,0.10);
-      border: 1px solid rgba(0,229,160,0.3);
-      border-radius: 50px;
-      padding: 0.3rem 0.8rem;
-      font-size: 0.78rem;
-      color: #007a57;
-      font-weight: 600;
-      margin-top: 0.5rem;
-    }
+    .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 0 1.5rem; margin-top: 1rem; }
+    .footer-phone { display: inline-block; color: var(--accent) !important; font-weight: 600; font-size: 1rem; margin-top: 0.5rem; }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 600px) {
       .page-hero { padding: 100px 5% 40px; }
-      .search-section { padding: 1.75rem 4%; }
+      .search-section { padding: 1.5rem 4% 2rem; }
       .results-section { padding: 1.5rem 4% 3rem; }
       .pro-card { padding: 1rem 1.1rem; }
       .pro-avatar { width: 40px; height: 40px; font-size: 0.9rem; }
       .pro-name { font-size: 0.97rem; }
+      .mode-tabs { width: 100%; }
+      .mode-tab { flex: 1; justify-content: center; font-size: 0.82rem; padding: 0.5rem 0.5rem; }
     }
   </style>
-
-  <!-- Schema.org HowTo — Trouver un professionnel de santé -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    "name": "Comment trouver un professionnel de santé en ligne",
-    "description": "Guide pour rechercher un médecin, spécialiste ou professionnel de santé par nom ou spécialité grâce aux outils numériques.",
-    "image": "https://www.doctonet.org/images/logos-1.png",
-    "totalTime": "PT5M",
-    "tool": [
-      { "@type": "HowToTool", "name": "Smartphone, tablette ou ordinateur" },
-      { "@type": "HowToTool", "name": "Connexion internet" }
-    ],
-    "step": [
-      {
-        "@type": "HowToStep",
-        "position": 1,
-        "name": "Choisir un outil de recherche",
-        "text": "Utilisez Doctolib, Ameli ou les Pages Jaunes pour trouver un professionnel de santé près de chez vous.",
-        "url": "https://www.doctonet.org/trouver-un-professionnel.html#etape-1"
-      },
-      {
-        "@type": "HowToStep",
-        "position": 2,
-        "name": "Saisir votre recherche",
-        "text": "Entrez le nom du professionnel ou sa spécialité et votre ville ou code postal.",
-        "url": "https://www.doctonet.org/trouver-un-professionnel.html#etape-2"
-      },
-      {
-        "@type": "HowToStep",
-        "position": 3,
-        "name": "Prendre rendez-vous",
-        "text": "Consultez les disponibilités et prenez rendez-vous en ligne directement depuis le site.",
-        "url": "https://www.doctonet.org/trouver-un-professionnel.html#etape-3"
-      }
-    ],
-    "provider": {
-      "@type": "NGO",
-      "name": "DoctoNET",
-      "url": "https://www.doctonet.org",
-      "telephone": "+33180064649"
-    }
-  }
-  </script>
 </head>
 <body>
 
@@ -665,6 +307,7 @@
       <a href="index.html">Accueil</a>
       <a href="Tutoriels.html">Tutoriels</a>
       <a href="trouver-un-professionnel.html" class="active">Trouver un professionnel</a>
+      <a href="trouver-un-lieu-numerique.html">Lieux numériques</a>
       <a href="index.html#contact" id="doctonet-nav-cta">Demander de l'aide</a>
     </div>
     <button id="doctonet-hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="doctonet-nav-links">
@@ -674,9 +317,9 @@
 
   <!-- ===== HERO ===== -->
   <div class="page-hero">
-    <span class="page-hero-icon">🔍</span>
+    <span class="page-hero-icon">🏥</span>
     <h1>Trouver un professionnel<br>de <span>santé</span></h1>
-    <p>Recherchez par nom de famille — nous consultons l'annuaire officiel du Ministère de la Santé pour vous proposer les coordonnées complètes.</p>
+    <p>Recherchez par <strong style="color:#fff;">nom</strong> ou par <strong style="color:#fff;">spécialité près de chez vous</strong> — nous consultons l'annuaire officiel du Ministère de la Santé.</p>
     <div class="source-badge" style="margin: 1.25rem auto 0;">
       ✅ Données officielles · Annuaire Santé DREES · Toujours à jour
     </div>
@@ -685,66 +328,131 @@
   <!-- ===== SEARCH ===== -->
   <section class="search-section" aria-label="Recherche de professionnel de santé">
     <div class="search-card">
-      <label class="search-label" for="location-input">Nom du professionnel</label>
-      <div class="search-row">
-        <input
-          type="text"
-          id="location-input"
-          placeholder="Ex : Martin, Dupont, Bernard…"
-          autocomplete="off"
-          inputmode="search"
-          aria-label="Saisir le nom du professionnel de santé"
-        >
-        <button class="btn-search" id="btn-search" aria-label="Lancer la recherche">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          Rechercher
+
+      <!-- Onglets -->
+      <div class="mode-tabs" role="tablist" aria-label="Mode de recherche">
+        <button class="mode-tab active" id="tab-nom" role="tab" aria-selected="true" aria-controls="panel-nom">
+          🔤 Par nom de famille
+        </button>
+        <button class="mode-tab" id="tab-specialite" role="tab" aria-selected="false" aria-controls="panel-specialite">
+          🩺 Par spécialité
         </button>
       </div>
 
-      <p class="search-hint">💡 Saisissez au moins 2 lettres du nom de famille</p>
+      <!-- ── PANNEAU NOM ── -->
+      <div id="panel-nom" role="tabpanel" aria-labelledby="tab-nom">
+        <label class="search-label" for="nom-input">Nom de famille du professionnel</label>
+        <div class="search-row">
+          <input
+            type="text" id="nom-input" class="search-input"
+            placeholder="Ex : Martin, Dupont, Bernard…"
+            autocomplete="off" inputmode="search"
+            aria-label="Saisir le nom du professionnel de santé"
+          >
+          <button class="btn-search" id="btn-search-nom" aria-label="Lancer la recherche par nom">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            Rechercher
+          </button>
+        </div>
+        <p class="search-hint">💡 Saisissez au moins 2 lettres du nom de famille</p>
+      </div>
+
+      <!-- ── PANNEAU SPÉCIALITÉ ── -->
+      <div id="panel-specialite" role="tabpanel" aria-labelledby="tab-specialite" hidden>
+
+        <!-- Spécialités courantes -->
+        <span class="spec-section-label">Spécialité recherchée</span>
+        <div class="specialites-grid" id="specialites-grid" role="group" aria-label="Choisir une spécialité">
+
+          <button class="spec-chip" data-code="SM26">🩺 Médecin généraliste</button>
+          <button class="spec-chip" data-code="40">🦷 Chirurgien-dentiste</button>
+          <button class="spec-chip" data-code="70">💆 Kinésithérapeute</button>
+          <button class="spec-chip" data-code="60">💉 Infirmier(e)</button>
+          <button class="spec-chip" data-code="SM49">👶 Pédiatre</button>
+          <button class="spec-chip" data-code="SM46">👁️ Ophtalmologue</button>
+          <button class="spec-chip" data-code="SM37">🌸 Gynécologue</button>
+          <button class="spec-chip" data-code="SM47">👂 ORL</button>
+          <button class="spec-chip" data-code="SM52">🧠 Psychiatre</button>
+          <button class="spec-chip" data-code="SM19">❤️ Cardiologue</button>
+          <button class="spec-chip" data-code="SM22">🔬 Dermatologue</button>
+          <button class="spec-chip" data-code="SM55">🦴 Rhumatologue</button>
+          <button class="spec-chip" data-code="SM44">🧬 Neurologue</button>
+          <button class="spec-chip" data-code="SM53">📡 Radiologue</button>
+          <button class="spec-chip" data-code="80">🦶 Pédicure-podologue</button>
+          <button class="spec-chip" data-code="21">💊 Pharmacien</button>
+          <button class="spec-chip" data-code="50">🤱 Sage-femme</button>
+          <button class="spec-chip" data-code="86">🗣️ Orthophoniste</button>
+          <button class="spec-chip" data-code="91">👓 Orthoptiste</button>
+          <button class="spec-chip" data-code="SM54">🚑 Urgentiste</button>
+
+        </div>
+
+        <!-- Localisation -->
+        <span class="spec-section-label">Votre localisation</span>
+        <div class="loc-row">
+          <div class="loc-input-wrap">
+            <input
+              type="text" id="cp-input" class="search-input"
+              placeholder="Code postal (ex : 75017)"
+              autocomplete="postal-code" inputmode="numeric" maxlength="5"
+              aria-label="Code postal"
+            >
+          </div>
+          <button class="btn-geo" id="btn-geo" aria-label="Utiliser ma position GPS">
+            📍 Ma position
+          </button>
+          <select class="radius-select" id="radius-select" aria-label="Rayon de recherche">
+            <option value="5">5 km</option>
+            <option value="10">10 km</option>
+            <option value="15" selected>15 km</option>
+            <option value="30">30 km</option>
+            <option value="50">50 km</option>
+          </select>
+        </div>
+        <div class="geo-status" id="geo-status" aria-live="polite"></div>
+
+        <button class="btn-search-spec" id="btn-search-spec" aria-label="Lancer la recherche par spécialité">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Trouver un professionnel
+        </button>
+
+      </div>
     </div>
   </section>
 
   <!-- ===== RESULTS ===== -->
   <main class="results-section" id="results-section" aria-live="polite" aria-label="Résultats de recherche">
 
-    <!-- État initial -->
     <div class="state-empty" id="state-initial">
       <span class="state-icon">🏥</span>
       <h2>Commencez votre recherche</h2>
-      <p>Saisissez le nom de famille d'un professionnel de santé<br>pour obtenir ses coordonnées complètes.</p>
+      <p>Cherchez par nom de famille ou choisissez une spécialité<br>et indiquez votre localisation pour trouver un professionnel près de chez vous.</p>
     </div>
 
-    <!-- Chargement -->
     <div class="state-loading" id="state-loading" aria-live="polite">
       <div class="loader"></div>
-      <p>Recherche en cours…</p>
+      <p id="loading-text">Recherche en cours…</p>
     </div>
 
-    <!-- Erreur -->
     <div class="state-error" id="state-error" role="alert">
       <p id="error-message">Une erreur est survenue. Veuillez réessayer.</p>
     </div>
 
-    <!-- Header résultats -->
     <div class="results-header" id="results-header">
       <div class="results-count"><span id="results-count-num">0</span> professionnel(s) trouvé(s)</div>
       <div class="results-location" id="results-location-label"></div>
     </div>
 
-    <!-- Grille résultats -->
     <div class="results-grid" id="results-grid" role="list"></div>
 
-    <!-- Charger plus -->
     <div class="load-more-wrap" id="load-more-wrap">
       <button class="btn-load-more" id="btn-load-more">Afficher plus de résultats</button>
     </div>
 
-    <!-- Aucun résultat -->
     <div class="state-empty" id="state-no-results" style="display:none;">
       <span class="state-icon">🔎</span>
       <h2>Aucun résultat trouvé</h2>
-      <p>Essayez avec un nom plus court ou vérifiez l'orthographe.</p>
+      <p id="no-results-hint">Essayez d'élargir le rayon de recherche ou de vérifier la spécialité choisie.</p>
     </div>
 
   </main>
@@ -765,9 +473,298 @@
     <p style="font-size:0.75rem; margin-top:0.5rem; opacity:0.45;">Données issues de l'Annuaire Santé · Ministère de la Santé et de la Prévention</p>
   </footer>
 
-  <script src="trouver-un-professionnel.js?v=3"></script>
   <script>
-    // Menu hamburger
+  (function () {
+    'use strict';
+
+    const API_PROXY = '/api/search';
+
+    // ── État ─────────────────────────────────────────────────────────────────
+    let currentMode    = 'nom';   // 'nom' | 'specialite'
+    let nextUrl        = null;
+    let displayedCount = 0;
+
+    // GPS
+    let gpsLat = null;
+    let gpsLng = null;
+
+    // Spécialité sélectionnée
+    let selectedCode  = null;
+    let selectedLabel = '';
+
+    // ── DOM ──────────────────────────────────────────────────────────────────
+    const tabNom       = document.getElementById('tab-nom');
+    const tabSpec      = document.getElementById('tab-specialite');
+    const panelNom     = document.getElementById('panel-nom');
+    const panelSpec    = document.getElementById('panel-specialite');
+
+    const nomInput     = document.getElementById('nom-input');
+    const btnSearchNom = document.getElementById('btn-search-nom');
+
+    const cpInput      = document.getElementById('cp-input');
+    const btnGeo       = document.getElementById('btn-geo');
+    const radiusSel    = document.getElementById('radius-select');
+    const geoStatus    = document.getElementById('geo-status');
+    const btnSearchSpec= document.getElementById('btn-search-spec');
+
+    const stateInitial   = document.getElementById('state-initial');
+    const stateLoading   = document.getElementById('state-loading');
+    const loadingText    = document.getElementById('loading-text');
+    const stateError     = document.getElementById('state-error');
+    const stateNoResults = document.getElementById('state-no-results');
+    const errorMsg       = document.getElementById('error-message');
+    const noResultsHint  = document.getElementById('no-results-hint');
+    const resultsHeader  = document.getElementById('results-header');
+    const resultsGrid    = document.getElementById('results-grid');
+    const resultsCountEl = document.getElementById('results-count-num');
+    const resultsLocEl   = document.getElementById('results-location-label');
+    const loadMoreWrap   = document.getElementById('load-more-wrap');
+    const btnLoadMore    = document.getElementById('btn-load-more');
+
+    // ── Onglets ──────────────────────────────────────────────────────────────
+    function switchTab(mode) {
+      currentMode = mode;
+      tabNom.classList.toggle('active', mode === 'nom');
+      tabSpec.classList.toggle('active', mode === 'specialite');
+      tabNom.setAttribute('aria-selected', mode === 'nom');
+      tabSpec.setAttribute('aria-selected', mode === 'specialite');
+      if (mode === 'nom') {
+        panelNom.style.display = 'block';
+        panelNom.removeAttribute('hidden');
+        panelSpec.style.display = 'none';
+        panelSpec.setAttribute('hidden', '');
+      } else {
+        panelNom.style.display = 'none';
+        panelNom.setAttribute('hidden', '');
+        panelSpec.style.display = 'block';
+        panelSpec.removeAttribute('hidden');
+      }
+    }
+
+    tabNom.addEventListener('click',  () => switchTab('nom'));
+    tabSpec.addEventListener('click', () => switchTab('specialite'));
+
+    // ── Chips spécialité ─────────────────────────────────────────────────────
+    document.querySelectorAll('.spec-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.spec-chip').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedCode  = btn.dataset.code;
+        selectedLabel = btn.textContent.trim();
+      });
+    });
+
+    // ── Géolocalisation GPS ──────────────────────────────────────────────────
+    btnGeo.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        setGeoStatus('La géolocalisation n\'est pas disponible sur ce navigateur.', 'err');
+        return;
+      }
+      btnGeo.classList.add('loading');
+      btnGeo.textContent = '⏳ Localisation…';
+      setGeoStatus('', '');
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          gpsLat = pos.coords.latitude.toFixed(5);
+          gpsLng = pos.coords.longitude.toFixed(5);
+          cpInput.value = '';
+          btnGeo.classList.remove('loading');
+          btnGeo.innerHTML = '📍 Ma position';
+          setGeoStatus(`✓ Position détectée (${gpsLat}, ${gpsLng})`, 'ok');
+        },
+        (err) => {
+          btnGeo.classList.remove('loading');
+          btnGeo.innerHTML = '📍 Ma position';
+          const msgs = {
+            1: 'Accès à la position refusé. Activez la localisation dans votre navigateur.',
+            2: 'Position indisponible.',
+            3: 'Délai dépassé. Réessayez.',
+          };
+          setGeoStatus(msgs[err.code] || 'Erreur de géolocalisation.', 'err');
+        },
+        { timeout: 10000, maximumAge: 60000 }
+      );
+    });
+
+    function setGeoStatus(msg, type) {
+      geoStatus.textContent = msg;
+      geoStatus.className = 'geo-status' + (type ? ' ' + type : '');
+    }
+
+    // Effacer GPS si l'utilisateur tape un CP
+    cpInput.addEventListener('input', () => {
+      if (cpInput.value.length > 0) {
+        gpsLat = null; gpsLng = null;
+        setGeoStatus('', '');
+      }
+    });
+
+    // ── États ────────────────────────────────────────────────────────────────
+    function showState(state) {
+      [stateInitial, stateLoading, stateError, stateNoResults].forEach(el => el.style.display = 'none');
+      resultsHeader.style.display = resultsGrid.style.display = loadMoreWrap.style.display = 'none';
+      if (state === 'initial')    stateInitial.style.display   = 'block';
+      if (state === 'loading')    stateLoading.style.display   = 'block';
+      if (state === 'error')      stateError.style.display     = 'block';
+      if (state === 'no-results') stateNoResults.style.display = 'block';
+      if (state === 'results')  { resultsHeader.style.display  = 'flex'; resultsGrid.style.display = 'flex'; }
+    }
+
+    function showError(msg) { errorMsg.textContent = msg; showState('error'); }
+
+    // ── Helpers rendu ────────────────────────────────────────────────────────
+    function initials(name) {
+      const p = (name || '?').trim().split(/\s+/);
+      return p.length >= 2 ? (p[0][0] + p[1][0]).toUpperCase() : (name || '?').slice(0, 2).toUpperCase();
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function renderCard(pro, index) {
+      const card = document.createElement('article');
+      card.className = 'pro-card';
+      card.setAttribute('role', 'listitem');
+      card.style.animationDelay = `${Math.min(index * 40, 400)}ms`;
+      card.innerHTML = `
+        <div class="pro-card-top">
+          <div class="pro-avatar" aria-hidden="true">${initials(pro.nom)}</div>
+          <div class="pro-info">
+            <div class="pro-name">${escapeHtml(pro.nom)}</div>
+            <span class="pro-specialty">${escapeHtml(pro.specialite || '')}</span>
+          </div>
+        </div>
+        <div class="pro-details">
+          ${pro.adresse   ? `<span class="pro-detail-item">📍 ${escapeHtml(pro.adresse)}</span>` : ''}
+          ${pro.telephone ? `<span class="pro-detail-item">📞 <a href="tel:${pro.telephone.replace(/\s/g,'')}">${escapeHtml(pro.telephone)}</a></span>` : ''}
+          ${pro.email     ? `<span class="pro-detail-item">✉️ <a href="mailto:${escapeHtml(pro.email)}">${escapeHtml(pro.email)}</a></span>` : ''}
+        </div>`;
+      return card;
+    }
+
+    function appendResults(results, offset) {
+      results.forEach((pro, i) => resultsGrid.appendChild(renderCard(pro, offset + i)));
+    }
+
+    // ── Recherche par NOM ────────────────────────────────────────────────────
+    async function searchByNom() {
+      const nom = nomInput.value.trim();
+      if (!nom)           { nomInput.focus(); return; }
+      if (nom.length < 2) { showError('Saisissez au moins 2 lettres du nom de famille.'); return; }
+
+      loadingText.textContent = 'Recherche en cours…';
+      showState('loading');
+      resultsGrid.innerHTML = '';
+      nextUrl = null; displayedCount = 0;
+
+      try {
+        const res  = await fetch(`${API_PROXY}?${new URLSearchParams({ nom })}`);
+        if (!res.ok) throw new Error(`Erreur serveur (${res.status}).`);
+        const data = await res.json();
+        if (data.error) throw new Error('L\'annuaire est momentanément indisponible.');
+
+        const results = data.results || [];
+        nextUrl = data.nextUrl || null;
+        if (!results.length) {
+          noResultsHint.textContent = 'Essayez avec un nom plus court ou vérifiez l\'orthographe.';
+          showState('no-results'); return;
+        }
+        showState('results');
+        resultsCountEl.textContent = data.total >= 9856 ? '9000+' : (data.total || results.length);
+        resultsLocEl.textContent   = `Résultats pour « ${nom} »`;
+        appendResults(results, 0);
+        displayedCount = results.length;
+        loadMoreWrap.style.display = nextUrl ? 'block' : 'none';
+        document.getElementById('results-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (err) {
+        showError(err.message || 'Une erreur est survenue. Veuillez réessayer.');
+      }
+    }
+
+    // ── Recherche par SPÉCIALITÉ ─────────────────────────────────────────────
+    async function searchBySpec() {
+      if (!selectedCode) {
+        alert('Veuillez sélectionner une spécialité.');
+        return;
+      }
+
+      const hasGps = gpsLat && gpsLng;
+      const cp = cpInput.value.trim();
+      const hasCp = /^\d{5}$/.test(cp);
+
+      if (!hasGps && !hasCp) {
+        cpInput.focus();
+        setGeoStatus('Indiquez votre code postal ou utilisez "Ma position".', 'err');
+        return;
+      }
+
+      const radius = radiusSel.value;
+      const params = new URLSearchParams({ specialite: selectedCode, radius });
+      if (hasGps) { params.set('lat', gpsLat); params.set('lng', gpsLng); }
+      else         params.set('cp', cp);
+
+      loadingText.textContent = `Recherche de ${selectedLabel} dans un rayon de ${radius} km…`;
+      showState('loading');
+      resultsGrid.innerHTML = '';
+      nextUrl = null; displayedCount = 0;
+
+      try {
+        const res  = await fetch(`${API_PROXY}?${params}`);
+        if (!res.ok) throw new Error(`Erreur serveur (${res.status}).`);
+        const data = await res.json();
+        if (data.error) throw new Error('L\'annuaire est momentanément indisponible.');
+
+        const results = data.results || [];
+        nextUrl = data.nextUrl || null;
+
+        if (!results.length) {
+          noResultsHint.textContent = `Aucun ${selectedLabel.toLowerCase()} trouvé dans ce rayon. Essayez d'élargir la distance.`;
+          showState('no-results'); return;
+        }
+        showState('results');
+        const locLabel = hasGps ? `à ${radius} km de votre position` : `autour du CP ${cp}`;
+        resultsCountEl.textContent = data.total >= 9856 ? '9000+' : (data.total || results.length);
+        resultsLocEl.textContent   = `${selectedLabel} · ${locLabel}`;
+        appendResults(results, 0);
+        displayedCount = results.length;
+        loadMoreWrap.style.display = nextUrl ? 'block' : 'none';
+        document.getElementById('results-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (err) {
+        showError(err.message || 'Une erreur est survenue. Veuillez réessayer.');
+      }
+    }
+
+    // ── Charger plus ─────────────────────────────────────────────────────────
+    async function loadMore() {
+      if (!nextUrl) return;
+      btnLoadMore.disabled = true;
+      btnLoadMore.textContent = '⏳ Chargement…';
+      try {
+        const res  = await fetch(`${API_PROXY}?${new URLSearchParams({ next: nextUrl })}`);
+        if (!res.ok) throw new Error(`Erreur serveur (${res.status}).`);
+        const data = await res.json();
+        const newResults = data.results || [];
+        nextUrl = data.nextUrl || null;
+        appendResults(newResults, displayedCount);
+        displayedCount += newResults.length;
+        loadMoreWrap.style.display = nextUrl ? 'block' : 'none';
+      } catch (err) {
+        showError(err.message || 'Erreur lors du chargement.');
+      } finally {
+        btnLoadMore.disabled = false;
+        btnLoadMore.textContent = 'Afficher plus de résultats';
+      }
+    }
+
+    // ── Événements ───────────────────────────────────────────────────────────
+    btnSearchNom.addEventListener('click', searchByNom);
+    nomInput.addEventListener('keydown', e => { if (e.key === 'Enter') searchByNom(); });
+    btnSearchSpec.addEventListener('click', searchBySpec);
+    btnLoadMore.addEventListener('click', loadMore);
+
+    // ── Menu hamburger ───────────────────────────────────────────────────────
     const hamburger = document.getElementById('doctonet-hamburger');
     const navLinks  = document.getElementById('doctonet-nav-links');
     if (hamburger && navLinks) {
@@ -784,6 +781,9 @@
         });
       });
     }
+
+  })();
   </script>
+
 </body>
 </html>
