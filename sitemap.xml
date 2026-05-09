@@ -4,7 +4,7 @@
   <!-- Page d'accueil -->
   <url>
     <loc>https://www.doctonet.org/</loc>
-    <lastmod>2026-04-27</lastmod>
+    <lastmod>2026-05-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -20,42 +20,42 @@
   <!-- Tutoriels existants -->
   <url>
     <loc>https://www.doctonet.org/creer-adresse-electronique.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.doctonet.org/creer-espace-particulier.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.doctonet.org/se-connecter-espace-particulier.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.doctonet.org/modifier-fichiers-pdf.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.doctonet.org/securite-vie-privee.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.doctonet.org/trouver-un-professionnel.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-04-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -75,10 +75,18 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Outils -->
+  <url>
+    <loc>https://www.doctonet.org/trouver-un-lieu-numerique.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Pages légales -->
   <url>
     <loc>https://www.doctonet.org/donnees-personnelles.html</loc>
-    <lastmod>2026-04-24</lastmod>
+    <lastmod>2026-04-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
