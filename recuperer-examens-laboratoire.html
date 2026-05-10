@@ -56,492 +56,112 @@
       box-sizing: border-box !important;
       box-shadow: 0 2px 16px rgba(10,37,64,0.10) !important;
     }
-    #doctonet-logo {
-      all: initial !important;
-      font-family: 'Syne', sans-serif !important;
-      font-weight: 800 !important;
-      font-size: 1.5rem !important;
-      color: #0a2540 !important;
-      text-decoration: none !important;
-      cursor: pointer !important;
-      display: inline-block !important;
-    }
+    #doctonet-logo { all: initial !important; font-family: 'Syne', sans-serif !important; font-weight: 800 !important; font-size: 1.5rem !important; color: #0a2540 !important; text-decoration: none !important; cursor: pointer !important; display: inline-block !important; }
     #doctonet-logo span { color: #00c2ff !important; font-family: 'Syne', sans-serif !important; font-weight: 800 !important; }
-    #doctonet-nav-links {
-      all: initial !important;
-      display: flex !important;
-      gap: 2rem !important;
-      align-items: center !important;
-    }
-    #doctonet-nav-links a {
-      all: initial !important;
-      font-family: 'DM Sans', sans-serif !important;
-      text-decoration: none !important;
-      color: #6b7a90 !important;
-      font-size: 0.95rem !important;
-      font-weight: 500 !important;
-      cursor: pointer !important;
-      display: inline-block !important;
-    }
+    #doctonet-nav-links { all: initial !important; display: flex !important; gap: 2rem !important; align-items: center !important; }
+    #doctonet-nav-links a { all: initial !important; font-family: 'DM Sans', sans-serif !important; text-decoration: none !important; color: #6b7a90 !important; font-size: 0.95rem !important; font-weight: 500 !important; cursor: pointer !important; display: inline-block !important; }
     #doctonet-nav-links a:hover { color: #0a2540 !important; }
     #doctonet-nav-links a.active { color: #00c2ff !important; font-weight: 700 !important; }
-    #doctonet-nav-links #doctonet-nav-cta,
-    #doctonet-nav-cta {
-      all: initial !important;
-      font-family: 'Syne', sans-serif !important;
-      background: #0a2540 !important;
-      color: #ffffff !important;
-      padding: 0.5rem 1.2rem !important;
-      border-radius: 50px !important;
-      font-weight: 700 !important;
-      font-size: 0.9rem !important;
-      text-decoration: none !important;
-      cursor: pointer !important;
-      display: inline-block !important;
-    }
+    #doctonet-nav-links #doctonet-nav-cta, #doctonet-nav-cta { all: initial !important; font-family: 'Syne', sans-serif !important; background: #0a2540 !important; color: #ffffff !important; padding: 0.5rem 1.2rem !important; border-radius: 50px !important; font-weight: 700 !important; font-size: 0.9rem !important; text-decoration: none !important; cursor: pointer !important; display: inline-block !important; }
     #doctonet-nav-cta:hover { background: #00c2ff !important; color: #0a2540 !important; }
-    #doctonet-hamburger {
-      all: initial !important;
-      display: none !important;
-      flex-direction: column !important;
-      gap: 5px !important;
-      background: none !important;
-      border: none !important;
-      cursor: pointer !important;
-      padding: 4px !important;
-      z-index: 1000000 !important;
-    }
-    #doctonet-hamburger span {
-      display: block !important;
-      width: 24px !important;
-      height: 2px !important;
-      background: #0a2540 !important;
-      border-radius: 2px !important;
-      transition: all 0.3s !important;
-    }
+    #doctonet-hamburger { all: initial !important; display: none !important; flex-direction: column !important; gap: 5px !important; background: none !important; border: none !important; cursor: pointer !important; padding: 4px !important; z-index: 1000000 !important; }
+    #doctonet-hamburger span { display: block !important; width: 24px !important; height: 2px !important; background: #0a2540 !important; border-radius: 2px !important; transition: all 0.3s !important; }
     #doctonet-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg) !important; }
     #doctonet-hamburger.open span:nth-child(2) { opacity: 0 !important; }
     #doctonet-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg) !important; }
     @media (max-width: 768px) {
       #doctonet-hamburger { display: flex !important; }
-      #doctonet-nav-links {
-        display: none !important;
-        position: fixed !important;
-        top: 68px !important;
-        left: 0 !important; right: 0 !important;
-        background: #ffffff !important;
-        flex-direction: column !important;
-        gap: 0 !important;
-        padding: 1rem 0 1.5rem !important;
-        box-shadow: 0 8px 24px rgba(10,37,64,0.12) !important;
-        z-index: 999998 !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-      }
+      #doctonet-nav-links { display: none !important; position: fixed !important; top: 68px !important; left: 0 !important; right: 0 !important; background: #ffffff !important; flex-direction: column !important; gap: 0 !important; padding: 1rem 0 1.5rem !important; box-shadow: 0 8px 24px rgba(10,37,64,0.12) !important; z-index: 999998 !important; width: 100% !important; box-sizing: border-box !important; }
       #doctonet-nav-links.open { display: flex !important; }
-      #doctonet-nav-links a {
-        padding: 0.85rem 5% !important;
-        font-size: 1rem !important;
-        width: 100% !important;
-        border-bottom: 1px solid rgba(0,194,255,0.08) !important;
-        box-sizing: border-box !important;
-      }
-      #doctonet-nav-links #doctonet-nav-cta {
-        display: inline-block !important;
-        background: #0a2540 !important;
-        color: #ffffff !important;
-        border-radius: 50px !important;
-        margin: 0.5rem 5% 0 !important;
-        width: 90% !important;
-        text-align: center !important;
-        padding: 0.75rem 1.2rem !important;
-        box-sizing: border-box !important;
-        font-family: 'Syne', sans-serif !important;
-        font-weight: 700 !important;
-        border-bottom: none !important;
-      }
+      #doctonet-nav-links a { padding: 0.85rem 5% !important; font-size: 1rem !important; width: 100% !important; border-bottom: 1px solid rgba(0,194,255,0.08) !important; box-sizing: border-box !important; }
+      #doctonet-nav-links #doctonet-nav-cta { display: inline-block !important; background: #0a2540 !important; color: #ffffff !important; border-radius: 50px !important; margin: 0.5rem 5% 0 !important; width: 90% !important; text-align: center !important; padding: 0.75rem 1.2rem !important; box-sizing: border-box !important; font-family: 'Syne', sans-serif !important; font-weight: 700 !important; border-bottom: none !important; }
     }
     @media (min-width: 769px) { #doctonet-hamburger { display: none !important; } }
-    /* ===== FIN NAVBAR ===== */
 
+    /* ===== BASE ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: #f4f8ff;
-      color: #0a2540;
-      line-height: 1.6;
-      padding-top: 68px;
-    }
+    body { font-family: 'DM Sans', sans-serif; background: #f4f8ff; color: #0a2540; line-height: 1.6; padding-top: 68px; }
 
     /* ===== HEADER ===== */
-    header {
-      background: linear-gradient(135deg, #0a2540, #0e3460);
-      padding: 100px 5% 50px;
-      color: white;
-      position: relative;
-      overflow: hidden;
-    }
-    header::before {
-      content: '';
-      position: absolute;
-      top: -60px; right: -60px;
-      width: 280px; height: 280px;
-      background: radial-gradient(circle, rgba(0,194,255,0.12) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-    .badge {
-      display: inline-block;
-      background: rgba(0,194,255,0.15);
-      border: 1px solid rgba(0,194,255,0.3);
-      color: #00c2ff;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 5px 14px;
-      border-radius: 50px;
-      margin-bottom: 1rem;
-    }
-    header h1 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(1.6rem, 4vw, 2.6rem);
-      margin-bottom: 0.75rem;
-      line-height: 1.2;
-    }
-    header p {
-      max-width: 650px;
-      color: rgba(255,255,255,0.82);
-      font-size: 1.05rem;
-      line-height: 1.6;
-    }
+    header { background: linear-gradient(135deg, #0a2540, #0e3460); padding: 100px 5% 50px; color: white; position: relative; overflow: hidden; }
+    header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 280px; height: 280px; background: radial-gradient(circle, rgba(0,194,255,0.12) 0%, transparent 70%); border-radius: 50%; }
+    .badge { display: inline-block; background: rgba(0,194,255,0.15); border: 1px solid rgba(0,194,255,0.3); color: #00c2ff; font-size: 0.78rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 5px 14px; border-radius: 50px; margin-bottom: 1rem; }
+    header h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.3rem, 5.5vw, 2.4rem); margin-bottom: 0.75rem; line-height: 1.25; overflow-wrap: break-word; }
+    header p { max-width: 650px; color: rgba(255,255,255,0.82); font-size: clamp(0.9rem, 2.5vw, 1.05rem); line-height: 1.6; }
 
     /* ===== MAIN ===== */
-    main {
-      max-width: 900px;
-      margin: -40px auto 0;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 40px rgba(10,37,64,0.10);
-      padding: 50px 5% 60px;
-      position: relative;
-    }
-
-    h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(1.3rem, 3vw, 1.75rem);
-      font-weight: 800;
-      color: #0a2540;
-      margin: 2.5rem 0 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid rgba(0,194,255,0.2);
-    }
+    main { max-width: 900px; margin: -40px auto 0; background: white; border-radius: 16px; box-shadow: 0 8px 40px rgba(10,37,64,0.10); padding: 40px 5% 60px; }
+    h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.05rem, 3vw, 1.55rem); font-weight: 800; color: #0a2540; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid rgba(0,194,255,0.2); line-height: 1.3; }
     h2:first-child { margin-top: 0; }
-
-    h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #0a2540;
-      margin: 1.5rem 0 0.5rem;
-    }
-
+    h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: #0a2540; margin: 1.5rem 0 0.5rem; }
     p { margin-bottom: 1rem; font-size: 1rem; }
     ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
     li { margin-bottom: 0.4rem; }
     strong { color: #0a2540; }
 
     /* ===== ÉTAPES ===== */
-    .steps {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin: 1.5rem 0;
-    }
-    .step {
-      display: flex;
-      gap: 1.25rem;
-      align-items: flex-start;
-      background: #f4f8ff;
-      border-radius: 12px;
-      padding: 1.1rem 1.25rem;
-      border-left: 4px solid #00c2ff;
-    }
-    .step-num {
-      flex-shrink: 0;
-      width: 36px;
-      height: 36px;
-      background: #0a2540;
-      color: #fff;
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .step-content strong {
-      display: block;
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      margin-bottom: 0.2rem;
-    }
-    .step-content p { margin: 0; font-size: 0.95rem; color: #4a5568; }
+    .steps { display: flex; flex-direction: column; gap: 0.875rem; margin: 1.5rem 0; }
+    .step { display: flex; gap: 1rem; align-items: flex-start; background: #f4f8ff; border-radius: 12px; padding: 1rem 1.1rem; border-left: 4px solid #00c2ff; }
+    .step-num { flex-shrink: 0; width: 32px; height: 32px; background: #0a2540; color: #fff; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.95rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .step-content strong { display: block; font-family: 'Syne', sans-serif; font-size: 0.97rem; margin-bottom: 0.2rem; }
+    .step-content p { margin: 0; font-size: 0.93rem; color: #4a5568; }
 
-    /* ===== TABLEAU PORTAILS ===== */
-    .portails-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1.25rem 0;
-      font-size: 0.92rem;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 12px rgba(10,37,64,0.07);
-    }
-    .portails-table thead {
-      background: #0a2540;
-      color: #fff;
-    }
-    .portails-table th {
-      padding: 0.75rem 1rem;
-      text-align: left;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.85rem;
-    }
-    .portails-table td {
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid rgba(10,37,64,0.07);
-      vertical-align: top;
-    }
-    .portails-table tr:last-child td { border-bottom: none; }
-    .portails-table tr:nth-child(even) td { background: #f4f8ff; }
-    .portails-table a {
-      color: #0085b3;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .portails-table a:hover { color: #00c2ff; }
+    /* ===== PORTAIL MOCKUP ===== */
+    .portail-mockup { background: #fff; border: 2px solid rgba(10,37,64,0.12); border-radius: 12px; padding: 1.25rem; margin: 1.25rem 0; max-width: 380px; font-size: 0.9rem; }
+    .portail-mockup .mock-logo { background: #e8eef5; border-radius: 6px; padding: 0.4rem 1rem; display: inline-block; font-family: 'Syne', sans-serif; font-size: 0.8rem; color: #6b7a90; margin-bottom: 1rem; }
+    .portail-mockup label { display: block; font-size: 0.82rem; font-weight: 700; color: #6b7a90; margin-bottom: 0.25rem; margin-top: 0.6rem; }
+    .portail-mockup .mock-input { width: 100%; border: 1.5px solid rgba(10,37,64,0.15); border-radius: 8px; padding: 0.5rem 0.8rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: #0a2540; background: #f4f8ff; }
+    .portail-mockup .mock-btn { width: 100%; margin-top: 1rem; background: #0a2540; color: #fff; border: none; border-radius: 8px; padding: 0.75rem; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem; cursor: default; }
+    .portail-mockup .mock-tip { font-size: 0.78rem; color: #6b7a90; margin-top: 0.75rem; font-style: italic; }
 
-    /* ===== PORTAILS REGIONAUX ===== */
-    .portails-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 0.75rem;
-      margin: 1.25rem 0;
-    }
-    .portail-card {
-      background: #f4f8ff;
-      border-radius: 10px;
-      padding: 0.9rem 1.1rem;
-      border: 1.5px solid rgba(0,194,255,0.15);
-    }
-    .portail-card strong {
-      display: block;
-      font-family: 'Syne', sans-serif;
-      font-size: 0.95rem;
-      margin-bottom: 0.25rem;
-    }
-    .portail-card a {
-      color: #0085b3;
-      text-decoration: none;
-      font-size: 0.88rem;
-    }
-    .portail-card p {
-      margin: 0.3rem 0 0;
-      font-size: 0.85rem;
-      color: #6b7a90;
-    }
+    /* ===== CARTES LABORATOIRES (remplace le tableau) ===== */
+    .labo-list { display: flex; flex-direction: column; gap: 0.75rem; margin: 1.25rem 0; }
+    .labo-card { background: #f4f8ff; border-radius: 12px; padding: 1rem 1.1rem; border: 1.5px solid rgba(0,194,255,0.15); }
+    .labo-card-header { display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.4rem; flex-wrap: wrap; }
+    .labo-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: #0a2540; }
+    .labo-sites { font-size: 0.78rem; color: #6b7a90; }
+    .labo-link { display: inline-block; color: #0085b3; text-decoration: none; font-weight: 600; font-size: 0.88rem; margin-bottom: 0.35rem; }
+    .labo-link:hover { color: #00c2ff; }
+    .labo-desc { font-size: 0.88rem; color: #4a5568; margin: 0; line-height: 1.5; }
 
-    /* ===== REFLEXES ===== */
-    .reflexes {
-      background: #f0faf5;
-      border: 1.5px solid rgba(0,229,160,0.3);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      margin: 1.25rem 0;
-    }
+    /* ===== PORTAILS RÉGIONAUX ===== */
+    .portails-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; margin: 1.25rem 0; }
+    .portail-card { background: #f4f8ff; border-radius: 10px; padding: 0.9rem 1rem; border: 1.5px solid rgba(0,194,255,0.15); }
+    .portail-card strong { display: block; font-family: 'Syne', sans-serif; font-size: 0.95rem; margin-bottom: 0.25rem; color: #0a2540; }
+    .portail-card a { color: #0085b3; text-decoration: none; font-size: 0.88rem; font-weight: 600; }
+    .portail-card p { margin: 0.3rem 0 0; font-size: 0.84rem; color: #6b7a90; line-height: 1.4; }
+
+    /* ===== RÉFLEXES ===== */
+    .reflexes { background: #eef5ff; border: 1.5px solid rgba(0,194,255,0.25); border-radius: 12px; padding: 1.1rem 1.25rem; margin: 1.25rem 0; }
     .reflexes ol { margin-left: 1.2rem; }
     .reflexes li { margin-bottom: 0.6rem; font-size: 0.97rem; }
 
-    /* ===== PROBLEMES ===== */
-    .problems {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin: 1.25rem 0;
-    }
-    .problem {
-      background: #fff5f5;
-      border-left: 4px solid #e53e3e;
-      border-radius: 0 10px 10px 0;
-      padding: 0.9rem 1.1rem;
-    }
-    .problem strong {
-      display: block;
-      font-size: 0.95rem;
-      margin-bottom: 0.3rem;
-    }
-    .problem p {
-      margin: 0;
-      font-size: 0.92rem;
-      color: #4a5568;
-    }
-    .problem p em {
-      color: #2d7a5e;
-      font-style: normal;
-      font-weight: 500;
-    }
+    /* ===== PROBLÈMES ===== */
+    .problems { display: flex; flex-direction: column; gap: 0.75rem; margin: 1.25rem 0; }
+    .problem { background: #fff5f5; border-left: 4px solid #e53e3e; border-radius: 0 10px 10px 0; padding: 0.9rem 1rem; }
+    .problem strong { display: block; font-size: 0.93rem; margin-bottom: 0.3rem; line-height: 1.4; }
+    .problem p { margin: 0; font-size: 0.9rem; color: #4a5568; line-height: 1.5; }
+    .problem p em { color: #2d7a5e; font-style: normal; font-weight: 600; }
 
-    /* ===== SECURITE ===== */
-    .securite-list {
-      list-style: none;
-      margin: 1rem 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .securite-list li {
-      display: flex;
-      gap: 0.75rem;
-      align-items: flex-start;
-      font-size: 0.97rem;
-      padding: 0.6rem 0.9rem;
-      background: #f4f8ff;
-      border-radius: 8px;
-    }
-    .securite-list li::before {
-      content: '🔒';
-      flex-shrink: 0;
-    }
+    /* ===== SÉCURITÉ — display block pour éviter 3 colonnes sur mobile ===== */
+    .securite-list { list-style: none; margin: 1rem 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+    .securite-list li { display: block; font-size: 0.97rem; padding: 0.75rem 1rem 0.75rem 2.75rem; background: #f4f8ff; border-radius: 8px; position: relative; line-height: 1.5; }
+    .securite-list li::before { content: '🔒'; position: absolute; left: 0.75rem; top: 0.75rem; }
 
-    /* ===== PORTAIL MOCKUP ===== */
-    .portail-mockup {
-      background: #fff;
-      border: 2px solid rgba(10,37,64,0.12);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin: 1.25rem 0;
-      max-width: 400px;
-      font-size: 0.9rem;
-    }
-    .portail-mockup .mock-logo {
-      background: #e8eef5;
-      border-radius: 6px;
-      padding: 0.4rem 1rem;
-      display: inline-block;
-      font-family: 'Syne', sans-serif;
-      font-size: 0.8rem;
-      color: #6b7a90;
-      margin-bottom: 1rem;
-    }
-    .portail-mockup label {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #6b7a90;
-      margin-bottom: 0.25rem;
-      margin-top: 0.6rem;
-    }
-    .portail-mockup .mock-input {
-      width: 100%;
-      border: 1.5px solid rgba(10,37,64,0.15);
-      border-radius: 8px;
-      padding: 0.5rem 0.8rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      color: #0a2540;
-      background: #f4f8ff;
-    }
-    .portail-mockup .mock-btn {
-      width: 100%;
-      margin-top: 1rem;
-      background: #0a2540;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 0.75rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.9rem;
-      cursor: default;
-    }
-    .portail-mockup .mock-tip {
-      font-size: 0.78rem;
-      color: #6b7a90;
-      margin-top: 0.75rem;
-      font-style: italic;
-    }
-
-    /* ===== CTA DOCTONET ===== */
-    .cta-doctonet {
-      background: linear-gradient(135deg, #0a2540, #0e3460);
-      border-radius: 14px;
-      padding: 2rem 1.5rem;
-      text-align: center;
-      margin: 2.5rem 0 0;
-      color: #fff;
-    }
-    .cta-doctonet h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.2rem;
-      color: #fff;
-      margin: 0 0 0.5rem;
-    }
-    .cta-doctonet p {
-      color: rgba(255,255,255,0.8);
-      font-size: 0.97rem;
-      margin-bottom: 1.25rem;
-    }
-    .cta-links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.75rem;
-    }
-    .cta-links a {
-      background: #00c2ff;
-      color: #0a2540;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.9rem;
-      padding: 0.6rem 1.3rem;
-      border-radius: 50px;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-    .cta-links a:hover { background: #fff; }
-    .cta-links a.secondary {
-      background: rgba(255,255,255,0.12);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.25);
-    }
-    .cta-links a.secondary:hover { background: rgba(255,255,255,0.22); }
+    /* ===== CTA ===== */
+    .cta-doctonet { background: linear-gradient(135deg, #0a2540, #0e3460); border-radius: 14px; padding: 1.75rem 1.25rem; text-align: center; margin: 2.5rem 0 0; color: #fff; }
+    .cta-doctonet h3 { font-family: 'Syne', sans-serif; font-size: clamp(1rem, 3vw, 1.2rem); color: #fff; margin: 0 0 0.5rem; line-height: 1.3; }
+    .cta-doctonet p { color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-bottom: 1.25rem; }
+    .cta-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+    .cta-links a { background: #00c2ff; color: #0a2540; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; padding: 0.65rem 1.3rem; border-radius: 50px; text-decoration: none; }
+    .cta-links a.secondary { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.25); }
 
     /* ===== RETOUR ===== */
-    .back-link {
-      display: inline-block;
-      margin-bottom: 2rem;
-      color: #6b7a90;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
+    .back-link { display: inline-block; margin-bottom: 1.75rem; color: #6b7a90; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
     .back-link:hover { color: #0a2540; }
 
     /* ===== FOOTER ===== */
-    footer {
-      background: #0a2540;
-      color: rgba(255,255,255,0.7);
-      text-align: center;
-      padding: 3rem 5% 2rem;
-      font-size: 0.88rem;
-      line-height: 1.8;
-      margin-top: 3rem;
-    }
+    footer { background: #0a2540; color: rgba(255,255,255,0.7); text-align: center; padding: 3rem 5% 2rem; font-size: 0.88rem; line-height: 1.8; margin-top: 3rem; }
     .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; color: #fff; margin-bottom: 0.75rem; }
     .footer-logo span { color: #00c2ff; }
     footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
@@ -551,18 +171,18 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 600px) {
-      header { padding: 90px 5% 40px; }
-      main { padding: 35px 5% 40px; margin-top: -24px; }
-      .portails-table { font-size: 0.82rem; }
-      .portails-table th, .portails-table td { padding: 0.6rem 0.7rem; }
+      header { padding: 88px 5% 36px; }
+      main { padding: 28px 5% 40px; margin-top: -20px; border-radius: 12px; }
+      .portails-grid { grid-template-columns: 1fr; }
       .portail-mockup { max-width: 100%; }
+      .cta-links { flex-direction: column; align-items: center; }
+      .cta-links a { width: 100%; text-align: center; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ===== NAVIGATION ===== -->
   <nav id="doctonet-nav" role="navigation" aria-label="Navigation principale">
     <a href="index.html" id="doctonet-logo">Docto<span>NET</span></a>
     <div id="doctonet-nav-links">
@@ -577,19 +197,15 @@
     </button>
   </nav>
 
-  <!-- ===== HEADER ===== -->
   <header>
     <div class="badge">Tutoriel numérique</div>
-    <h1>Récupérer ses examens<br>de laboratoire en ligne</h1>
+    <h1>Récupérer ses examens de laboratoire en ligne</h1>
     <p>Depuis chez vous, en quelques clics, consultez et téléchargez vos résultats d'analyses médicales sans vous déplacer — quel que soit votre laboratoire en France.</p>
   </header>
 
-  <!-- ===== MAIN ===== -->
   <main>
-
     <a href="Tutoriels.html" class="back-link">← Retour aux tutoriels</a>
 
-    <!-- SECTION 1 -->
     <h2>1. Comment ça marche ?</h2>
     <p>Après votre prise de sang ou tout autre prélèvement, le laboratoire analyse vos échantillons. Une fois les résultats validés par un biologiste, vous pouvez les consulter en ligne — généralement dans les <strong>24 à 48 heures</strong>.</p>
 
@@ -625,8 +241,6 @@
     </div>
 
     <h3>À quoi ressemble un portail de résultats ?</h3>
-    <p>La plupart des portails se présentent comme ceci :</p>
-
     <div class="portail-mockup" aria-label="Exemple de formulaire de connexion à un portail patient">
       <div class="mock-logo">[ Logo du laboratoire ]</div>
       <label>Identifiant</label>
@@ -636,68 +250,57 @@
       <label>Code reçu par SMS</label>
       <div class="mock-input">______</div>
       <button class="mock-btn" disabled>ACCÉDER À MES RÉSULTATS</button>
-      <p class="mock-tip">💡 Astuce : si vous avez reçu une carte plastifiée par le laboratoire, votre identifiant se trouve au dos.</p>
+      <p class="mock-tip">💡 Si vous avez reçu une carte plastifiée, votre identifiant se trouve au dos.</p>
     </div>
 
-    <!-- SECTION 2 -->
     <h2>2. Trouver le bon portail selon votre laboratoire</h2>
-    <p>Six grands groupes couvrent aujourd'hui plus de 60% des laboratoires en France. Repérez le nom ou le logo affiché dans votre laboratoire, puis rendez-vous sur le portail correspondant.</p>
+    <p>Six grands groupes couvrent plus de 60% des laboratoires en France. Repérez le nom affiché dans votre laboratoire :</p>
 
-    <table class="portails-table" aria-label="Portails patients des grands groupes de laboratoires">
-      <thead>
-        <tr>
-          <th>Groupe / Laboratoire</th>
-          <th>Portail patient</th>
-          <th>Comment accéder</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>BIOGROUP</strong><br><small>2 000+ sites</small></td>
-          <td><a href="https://www.biogroup.fr/patients/vos-resultats/" target="_blank" rel="noopener noreferrer">biogroup.fr</a></td>
-          <td>E-mail reçu après prélèvement → lien direct. Ou via le site avec date de naissance + code SMS.</td>
-        </tr>
-        <tr>
-          <td><strong>CERBALLIANCE</strong><br><small>800+ sites</small></td>
-          <td><a href="https://www.cerballiance.fr" target="_blank" rel="noopener noreferrer">cerballiance.fr</a></td>
-          <td>Identifiant fourni au laboratoire + date de naissance. Application mobile disponible.</td>
-        </tr>
-        <tr>
-          <td><strong>SYNLAB</strong><br><small>600+ sites</small></td>
-          <td><a href="https://www.synlab.fr" target="_blank" rel="noopener noreferrer">synlab.fr → mySYNLAB</a></td>
-          <td>Carte remise au labo avec identifiant au dos. Créer un compte mySYNLAB en ligne.</td>
-        </tr>
-        <tr>
-          <td><strong>INOVIE</strong><br><small>530+ sites</small></td>
-          <td><a href="https://www.inovie.fr" target="_blank" rel="noopener noreferrer">inovie.fr → +me</a></td>
-          <td>Identifiant fourni lors du prélèvement. Application mobile INOVIE disponible.</td>
-        </tr>
-        <tr>
-          <td><strong>EUROFINS</strong><br><small>400+ sites</small></td>
-          <td><a href="https://eurofins.mesanalyses.fr" target="_blank" rel="noopener noreferrer">eurofins.mesanalyses.fr</a></td>
-          <td>E-mail et mot de passe, ou accès sans compte avec identifiant labo. <em>Note : FranceConnect suspendu depuis sept. 2025.</em></td>
-        </tr>
-        <tr>
-          <td><strong>UNILABS</strong><br><small>300+ sites</small></td>
-          <td><a href="https://unilabs.mesanalyses.fr" target="_blank" rel="noopener noreferrer">unilabs.mesanalyses.fr</a></td>
-          <td>E-mail et mot de passe, ou accès sans compte avec identifiant labo. <em>Note : FranceConnect suspendu depuis sept. 2025.</em></td>
-        </tr>
-        <tr>
-          <td><strong>MLAB GROUPE</strong></td>
-          <td><a href="https://www.mlab-groupe.fr" target="_blank" rel="noopener noreferrer">mlab-groupe.fr</a></td>
-          <td>Envoi par e-mail sécurisé (code secret) ou espace personnel en ligne — jusqu'à 5 ans d'historique.</td>
-        </tr>
-        <tr>
-          <td><strong>OUÏLAB</strong></td>
-          <td><a href="https://www.ouilab.com" target="_blank" rel="noopener noreferrer">ouilab.com</a></td>
-          <td>Par e-mail ou via le serveur de résultats sécurisé du laboratoire.</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="labo-list">
+      <div class="labo-card">
+        <div class="labo-card-header"><span class="labo-name">BIOGROUP</span><span class="labo-sites">2 000+ sites</span></div>
+        <a class="labo-link" href="https://www.biogroup.fr/patients/vos-resultats/" target="_blank" rel="noopener noreferrer">biogroup.fr → Vos résultats</a>
+        <p class="labo-desc">E-mail reçu après prélèvement → lien direct. Ou connexion via le site avec date de naissance + code SMS.</p>
+      </div>
+      <div class="labo-card">
+        <div class="labo-card-header"><span class="labo-name">CERBALLIANCE</span><span class="labo-sites">800+ sites</span></div>
+        <a class="labo-link" href="https://www.cerballiance.fr" target="_blank" rel="noopener noreferrer">cerballiance.fr → Espace Patient</a>
+        <p class="labo-desc">Identifiant fourni au laboratoire + date de naissance. Application mobile disponible.</p>
+      </div>
+      <div class="labo-card">
+        <div class="labo-card-header"><span class="labo-name">SYNLAB</span><span class="labo-sites">600+ sites</span></div>
+        <a class="labo-link" href="https://www.synlab.fr" target="_blank" rel="noopener noreferrer">synlab.fr → mySYNLAB</a>
+        <p class="labo-desc">Carte remise au labo avec identifiant au dos. Créer un compte mySYNLAB en ligne.</p>
+      </div>
+      <div class="labo-card">
+        <div class="labo-card-header"><span class="labo-name">INOVIE</span><span class="labo-sites">530+ sites</span></div>
+        <a class="labo-link" href="https://www.inovie.fr" target="_blank" rel="noopener noreferrer">inovie.fr → +me Espace Patient</a>
+        <p class="labo-desc">Identifiant fourni lors du prélèvement. Application mobile INOVIE disponible.</p>
+      </div>
+      <div class="labo-card">
+        <div class="labo-card-header"><span class="labo-name">EUROFINS</span><span class="labo-sites">400+ sites</span></div>
+        <a class="labo-link" href="https://eurofins.mesanalyses.fr" target="_blank" rel="noopener noreferrer">eurofins.mesanalyses.fr</a>
+        <p class="labo-desc">E-mail et mot de passe, ou accès sans compte avec identifiant labo. <em>Note : FranceConnect suspendu depuis sept. 2025.</em></p>
+      </div>
+      <div class="labo-card">
+        <div class="labo-card-header"><span class="labo-name">UNILABS</span><span class="labo-sites">300+ sites</span></div>
+        <a class="labo-link" href="https://unilabs.mesanalyses.fr" target="_blank" rel="noopener noreferrer">unilabs.mesanalyses.fr</a>
+        <p class="labo-desc">E-mail et mot de passe, ou accès sans compte avec identifiant labo. <em>Note : FranceConnect suspendu depuis sept. 2025.</em></p>
+      </div>
+      <div class="labo-card">
+        <div class="labo-card-header"><span class="labo-name">MLAB GROUPE</span></div>
+        <a class="labo-link" href="https://www.mlab-groupe.fr" target="_blank" rel="noopener noreferrer">mlab-groupe.fr → Vos résultats</a>
+        <p class="labo-desc">Envoi par e-mail sécurisé ou espace personnel en ligne — jusqu'à 5 ans d'historique.</p>
+      </div>
+      <div class="labo-card">
+        <div class="labo-card-header"><span class="labo-name">OUÏLAB</span></div>
+        <a class="labo-link" href="https://www.ouilab.com" target="_blank" rel="noopener noreferrer">ouilab.com → Mes résultats</a>
+        <p class="labo-desc">Par e-mail ou via le serveur de résultats sécurisé du laboratoire.</p>
+      </div>
+    </div>
 
-    <!-- SECTION 3 -->
     <h2>3. Portails régionaux et plateformes partagées</h2>
-    <p>De nombreux laboratoires indépendants (environ 30 à 35% du marché) utilisent des plateformes partagées. Si vous ne reconnaissez aucun des grands groupes ci-dessus :</p>
+    <p>Environ 30 à 35% des laboratoires indépendants utilisent des plateformes partagées. Si vous ne reconnaissez aucun des grands groupes ci-dessus :</p>
 
     <div class="portails-grid">
       <div class="portail-card">
@@ -708,92 +311,83 @@
       <div class="portail-card">
         <strong>Laboconnect</strong>
         <a href="https://www.laboconnect.com" target="_blank" rel="noopener noreferrer">www.laboconnect.com</a>
-        <p>Présent dans de nombreuses régions. Créer un compte avec l'identifiant fourni par le laboratoire.</p>
+        <p>Présent dans de nombreuses régions. Créer un compte avec l'identifiant fourni par le labo.</p>
       </div>
       <div class="portail-card">
         <strong>MonLab / Kalilab</strong>
         <a href="https://www.monlab.fr" target="_blank" rel="noopener noreferrer">monlab.fr</a>
-        <p>Utilisé par plusieurs groupes régionaux. Connexion par identifiant + date de naissance.</p>
+        <p>Plusieurs groupes régionaux. Connexion par identifiant + date de naissance.</p>
       </div>
       <div class="portail-card">
         <strong>Hexalis / Laborizon</strong>
         <a href="https://www.laborizon.fr" target="_blank" rel="noopener noreferrer">laborizon.fr</a>
-        <p>Réseau actif dans l'Ouest et le Centre. Espace patient disponible en ligne.</p>
+        <p>Actif dans l'Ouest et le Centre. Espace patient en ligne.</p>
       </div>
       <div class="portail-card">
         <strong>Alliance Bio</strong>
         <a href="https://www.alliancebio.fr" target="_blank" rel="noopener noreferrer">alliancebio.fr</a>
-        <p>Présent notamment en Île-de-France et dans le Grand Est.</p>
+        <p>Île-de-France et Grand Est notamment.</p>
       </div>
       <div class="portail-card">
         <strong>Biopath / Bioclinice</strong>
         <a href="https://www.bioclinice.fr" target="_blank" rel="noopener noreferrer">bioclinice.fr</a>
-        <p>Présent dans plusieurs régions. Espace patient sécurisé avec historique.</p>
+        <p>Plusieurs régions. Espace patient sécurisé avec historique.</p>
       </div>
     </div>
 
-    <!-- SECTION 4 -->
     <h2>4. Je ne sais pas quel portail utiliser — que faire ?</h2>
-
     <div class="reflexes">
       <h3 style="margin-top:0;">3 réflexes simples</h3>
       <ol>
-        <li><strong>Regardez le document remis au laboratoire</strong> — il contient généralement l'adresse du site et votre identifiant de connexion.</li>
-        <li><strong>Cherchez le nom du groupe</strong> sur votre ordonnance ou sur la façade du laboratoire — Biogroup, Cerballiance, Synlab, Inovie, Eurofins, Unilabs… puis rendez-vous sur leur portail.</li>
-        <li><strong>Appelez directement le laboratoire</strong> — la secrétaire vous indiquera le nom du portail et votre identifiant en moins d'une minute.</li>
+        <li><strong>Regardez le document remis au laboratoire</strong> — il contient l'adresse du site et votre identifiant.</li>
+        <li><strong>Cherchez le nom du groupe</strong> sur votre ordonnance ou la façade du laboratoire, puis allez sur leur portail.</li>
+        <li><strong>Appelez directement le laboratoire</strong> — la secrétaire vous indique le portail et votre identifiant en moins d'une minute.</li>
       </ol>
     </div>
 
-    <!-- SECTION 5 -->
     <h2>5. Problèmes fréquents et solutions</h2>
-
     <div class="problems">
       <div class="problem">
         <strong>❌ Je n'ai pas reçu d'e-mail de notification</strong>
-        <p>→ <em>Vérifiez vos spams.</em> Si rien : appelez le laboratoire pour vérifier que votre adresse e-mail a bien été enregistrée. Vous pouvez aussi accéder directement au portail avec votre identifiant.</p>
+        <p>→ <em>Vérifiez vos spams.</em> Si rien : appelez le laboratoire pour vérifier que votre adresse e-mail est bien enregistrée. Vous pouvez aussi vous connecter directement au portail avec votre identifiant.</p>
       </div>
       <div class="problem">
         <strong>❌ Mes résultats ne sont pas encore disponibles</strong>
-        <p>→ Les analyses courantes sont disponibles sous <em>24 à 48h</em>. Certaines analyses spécialisées (sérologies, cultures) prennent 2 à 7 jours. Patientez ou appelez le laboratoire.</p>
+        <p>→ Les analyses courantes sont disponibles sous <em>24 à 48h</em>. Certaines analyses spécialisées prennent 2 à 7 jours. Patientez ou appelez le laboratoire.</p>
       </div>
       <div class="problem">
         <strong>❌ J'ai oublié mon identifiant ou mot de passe</strong>
-        <p>→ Cliquez sur <em>"Mot de passe oublié"</em> sur le portail, ou rappelez le laboratoire — ils peuvent régénérer vos accès. Gardez bien le document remis lors du prélèvement.</p>
+        <p>→ Cliquez sur <em>"Mot de passe oublié"</em> sur le portail, ou rappelez le laboratoire — ils peuvent régénérer vos accès.</p>
       </div>
       <div class="problem">
         <strong>❌ Le lien reçu par e-mail ne fonctionne plus</strong>
-        <p>→ Les liens ont souvent une durée de validité limitée (7 jours en général). <em>Allez directement sur le site du portail</em> et connectez-vous avec votre identifiant.</p>
+        <p>→ Les liens ont une durée limitée (7 jours en général). <em>Allez directement sur le site du portail</em> et connectez-vous avec votre identifiant.</p>
       </div>
       <div class="problem">
         <strong>❌ Je n'arrive pas à télécharger mes résultats</strong>
-        <p>→ Essayez avec un autre navigateur (Chrome, Firefox…). Sur smartphone, vérifiez que vous avez une appli PDF installée. Si le problème persiste, <em>contactez le laboratoire</em>.</p>
+        <p>→ Essayez avec un autre navigateur (Chrome, Firefox…). Sur smartphone, vérifiez que vous avez une application pour lire les PDF. Si le problème persiste, <em>contactez le laboratoire</em>.</p>
       </div>
     </div>
 
-    <!-- SECTION 6 -->
     <h2>6. Vos résultats en ligne : sécurité et vie privée</h2>
-
     <ul class="securite-list">
       <li>Tous les portails utilisent le protocole <strong>HTTPS</strong> (cadenas dans votre navigateur) : vos données sont chiffrées.</li>
       <li>L'accès est protégé par un <strong>identifiant personnel</strong> + date de naissance ou code SMS : seul vous pouvez y accéder.</li>
       <li>Les portails sont soumis au <strong>RGPD</strong> et aux règles strictes du secret médical.</li>
       <li>Ne partagez <strong>jamais votre identifiant ou mot de passe</strong>, même avec un proche — ils peuvent demander un accès séparé au laboratoire.</li>
-      <li>Téléchargez vos résultats sur <strong>votre propre appareil</strong> et ne les consultez pas depuis un ordinateur public (bibliothèque, cybercafé).</li>
+      <li>Téléchargez vos résultats sur <strong>votre propre appareil</strong> et ne les consultez pas depuis un ordinateur public.</li>
     </ul>
 
-    <!-- CTA DOCTONET -->
     <div class="cta-doctonet">
       <h3>Besoin d'aide ? DoctoNET est là pour vous !</h3>
-      <p>Vous n'arrivez pas à vous connecter à votre portail ou à télécharger vos résultats ? Nos bénévoles vous accompagnent gratuitement, en ligne ou à Paris.</p>
+      <p>Vous n'arrivez pas à vous connecter à votre portail ? Nos bénévoles vous accompagnent gratuitement, en ligne ou à Paris.</p>
       <div class="cta-links">
         <a href="tel:+33180064649">📞 01 80 06 46 49</a>
         <a href="index.html#contact" class="secondary">Nous contacter</a>
       </div>
     </div>
-
   </main>
 
-  <!-- ===== FOOTER ===== -->
   <footer role="contentinfo">
     <div class="footer-logo">Docto<span>NET</span></div>
     <p>Association régie par la loi du 1er juillet 1901 · RNA : W751281281</p>
@@ -809,7 +403,6 @@
   </footer>
 
   <script>
-    // Menu hamburger mobile — DoctoNET
     const hamburger = document.getElementById('doctonet-hamburger');
     const navLinks = document.getElementById('doctonet-nav-links');
     if (hamburger && navLinks) {
