@@ -238,7 +238,15 @@ export async function onRequestGet({ request }) {
   if (!typesValides.includes(type)) return errorResponse(`Type invalide : ${typesValides.join(", ")}.`);
 
   // ── Lieux DoctoNET
-  const lieuxDoctonet = (LIEUX_DOCTONET[type] || []).filter(l => l.code_postal === cp);
+  // Quand type="all", on fusionne toutes les catégories (LIEUX_DOCTONET["all"] n'existe pas)
+  const poolDoctonet = type === 'all'
+    ? [
+        ...(LIEUX_DOCTONET.ateliers       || []),
+        ...(LIEUX_DOCTONET.france_services || []),
+        ...(LIEUX_DOCTONET.acces_libre     || []),
+      ]
+    : (LIEUX_DOCTONET[type] || []);
+  const lieuxDoctonet = poolDoctonet.filter(l => l.code_postal === cp);
 
   // ── CP → coordonnées
   let coords;
@@ -284,8 +292,10 @@ export async function onRequestGet({ request }) {
   const lieuxNationaux = details.filter(Boolean);
 
   // ── Fusion DoctoNET + nationaux
-  const vus = new Set(lieuxDoctonet.map(l => l.nom.toLowerCase()));
-  const lieuxFiltres = lieuxNationaux.filter(l => !vus.has(l.nom.toLowerCase()));
+  // Déduplication par nom ET par id pour éviter les doublons dans tous les cas
+  const vuNoms = new Set(lieuxDoctonet.map(l => l.nom.toLowerCase()));
+  const vuIds  = new Set(lieuxDoctonet.map(l => l.id));
+  const lieuxFiltres = lieuxNationaux.filter(l => !vuNoms.has(l.nom.toLowerCase()) && !vuIds.has(l.id));
   const results = [...lieuxDoctonet, ...lieuxFiltres];
 
   return jsonResponse({
