@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -67,7 +68,20 @@
       #doctonet-nav-links { all: initial !important; display: none !important; position: fixed !important; top: 68px !important; left: 0 !important; right: 0 !important; background: #ffffff !important; flex-direction: column !important; padding: 1.5rem 5% !important; gap: 1.2rem !important; border-bottom: 2px solid rgba(0,194,255,0.15) !important; box-shadow: 0 8px 24px rgba(10,37,64,0.12) !important; z-index: 999998 !important; }
       #doctonet-nav-links.open { display: flex !important; }
       #doctonet-nav-links a { all: initial !important; font-family: 'DM Sans', sans-serif !important; font-size: 1.1rem !important; font-weight: 500 !important; color: #0a2540 !important; text-decoration: none !important; cursor: pointer !important; display: block !important; padding: 0.4rem 0 !important; border-bottom: 1px solid rgba(0,194,255,0.10) !important; }
-      #doctonet-nav-cta { display: none !important; }
+      #doctonet-nav-links #doctonet-nav-cta {
+        display: inline-block !important;
+        background: #0a2540 !important;
+        color: #ffffff !important;
+        border-radius: 50px !important;
+        margin: 0.5rem 0 0 !important;
+        text-align: center !important;
+        padding: 0.75rem 1.2rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        font-family: 'Syne', sans-serif !important;
+        font-weight: 700 !important;
+        border-bottom: none !important;
+      }
     }
 
     /* ===== HERO ===== */
@@ -298,9 +312,8 @@
     <div id="doctonet-nav-links">
       <a href="index.html">Accueil</a>
       <a href="Tutoriels.html">Tutoriels</a>
-      <a href="trouver-un-professionnel.html" class="active">Trouver un professionnel</a>
       <a href="trouver-un-lieu-numerique.html">Lieux numériques</a>
-      <a href="index.html#contact" id="doctonet-nav-cta">Demander de l'aide</a>
+      <a href="index.html#contact" id="doctonet-nav-cta">Nous contacter</a>
     </div>
     <button id="doctonet-hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="doctonet-nav-links">
       <span></span><span></span><span></span>
