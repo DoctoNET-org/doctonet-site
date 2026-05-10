@@ -207,10 +207,151 @@
       .suggest-grid { grid-template-columns: 1fr; }
     }
 
+    
+    /* ===== NAVBAR DOCTONET ===== */
+    #doctonet-nav {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      position: fixed !important;
+      top: 0 !important; left: 0 !important; right: 0 !important;
+      z-index: 999999 !important;
+      background: #ffffff !important;
+      border-bottom: 2px solid rgba(0,194,255,0.25) !important;
+      padding: 0 5% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      height: 68px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      box-shadow: 0 2px 16px rgba(10,37,64,0.10) !important;
+    }
+    #doctonet-logo {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      font-weight: 800 !important;
+      font-size: 1.5rem !important;
+      color: #0a2540 !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+    }
+    #doctonet-logo span { color: #00c2ff !important; font-family: 'Syne', sans-serif !important; font-weight: 800 !important; }
+    #doctonet-nav-links {
+      all: initial !important;
+      display: flex !important;
+      gap: 2rem !important;
+      align-items: center !important;
+    }
+    #doctonet-nav-links a {
+      all: initial !important;
+      font-family: 'DM Sans', sans-serif !important;
+      text-decoration: none !important;
+      color: #6b7a90 !important;
+      font-size: 0.95rem !important;
+      font-weight: 500 !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+    }
+    #doctonet-nav-links a:hover { color: #0a2540 !important; }
+    #doctonet-nav-links a.active { color: #00c2ff !important; font-weight: 700 !important; }
+    #doctonet-nav-links #doctonet-nav-cta,
+    #doctonet-nav-cta {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      background: #0a2540 !important;
+      color: #ffffff !important;
+      padding: 0.5rem 1.2rem !important;
+      border-radius: 50px !important;
+      font-weight: 700 !important;
+      font-size: 0.9rem !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+    }
+    #doctonet-nav-cta:hover { background: #00c2ff !important; color: #0a2540 !important; }
+    #doctonet-hamburger {
+      all: initial !important;
+      display: none !important;
+      flex-direction: column !important;
+      gap: 5px !important;
+      background: none !important;
+      border: none !important;
+      cursor: pointer !important;
+      padding: 4px !important;
+      z-index: 1000000 !important;
+    }
+    #doctonet-hamburger span {
+      display: block !important;
+      width: 24px !important;
+      height: 2px !important;
+      background: #0a2540 !important;
+      border-radius: 2px !important;
+      transition: all 0.3s !important;
+    }
+    #doctonet-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg) !important; }
+    #doctonet-hamburger.open span:nth-child(2) { opacity: 0 !important; }
+    #doctonet-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg) !important; }
+    @media (max-width: 768px) {
+      #doctonet-hamburger { display: flex !important; }
+      #doctonet-nav-links {
+        display: none !important;
+        position: fixed !important;
+        top: 68px !important;
+        left: 0 !important; right: 0 !important;
+        background: #ffffff !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        padding: 1rem 0 1.5rem !important;
+        box-shadow: 0 8px 24px rgba(10,37,64,0.12) !important;
+        z-index: 999998 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      #doctonet-nav-links.open { display: flex !important; }
+      #doctonet-nav-links a {
+        padding: 0.85rem 5% !important;
+        font-size: 1rem !important;
+        width: 100% !important;
+        border-bottom: 1px solid rgba(0,194,255,0.08) !important;
+        box-sizing: border-box !important;
+      }
+      #doctonet-nav-links #doctonet-nav-cta {
+        display: inline-block !important;
+        background: #0a2540 !important;
+        color: #ffffff !important;
+        border-radius: 50px !important;
+        margin: 0.5rem 5% 0 !important;
+        width: 90% !important;
+        text-align: center !important;
+        padding: 0.75rem 1.2rem !important;
+        box-sizing: border-box !important;
+        font-family: 'Syne', sans-serif !important;
+        font-weight: 700 !important;
+        border-bottom: none !important;
+      }
+    }
+    @media (min-width: 769px) { #doctonet-hamburger { display: none !important; } }
+    /* ===== FIN NAVBAR ===== */
     </style>
 </head>
 
 <body>
+  <!-- ===== NAVIGATION ===== -->
+  <nav id="doctonet-nav" role="navigation" aria-label="Navigation principale">
+    <a href="index.html" id="doctonet-logo">Docto<span>NET</span></a>
+    <div id="doctonet-nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="Tutoriels.html" class="active">Tutoriels</a>
+      <a href="trouver-un-professionnel.html">Trouver un praticien</a>
+      <a href="trouver-un-lieu-numerique.html">Lieux numériques</a>
+      <a href="index.html#contact" id="doctonet-nav-cta">Nous contacter</a>
+    </div>
+    <button id="doctonet-hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="doctonet-nav-links">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
 
 <header>
   <h1>Créer mon espace particulier</h1>
@@ -371,5 +512,24 @@ avec votre numéro fiscal et votre mot de passe, ou via FranceConnect.
 
 </main>
 
+  <script>
+    // Menu hamburger mobile — DoctoNET
+    const hamburger = document.getElementById('doctonet-hamburger');
+    const navLinks = document.getElementById('doctonet-nav-links');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', function() {
+        const isOpen = navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open', isOpen);
+        hamburger.setAttribute('aria-expanded', isOpen);
+      });
+      navLinks.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function() {
+          navLinks.classList.remove('open');
+          hamburger.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  </script>
 </body>
 </html>
