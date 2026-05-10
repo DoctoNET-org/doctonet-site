@@ -156,6 +156,7 @@
     #doctonet-nav-links a:hover { color: #0a2540 !important; }
     #doctonet-nav-links a.active { color: #0a2540 !important; font-weight: 700 !important; }
 
+    #doctonet-nav-links #doctonet-nav-cta,
     #doctonet-nav-cta {
       all: initial !important;
       font-family: 'Syne', sans-serif !important;
@@ -170,6 +171,7 @@
       display: inline-block !important;
       transition: background 0.2s !important;
     }
+    #doctonet-nav-links #doctonet-nav-cta:hover,
     #doctonet-nav-cta:hover { background: #00c2ff !important; color: #0a2540 !important; }
 
     /* Hamburger mobile */
@@ -572,16 +574,17 @@
         border-bottom: 1px solid rgba(0,194,255,0.08) !important;
         box-sizing: border-box !important;
       }
-      #doctonet-nav-cta {
-        display: inline-block !important;
+      #doctonet-nav-links #doctonet-nav-cta {
         background: #0a2540 !important;
         color: #ffffff !important;
         border-radius: 50px !important;
-        margin: 1rem 5% 0 !important;
+        margin: 0.5rem 5% 1rem !important;
         width: 90% !important;
         text-align: center !important;
         padding: 0.75rem 1.2rem !important;
         box-sizing: border-box !important;
+        display: inline-block !important;
+        border-bottom: none !important;
       }
       .page-header { padding-top: 100px; }
       .cta-section { gap: 2rem; }
