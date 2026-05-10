@@ -8,6 +8,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -839,13 +840,8 @@ html {
 <body>
 
   <!-- ===== NAVIGATION ===== -->
-  <div id="doctonet-nav">
+  <nav id="doctonet-nav" role="navigation" aria-label="Navigation principale">
     <a id="doctonet-logo" href="index.html">Docto<span>NET</span></a>
-    <button id="doctonet-hamburger" aria-label="Ouvrir le menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
     <div id="doctonet-nav-links">
       <a href="#services">Nos services</a>
       <a href="Tutoriels.html">Tutoriels</a>
@@ -853,7 +849,12 @@ html {
       <a href="trouver-un-lieu-numerique.html">Lieux numériques</a>
       <a id="doctonet-nav-cta" href="#contact">Nous contacter</a>
     </div>
-  </div>
+    <button id="doctonet-hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="doctonet-nav-links">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
 
   <!-- ===== HERO ===== -->
   <header class="hero" role="banner" style="background-color:#0a2540;background-image:linear-gradient(135deg,#0a2540 0%,#0e3460 60%,#0a2540 100%);">
@@ -863,7 +864,7 @@ html {
       <div class="hero-badge">🖥️ Association loi 1901 · Paris 17e</div>
       <h1>L'assistance<br class="desktop-br"> informatique<br class="desktop-br"> <em>pour tous,</em><br class="desktop-br"> sans jargon.</h1>
       <p class="hero-desc">
-        DoctoNET accompagne particuliers, seniors et associations dans leur quotidien numérique. Tutoriels gratuits, aide personnalisée et une communauté bienveillante partout en France et en ligne.
+        DoctoNET accompagne particuliers, seniors et associations dans leur quotidien numérique. Tutoriels gratuits, aide personnalisée et une communauté d'entraide et de partage partout en France et en ligne.
       </p>
       <div class="hero-actions">
         <a href="#contact" class="btn-primary">Obtenir de l'aide</a>
