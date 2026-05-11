@@ -178,6 +178,21 @@
       .cta-links { flex-direction: column; align-items: center; }
       .cta-links a { width: 100%; text-align: center; }
     }
+  
+    /* ===== SUGGESTIONS ===== */
+    .suggest-section { margin: 2.5rem 0 1.5rem; }
+    .suggest-label { font-size: 0.78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #6b7a90; margin-bottom: 0.75rem; }
+    .suggest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .suggest-card { display: flex; align-items: center; gap: 0.75rem; background: #f4f7fb; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.9rem 1rem; text-decoration: none; color: #0a2540; transition: border-color 0.2s, box-shadow 0.2s; }
+    .suggest-card:hover { border-color: #00c2ff; box-shadow: 0 2px 12px rgba(0,194,255,0.1); }
+    .suggest-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .suggest-body { flex: 1; }
+    .suggest-title { font-weight: 600; font-size: 0.88rem; line-height: 1.3; }
+    .suggest-desc { font-size: 0.78rem; color: #6b7a90; margin-top: 0.2rem; }
+    .suggest-arrow { font-size: 1rem; color: #00c2ff; flex-shrink: 0; }
+    .suggest-card:hover .suggest-arrow { transform: translateX(3px); }
+    @media (max-width: 500px) { .suggest-grid { grid-template-columns: 1fr; } }
+
   </style>
 </head>
 
@@ -204,8 +219,7 @@
   </header>
 
   <main>
-    <a href="tutoriels.html" class="back-link">← Retour aux tutoriels</a>
-
+  
     <h2>1. Comment ça marche ?</h2>
     <p>Après votre prise de sang ou tout autre prélèvement, le laboratoire analyse vos échantillons. Une fois les résultats validés par un biologiste, vous pouvez les consulter en ligne — généralement dans les <strong>24 à 48 heures</strong>.</p>
 
@@ -377,6 +391,30 @@
       <li>Ne partagez <strong>jamais votre identifiant ou mot de passe</strong>, même avec un proche — ils peuvent demander un accès séparé au laboratoire.</li>
       <li>Téléchargez vos résultats sur <strong>votre propre appareil</strong> et ne les consultez pas depuis un ordinateur public.</li>
     </ul>
+
+  <a class="back-link" href="tutoriels.html">← Retour aux tutoriels</a>
+
+  <div class="suggest-section">
+    <div class="suggest-label">📚 Tutoriels suggérés</div>
+    <div class="suggest-grid">
+      <a href="securite-vie-privee.html" class="suggest-card">
+        <span class="suggest-icon">🛡️</span>
+        <div class="suggest-body">
+          <div class="suggest-title">Protégez-vous des arnaques en ligne</div>
+          <div class="suggest-desc">Les bons réflexes numériques essentiels</div>
+        </div>
+        <span class="suggest-arrow">→</span>
+      </a>
+      <a href="creer-adresse-electronique.html" class="suggest-card">
+        <span class="suggest-icon">📧</span>
+        <div class="suggest-body">
+          <div class="suggest-title">Créer une adresse électronique</div>
+          <div class="suggest-desc">Créez votre première adresse email</div>
+        </div>
+        <span class="suggest-arrow">→</span>
+      </a>
+    </div>
+  </div>
 
     <div class="cta-doctonet">
       <h3>Besoin d'aide ? DoctoNET est là pour vous !</h3>
