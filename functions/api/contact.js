@@ -18,6 +18,31 @@ export async function onRequestPost(context) {
     });
   }
 
+  // ── Validation serveur ──────────────────────────────────────────────────────
+  const { PRENOM, NOM, EMAIL, MESSAGE } = body;
+
+  if (!PRENOM?.trim() || !NOM?.trim() || !MESSAGE?.trim()) {
+    return new Response(JSON.stringify({ error: 'Champs obligatoires manquants' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(EMAIL)) {
+    return new Response(JSON.stringify({ error: 'Adresse email invalide' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  if (MESSAGE.length > 2000) {
+    return new Response(JSON.stringify({ error: 'Message trop long (2000 caractères max)' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+  // ───────────────────────────────────────────────────────────────────────────
+
   const response = await fetch(webhookUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
