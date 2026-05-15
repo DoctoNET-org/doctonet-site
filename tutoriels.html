@@ -601,9 +601,9 @@
       }
 
       h2 {
-        font-size: clamp(1.15rem, 4.5vw, 1.6rem) !important;
+        font-size: clamp(1.15rem, 4vw, 1.45rem) !important;
         letter-spacing: 0 !important;
-        line-height: 1.25 !important;
+        line-height: 1.2 !important;
         word-break: break-word !important;
         overflow-wrap: break-word !important;
         white-space: normal !important;
@@ -611,6 +611,25 @@
 
       /* --- Supprime les <br> forcés dans les titres --- */
       h1 br, h2 br { display: none !important; }
+
+      /* --- Espacement et typographie main content --- */
+      main { padding: 40px 5% !important; }
+
+      .section-intro {
+        font-size: 0.9rem !important;
+        line-height: 1.55 !important;
+        margin-bottom: 1.8rem !important;
+      }
+
+      .tuto-body h3 {
+        font-size: 0.95rem !important;
+        line-height: 1.25 !important;
+      }
+
+      .tuto-card {
+        padding: 1.2rem 1.2rem !important;
+        gap: 1rem !important;
+      }
     }
     @media (min-width: 769px) {
       #doctonet-hamburger { display: none !important; }
