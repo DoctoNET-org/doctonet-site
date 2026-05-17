@@ -3,3 +3,92 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
+
+/* ===== HUB CHOIX EMAIL ===== */
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.choice-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e8eef6;
+  background: #f9fbff;
+  text-decoration: none;
+  color: inherit;
+  transition: 0.2s;
+}
+
+.choice-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(10,37,64,0.1);
+  border-color: #99ddf7;
+}
+
+.choice-icon {
+  font-size: 1.6rem;
+  width: 48px;
+  height: 48px;
+  background: #e8f6ff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.choice-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.choice-desc {
+  font-size: 0.8rem;
+  color: #6b7a90;
+}
+
+.choice-arrow {
+  margin-left: auto;
+  color: #00c2ff;
+}
+
+.info-box {
+  margin-top: 30px;
+  padding: 16px;
+  background: #e8f6ff;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+
+/* ===== MOBILE OPTIMISATION ===== */
+
+@media (max-width: 600px) {
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  main {
+    padding: 30px 16px;
+  }
+
+}
+
+
+/* ===== AMÉLIORATION LISIBILITÉ SECTIONS ===== */
+
+main h2 {
+  margin-top: 40px;
+}
