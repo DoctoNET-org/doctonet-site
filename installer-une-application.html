@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -579,6 +580,15 @@
       .tab-btn { min-width: 100%; }
       .phone-mock { width: 120px; }
       .arrow-between { font-size: 1rem; }
+      .phone-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      .phone-row .arrow-between {
+        transform: rotate(90deg);
+        margin: -4px 0;
+      }
     }
   
     /* ── SUGGESTIONS MAILLAGE INTERNE ── */
@@ -915,7 +925,7 @@
       <div class="step-num">1</div>
       <div class="step-body">
         <div class="step-title">Trouvez l'App Store sur votre écran d'accueil</div>
-        <div class="step-desc" style="display:flex;align-items:flex-start;gap:14px;"><img src="images/app-store-logo-optimized.webp" alt="Icône App Store" style="width:52px;height:52px;border-radius:12px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.15);"><span>L'App Store est une icône bleue avec un <strong>« A » blanc</strong> formé par un crayon. Elle est installée d'office sur tous les iPhones — vous ne pouvez pas la supprimer.</div>
+        <div class="step-desc"><img src="images/app-store-logo-optimized.webp" alt="Icône App Store" style="width:52px;height:52px;border-radius:12px;display:block;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.15);"><span>L'App Store est une icône bleue avec un <strong>« A » blanc</strong> formé par un crayon. Elle est installée d'office sur tous les iPhones — vous ne pouvez pas la supprimer.</span></div>
         <span class="step-tip">Si vous ne la voyez pas, balayez l'écran vers le bas et tapez « App Store » dans la barre de recherche</span>
       </div>
     </div>
@@ -978,7 +988,7 @@
             </div>
           </div>
         </div>
-        <div class="phone-label">Tapez « Microsoft Teams », appuyez sur le bon résultat</div>
+        <div class="phone-label">Tapez « Microsoft Teams »</div>
       </div>
     </div>
 
@@ -1133,7 +1143,7 @@
       <div class="step-num">1</div>
       <div class="step-body">
         <div class="step-title">Trouvez le Play Store sur votre écran d'accueil</div>
-        <div class="step-desc" style="display:flex;align-items:flex-start;gap:14px;"><img src="images/google-play-optimized.webp" alt="Icône Play Store" style="width:52px;height:52px;object-fit:contain;flex-shrink:0;"><span>Le Play Store est une icône multicolore en forme de <strong>triangle « Play »</strong> (comme un bouton lecture). Il est installé d'office sur tous les téléphones Android.</span></div>
+        <div class="step-desc"><img src="images/google-play-optimized.webp" alt="Icône Play Store" style="width:52px;height:52px;object-fit:contain;display:block;margin-bottom:10px;"><span>Le Play Store est une icône multicolore en forme de <strong>triangle « Play »</strong> (comme un bouton lecture). Il est installé d'office sur tous les téléphones Android.</span></div>
         <span class="step-tip">Si vous ne la voyez pas, balayez l'écran vers le haut pour afficher toutes vos applications</span>
       </div>
     </div>
