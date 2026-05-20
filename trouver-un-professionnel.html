@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -647,6 +648,7 @@
           ${pro.adresse   ? `<span class="pro-detail-item">📍 ${escapeHtml(pro.adresse)}</span>` : ''}
           ${pro.telephone ? `<span class="pro-detail-item">📞 <a href="tel:${pro.telephone.replace(/\s/g,'')}">${escapeHtml(pro.telephone)}</a></span>` : ''}
           ${pro.email     ? `<span class="pro-detail-item">✉️ <a href="mailto:${escapeHtml(pro.email)}">${escapeHtml(pro.email)}</a></span>` : ''}
+          ${!pro.adresse && !pro.telephone && !pro.email ? `<span class="pro-detail-item"><a href="https://annuaire.sante.fr/web/site-pro/annuaire?nom=${encodeURIComponent(pro.nom)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">🔍 Voir sur l'Annuaire Santé officiel</a></span>` : ''}
         </div>`;
       return card;
     }
