@@ -130,7 +130,7 @@ async function searchBySpeciality(specialite, cp, headers, rawDebug) {
     // Filtrage département (2 premiers chiffres du CP)
     if (cp && cp.length >= 2) {
       const dept = cp.slice(0, 2);
-      results = results.filter(r => r.codePostal.startsWith(dept));
+      results = results.filter(r => !r.codePostal || r.codePostal.startsWith(dept));
     }
 
     return jsonResponse({
