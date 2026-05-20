@@ -293,9 +293,20 @@ function extractTelecom(role, org) {
   };
 }
 
-function jsonResponse(data, status = 200) {
+function getAllowedOrigin(request) {
+  const origin = request?.headers?.get("Origin") || "";
+  if (origin === "https://www.doctonet.org" || origin === "https://doctonet.org") {
+    return origin;
+  }
+  return "https://www.doctonet.org";
+}
+
+function jsonResponse(data, status = 200, request = null) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": getAllowedOrigin(request),
+    },
   });
 }
