@@ -83,6 +83,22 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- À propos -->
+  <url>
+    <loc>https://www.doctonet.org/a-propos.html</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Tutoriel laboratoire -->
+  <url>
+    <loc>https://www.doctonet.org/recuperer-examens-laboratoire.html</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Pages légales -->
   <url>
     <loc>https://www.doctonet.org/donnees-personnelles.html</loc>
