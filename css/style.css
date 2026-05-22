@@ -151,7 +151,6 @@ br.desktop-br { display: block; }
 /* CTA "Nous contacter" — règle unifiée, identique sur toutes les pages */
 #doctonet-nav-links #doctonet-nav-cta,
 #doctonet-nav-cta {
-  all: initial !important;
   font-family: 'Syne', sans-serif !important;
   background: #0a2540 !important;
   color: #ffffff !important;
@@ -163,6 +162,7 @@ br.desktop-br { display: block; }
   cursor: pointer !important;
   display: inline-block !important;
   transition: background 0.2s !important;
+  letter-spacing: -0.5px !important;
 }
 #doctonet-nav-links #doctonet-nav-cta:hover,
 #doctonet-nav-cta:hover {
