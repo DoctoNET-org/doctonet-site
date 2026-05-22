@@ -134,7 +134,7 @@ br.desktop-br { display: block; }
   align-items: center !important;
 }
 
-#doctonet-nav-links a {
+#doctonet-nav-links a:not(#doctonet-nav-cta) {
   all: initial !important;
   font-family: 'DM Sans', sans-serif !important;
   text-decoration: none !important;
@@ -145,8 +145,8 @@ br.desktop-br { display: block; }
   transition: color 0.2s !important;
   display: inline-block !important;
 }
-#doctonet-nav-links a:hover { color: #0a2540 !important; }
-#doctonet-nav-links a.active { color: #00c2ff !important; font-weight: 700 !important; }
+#doctonet-nav-links a:not(#doctonet-nav-cta):hover { color: #0a2540 !important; }
+#doctonet-nav-links a:not(#doctonet-nav-cta).active { color: #00c2ff !important; font-weight: 700 !important; }
 
 /* CTA "Nous contacter" — règle unifiée, identique sur toutes les pages */
 #doctonet-nav-links #doctonet-nav-cta,
@@ -555,7 +555,7 @@ footer p { font-size: 0.88rem; margin: 0.3rem 0; }
     box-sizing: border-box !important;
   }
   #doctonet-nav-links.open { display: flex !important; }
-  #doctonet-nav-links a {
+  #doctonet-nav-links a:not(#doctonet-nav-cta) {
     padding: 0.85rem 5% !important;
     font-size: 1rem !important;
     width: 100% !important;
