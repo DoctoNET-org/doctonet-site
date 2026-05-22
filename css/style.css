@@ -128,7 +128,10 @@ br.desktop-br { display: block; }
 }
 
 #doctonet-nav-links {
-  all: initial !important;
+  box-sizing: border-box !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
   display: flex !important;
   gap: 2rem !important;
   align-items: center !important;
@@ -565,7 +568,7 @@ footer p { font-size: 0.88rem; margin: 0.3rem 0; }
   /* CTA hamburger — bouton plein, cohérent sur toutes les pages */
   #doctonet-nav-links #doctonet-nav-cta,
   #doctonet-nav-cta {
-    display: block !important;
+    display: inline-block !important;
     background: #0a2540 !important;
     color: #ffffff !important;
     border-radius: 50px !important;
@@ -580,7 +583,6 @@ footer p { font-size: 0.88rem; margin: 0.3rem 0; }
     text-decoration: none !important;
     cursor: pointer !important;
     border-bottom: none !important;
-    align-self: flex-start !important;
   }
 
   /* Hero */
