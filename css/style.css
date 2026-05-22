@@ -565,7 +565,7 @@ footer p { font-size: 0.88rem; margin: 0.3rem 0; }
   /* CTA hamburger — bouton plein, cohérent sur toutes les pages */
   #doctonet-nav-links #doctonet-nav-cta,
   #doctonet-nav-cta {
-    display: inline-block !important;
+    display: block !important;
     background: #0a2540 !important;
     color: #ffffff !important;
     border-radius: 50px !important;
@@ -580,6 +580,7 @@ footer p { font-size: 0.88rem; margin: 0.3rem 0; }
     text-decoration: none !important;
     cursor: pointer !important;
     border-bottom: none !important;
+    align-self: flex-start !important;
   }
 
   /* Hero */
