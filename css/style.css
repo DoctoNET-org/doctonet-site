@@ -623,7 +623,7 @@ footer p { font-size: 0.88rem; margin: 0.3rem 0; }
   /* Fix coupure mot H1 section contact (bug desktop) */
   .lead-text h1,
   .lead-text h2 {
-    hyphens: auto;
+    hyphens: none;
     overflow-wrap: break-word;
     font-size: clamp(1.8rem, 3.5vw, 3rem);
   }
