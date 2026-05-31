@@ -3,20 +3,21 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Partager son écran en toute sécurité – DoctoNET</title>
-  <meta name="description" content="Tutoriel pour partager son écran de smartphone en toute sécurité via Microsoft Teams. Guide pas-à-pas pour demandeurs et bénévoles DoctoNET.">
+  <title>Aide à distance par DoctoNET – Microsoft Teams</title>
+  <meta name="description" content="Tutoriel pas-à-pas pour se faire aider à distance par un bénévole DoctoNET via Microsoft Teams. iPhone et Android. Gratuit, sans compte Microsoft.">
   <meta name="author" content="Association DoctoNET">
   <link rel="canonical" href="https://www.doctonet.org/partager-son-ecran-teams.html">
-  <meta property="og:title" content="Partager son écran en toute sécurité – DoctoNET">
+  <meta property="og:title" content="Aide à distance par DoctoNET – Microsoft Teams">
   <meta property="og:image" content="https://www.doctonet.org/logos-1.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://www.doctonet.org/logos-1.png">
-  <meta property="og:description" content="Guide illustré pour partager son écran de smartphone via Microsoft Teams. Par l'association DoctoNET.">
+  <meta property="og:description" content="Un bénévole DoctoNET voit votre écran en direct et vous guide pas à pas — sans se déplacer, sans accéder à votre téléphone. iPhone et Android.">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="DoctoNET">
 
@@ -99,72 +100,9 @@
       position: relative;
     }
 
-    /* ── INTRO BOX ── */
-    .intro-box {
-      background: var(--green-light);
-      border-left: 5px solid var(--green-main);
-      padding: 16px 20px;
-      border-radius: 8px;
-      margin-bottom: 40px;
-      font-size: 0.95rem;
-      color: #1a3d30;
-    }
-    .intro-box strong { color: var(--green-dark); }
 
-    /* ── TAB NAVIGATION ── */
-    .tab-nav {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 36px;
-      flex-wrap: wrap;
-    }
-    .tab-btn {
-      flex: 1;
-      min-width: 200px;
-      padding: 16px 24px;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      background: white;
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.22s ease;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .tab-btn .tab-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      background: #f0f4f8;
-      transition: background 0.22s;
-      flex-shrink: 0;
-    }
-    .tab-btn:hover {
-      border-color: var(--green-border);
-      color: var(--green-dark);
-    }
-    .tab-btn.active {
-      border-color: var(--green-main);
-      background: var(--green-light);
-      color: var(--green-dark);
-    }
-    .tab-btn.active .tab-icon {
-      background: var(--green-main);
-      color: white;
-    }
 
-    /* ── TAB CONTENT ── */
-    .tab-content { display: none; animation: fadeIn 0.3s ease; }
-    .tab-content.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
 
     /* ── SECTION TITLE ── */
     h2 {
@@ -299,18 +237,7 @@
       font-size: 0.9rem;
     }
 
-    /* ── WARNING BOX ── */
-    .warning-box {
-      background: #fffbf0;
-      border-left: 5px solid #f6ad55;
-      padding: 16px 20px;
-      border-radius: 8px;
-      margin: 28px 0;
-      font-size: 0.93rem;
-      color: #7b4a0a;
-      line-height: 1.6;
-    }
-    .warning-box strong { color: #b7530d; }
+
 
     /* ── INFO BOX ── */
     .info-box {
@@ -490,7 +417,6 @@
     @media (max-width: 600px) {
       main { margin: -30px 12px 40px; padding: 30px 5% 40px; }
       header { padding: 70px 5% 60px; }
-      .tab-btn { min-width: 100%; }
     }
   
     /* ===== NAVBAR DOCTONET ===== */
@@ -652,18 +578,18 @@
 
   </style>
 
-  <!-- Schema.org HowTo — Partager son écran sur Teams -->
+  <!-- Schema.org HowTo — Aide à distance DoctoNET via Teams -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    "name": "Comment partager son écran sur Microsoft Teams",
-    "description": "Guide pas-à-pas pour partager son écran de smartphone lors d'une réunion Microsoft Teams, à destination des demandeurs et des bénévoles DoctoNET.",
+    "name": "Comment se faire aider à distance par DoctoNET via Microsoft Teams",
+    "description": "Guide pas-à-pas pour rejoindre une session d'assistance à distance avec un bénévole DoctoNET via Microsoft Teams. iPhone et Android.",
     "image": "https://www.doctonet.org/logos-1.png",
     "totalTime": "PT10M",
     "tool": [
       { "@type": "HowToTool", "name": "Smartphone iPhone ou Android" },
-      { "@type": "HowToTool", "name": "Application Microsoft Teams" }
+      { "@type": "HowToTool", "name": "Application Microsoft Teams (gratuite)" }
     ],
     "step": [
       {
@@ -677,21 +603,21 @@
         "@type": "HowToStep",
         "position": 2,
         "name": "Rejoindre la réunion",
-        "text": "Cliquez sur le lien reçu par SMS ou e-mail envoyé par votre bénévole DoctoNET pour rejoindre la réunion Teams.",
+        "text": "Appuyez sur le lien reçu par SMS ou e-mail de votre bénévole DoctoNET. Rejoignez sans compte en saisissant votre prénom.",
         "url": "https://www.doctonet.org/partager-son-ecran-teams.html#etape-2"
       },
       {
         "@type": "HowToStep",
         "position": 3,
         "name": "Partager votre écran",
-        "text": "Dans la réunion, appuyez sur les trois points (···), puis sur Partager, puis sur Partager l'écran.",
+        "text": "Appuyez sur les trois points (···), puis sur Partager, puis sur Partager l'écran. Confirmez sur iPhone (Démarrer la diffusion) ou Android (Commencer).",
         "url": "https://www.doctonet.org/partager-son-ecran-teams.html#etape-3"
       },
       {
         "@type": "HowToStep",
         "position": 4,
         "name": "L'assistance commence",
-        "text": "Votre bénévole DoctoNET voit votre écran en direct et peut vous guider étape par étape.",
+        "text": "Votre bénévole DoctoNET voit votre écran en direct et vous guide pas à pas — sans accéder à votre téléphone ni à vos données.",
         "url": "https://www.doctonet.org/partager-son-ecran-teams.html#etape-4"
       },
       {
@@ -731,32 +657,13 @@
 
 <header>
   <div class="badge">Tutoriel numérique</div>
-  <h1>Partager son écran en toute sécurité</h1>
-  <p>Grâce à Microsoft Teams, un bénévole DoctoNET peut voir votre écran de smartphone en direct pour vous guider, sans se déplacer.</p>
+  <h1>Aide à distance par DoctoNET</h1>
+  <p>Grâce à Microsoft Teams, un bénévole DoctoNET voit votre écran en direct et vous guide pas à pas — sans se déplacer, sans accéder à votre téléphone.</p>
 </header>
 
 <main>
 
-  <div class="intro-box">
-    ℹ️ Ce tutoriel s'adresse à deux publics : les <strong>demandeurs</strong> qui ont besoin d'aide, et les <strong>bénévoles DoctoNET</strong> qui les assistent. Choisissez votre profil ci-dessous.
-  </div>
 
-  <!-- TAB NAVIGATION -->
-  <div class="tab-nav" role="tablist">
-    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-demandeur" onclick="switchTab('demandeur', this)">
-      <span class="tab-icon"><img src="images/microsoft-teams-optimized.webp" alt="Microsoft Teams" style="width:24px;height:24px;object-fit:contain;display:block;"></span>
-      Je suis le demandeur
-    </button>
-    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-benevole" onclick="switchTab('benevole', this)">
-      <span class="tab-icon"><img src="images/microsoft-teams-optimized.webp" alt="Microsoft Teams" style="width:24px;height:24px;object-fit:contain;display:block;"></span>
-      Je suis bénévole DoctoNET
-    </button>
-  </div>
-
-  <!-- ══════════════════════════════════════ -->
-  <!-- TAB DEMANDEUR                         -->
-  <!-- ══════════════════════════════════════ -->
-  <div class="tab-content active" id="tab-demandeur" role="tabpanel">
 
     <div class="reassurance-box">
       <div class="reassurance-title">🤝 Vous restez maître de votre téléphone</div>
@@ -880,7 +787,21 @@
       <div class="step-body">
         <div class="step-title">Choisissez « Partager l'écran »</div>
         <div class="step-desc">Appuyez sur <strong>« Partager l'écran »</strong> (et non sur Photo ou Fichier).</div>
-        <span class="step-tip">Sur iPhone : acceptez l'enregistrement d'écran dans la fenêtre qui apparaît</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Confirmez le partage</div>
+        <div class="step-desc">Une fenêtre de confirmation apparaît — son contenu dépend de votre téléphone :</div>
+        <div style="margin-top:10px; display:flex; flex-direction:column; gap:8px;">
+          <div style="background:#f0f7ff; border-left:3px solid #0078b8; border-radius:6px; padding:10px 14px; font-size:0.9rem;">
+            🍎 <strong>Sur iPhone</strong> — appuyez sur <strong>« Démarrer la diffusion »</strong> dans la fenêtre qui apparaît. Votre écran met 2 à 3 secondes à s'afficher chez le bénévole.
+          </div>
+          <div style="background:#e8eeff; border-left:3px solid #1a4a8a; border-radius:6px; padding:10px 14px; font-size:0.9rem;">
+            🤖 <strong>Sur Android</strong> — appuyez sur <strong>« Commencer »</strong> ou <strong>« Démarrer »</strong> (le libellé varie selon la marque). Une barre colorée apparaît en haut de votre écran — c'est normal, cela signifie que le partage est actif.
+          </div>
+        </div>
       </div>
     </div>
 
@@ -902,141 +823,11 @@
       </div>
     </div>
 
-    <div class="warning-box">
-      🔒 <strong>Votre confidentialité est protégée.</strong> Votre bénévole DoctoNET peut <strong>voir</strong> votre écran mais ne peut <strong>jamais le contrôler</strong> à distance. Vous restez maître de votre téléphone à tout moment. Si quelque chose vous gêne, arrêtez le partage immédiatement.
+    <div class="reassurance-box">
+      <div class="reassurance-title">🔒 Votre confidentialité est protégée</div>
+      Votre bénévole DoctoNET peut <strong>voir</strong> votre écran mais ne peut <strong>jamais le contrôler</strong> à distance — sans accéder à votre téléphone ni à vos données. Vous restez maître de votre téléphone à tout moment.
     </div>
 
-  </div><!-- /tab-demandeur -->
-
-
-  <!-- ══════════════════════════════════════ -->
-  <!-- TAB BENEVOLE                          -->
-  <!-- ══════════════════════════════════════ -->
-  <div class="tab-content" id="tab-benevole" role="tabpanel">
-
-    <h2>Ce qu'il vous faut avant de commencer</h2>
-    <ul class="checklist">
-      <li>Un compte Microsoft 365 DoctoNET actif</li>
-      <li>Microsoft Teams installé sur votre ordinateur ou smartphone</li>
-      <li>Le numéro de téléphone ou l'e-mail du demandeur</li>
-      <li>Quelques minutes de préparation avant la session</li>
-    </ul>
-
-    <div class="highlight-card">
-      <h3>💡 Conseil avant de commencer</h3>
-      <p>Faites un test rapide avec un autre bénévole avant votre première session d'assistance. Cela vous permettra de maîtriser la procédure et d'être plus à l'aise pour guider le demandeur.</p>
-    </div>
-
-    <h2>Étape 1 — Créer la réunion Teams</h2>
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <div class="step-title">Ouvrez Microsoft Teams</div>
-        <div class="step-desc">Connectez-vous avec votre compte DoctoNET sur l'application Teams (ordinateur ou smartphone).</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <div class="step-title">Démarrez ou planifiez une réunion</div>
-        <div class="step-desc">Cliquez sur <strong>« Réunion »</strong> puis sur <strong>« Démarrer une réunion maintenant »</strong> pour une session immédiate, ou utilisez le <strong>Calendrier</strong> pour planifier à l'avance.</div>
-        <span class="step-tip">Préférez "Démarrer maintenant" pour les demandes urgentes</span>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-body">
-        <div class="step-title">Copiez le lien de réunion</div>
-        <div class="step-desc">Une fois dans la réunion, cliquez sur <strong>« Partager une invitation »</strong> ou <strong>« Copier le lien »</strong> pour obtenir l'URL à envoyer au demandeur.</div>
-      </div>
-    </div>
-
-    <h2>Étape 2 — Inviter le demandeur</h2>
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <div class="step-title">Envoyez le lien par SMS (recommandé)</div>
-        <div class="step-desc">Envoyez le lien de réunion par <strong>SMS</strong> au demandeur. C'est plus simple pour les seniors qu'un e-mail — un seul tapotement suffit pour rejoindre.</div>
-        <span class="step-tip">Astuce : dictez le lien ou envoyez-le depuis votre propre téléphone</span>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <div class="step-title">Prévenez le demandeur par téléphone</div>
-        <div class="step-desc">Appelez-le pour lui expliquer qu'il va recevoir un SMS avec un lien, et qu'il doit appuyer dessus quand il est prêt. Restez en ligne pour le guider si besoin.</div>
-      </div>
-    </div>
-
-    <h2>Étape 3 — Admettre le demandeur</h2>
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <div class="step-title">Attendez la notification de salle d'attente</div>
-        <div class="step-desc">Quand le demandeur clique sur le lien, une notification apparaît dans Teams : <strong>« [Prénom] attend dans la salle d'attente »</strong>.</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <div class="step-title">Cliquez sur « Admettre »</div>
-        <div class="step-desc">Cliquez sur le bouton <strong>« Admettre »</strong> pour faire entrer le demandeur dans la réunion. Saluez-le chaleureusement.</div>
-      </div>
-    </div>
-
-    <h2>Étape 4 — Guider le partage d'écran</h2>
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <div class="step-title">Demandez au demandeur de partager son écran</div>
-        <div class="step-desc">Guidez-le verbalement : <em>« Appuyez sur les trois petits points en bas de l'écran, puis sur Partager, puis sur Partager l'écran »</em>. Répétez calmement si nécessaire.</div>
-        <span class="step-tip">Décrivez la couleur et la position des boutons pour plus de clarté</span>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <div class="step-title">Sur iPhone : guidez l'acceptation</div>
-        <div class="step-desc">L'iPhone affiche une fenêtre supplémentaire. Demandez au demandeur d'appuyer sur <strong>« Démarrer la diffusion »</strong> dans cette fenêtre.</div>
-      </div>
-    </div>
-
-    <h2>Étape 5 — L'assistance en direct</h2>
-    <div class="step">
-      <div class="step-num">✓</div>
-      <div class="step-body">
-        <div class="step-title">Vous voyez son écran en temps réel</div>
-        <div class="step-desc">L'écran du demandeur s'affiche dans Teams. Guidez-le verbalement en lui décrivant précisément ce que vous voyez et ce qu'il doit faire. Soyez patient, clair et bienveillant.</div>
-      </div>
-    </div>
-
-    <div class="info-box">
-      ℹ️ <strong>Vous ne pouvez pas contrôler l'écran à distance.</strong> Vous voyez uniquement. Si la situation le nécessite, des outils comme <strong>Quick Assist</strong> (Windows) ou <strong>TeamViewer</strong> permettent le contrôle à distance, mais nécessitent une configuration supplémentaire.
-    </div>
-
-    <h2>Étape 6 — Clôturer la session</h2>
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <div class="step-title">Demandez au demandeur d'arrêter le partage</div>
-        <div class="step-desc">Guidez-le : <em>« Appuyez à nouveau sur les trois points, puis sur Arrêter le partage »</em>.</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <div class="step-title">Terminez la réunion</div>
-        <div class="step-desc">Cliquez sur <strong>« Terminer la réunion »</strong> (et non seulement « Quitter ») pour fermer la session pour tout le monde.</div>
-        <span class="step-tip">Notez les points non résolus pour un prochain accompagnement</span>
-      </div>
-    </div>
-
-    <div class="highlight-card">
-      <h3>🎯 Bonnes pratiques DoctoNET</h3>
-      <p>Parlez lentement, faites des pauses entre chaque instruction. Reformulez si le demandeur est bloqué. Valorisez chaque étape réussie — l'encouragement est clé dans l'accompagnement numérique.</p>
-    </div>
-
-  </div><!-- /tab-benevole -->
 
   <hr class="divider">
   <div class="suggest-section">
@@ -1090,16 +881,7 @@
   </footer>
 
 <script>
-  function switchTab(id, btn) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(el => {
-      el.classList.remove('active');
-      el.setAttribute('aria-selected', 'false');
-    });
-    document.getElementById('tab-' + id).classList.add('active');
-    btn.classList.add('active');
-    btn.setAttribute('aria-selected', 'true');
-  }
+
 </script>
 
   <script>
