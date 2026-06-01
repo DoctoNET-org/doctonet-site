@@ -25,9 +25,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
-    /* Anti font-boosting Android */
-    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -146,7 +143,7 @@
       flex-shrink: 0;
       margin-top: 2px;
     }
-    .step-body {}
+    .step-body { min-width: 0; }
     .step-title {
       font-weight: 500;
       font-size: 1rem;
