@@ -577,36 +577,6 @@
     .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 0 1.5rem; margin-top: 1rem; }
     .footer-phone { display: inline-block; color: #00c2ff !important; font-weight: 600; font-size: 1rem; margin-top: 0.5rem; }
 
-
-.team-link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  margin-top: 4px;
-  margin-bottom: 6px;
-
-}
-
-.team-link img {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-}
-
-
-
-.step-badge {
-  background: #00c2ff;   /* bleu DoctoNET */
-  color: #0a2540;        /* texte sombre = lisible */
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  margin-right: 8px;
-  font-weight: 700;
-}
-
-
   </style>
 
   <!-- Schema.org HowTo — Aide à distance DoctoNET via Teams -->
@@ -622,37 +592,43 @@
       { "@type": "HowToTool", "name": "Smartphone iPhone ou Android" },
       { "@type": "HowToTool", "name": "Application Microsoft Teams (gratuite)" }
     ],
-
     "step": [
-  {
-    "@type": "HowToStep",
-    "position": 1,
-    "name": "Rejoindre la réunion",
-    "text": "Ouvrez le lien reçu par SMS ou e-mail, puis rejoignez la réunion Teams en tant qu’invité.",
-    "url": "https://www.doctonet.org/partager-son-ecran-teams.html#rejoindre"
-  },
-  {
-    "@type": "HowToStep",
-    "position": 2,
-    "name": "Partager votre écran",
-    "text": "Appuyez sur les trois points, puis sur Partager, puis Partager l’écran.",
-    "url": "https://www.doctonet.org/partager-son-ecran-teams.html#partage"
-  },
-  {
-    "@type": "HowToStep",
-    "position": 3,
-    "name": "L’assistance commence",
-    "text": "Votre bénévole voit votre écran et vous guide.",
-    "url": "https://www.doctonet.org/partager-son-ecran-teams.html#assistance"
-  },
-  {
-    "@type": "HowToStep",
-    "position": 4,
-    "name": "Arrêter le partage",
-    "text": "Appuyez sur Arrêter le partage à tout moment.",
-    "url": "https://www.doctonet.org/partager-son-ecran-teams.html#stop"
-  }
-],
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Installer Microsoft Teams",
+        "text": "Ouvrez l'App Store (iPhone) ou le Play Store (Android), recherchez Microsoft Teams et installez l'application gratuitement.",
+        "url": "https://www.doctonet.org/partager-son-ecran-teams.html#etape-1"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Rejoindre la réunion",
+        "text": "Appuyez sur le lien reçu par SMS ou e-mail de votre bénévole DoctoNET. Rejoignez sans compte en saisissant votre prénom.",
+        "url": "https://www.doctonet.org/partager-son-ecran-teams.html#etape-2"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Partager votre écran",
+        "text": "Appuyez sur les trois points (···), puis sur Partager, puis sur Partager l'écran. Confirmez sur iPhone (Démarrer la diffusion) ou Android (Commencer).",
+        "url": "https://www.doctonet.org/partager-son-ecran-teams.html#etape-3"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "L'assistance commence",
+        "text": "Votre bénévole DoctoNET voit votre écran en direct et vous guide pas à pas — sans accéder à votre téléphone ni à vos données.",
+        "url": "https://www.doctonet.org/partager-son-ecran-teams.html#etape-4"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 5,
+        "name": "Arrêter le partage",
+        "text": "Appuyez à nouveau sur les trois points (···), puis sur Arrêter le partage. Votre écran redevient privé immédiatement.",
+        "url": "https://www.doctonet.org/partager-son-ecran-teams.html#etape-5"
+      }
+    ],
     "provider": {
       "@type": "NGO",
       "name": "DoctoNET",
@@ -682,234 +658,65 @@
 
 <header>
   <div class="badge">Tutoriel numérique</div>
-  <h1>Etre assisté à distance</h1>
-  <p>Un bénévole DoctoNET voit votre écran en direct et vous guide pas à pas.<br> Sans se déplacer, sans accéder à votre téléphone.</p>
+  <h1>📩 Trouver le lien reçu</h1>
+<p>Ouvrir la réunion Teams envoyée par le bénévole</strong>.</p>
 </header>
 
 <main>
 
+<h2>👉 Trouvez le lien en 3 étapes</h2>
 
-
-    <div class="reassurance-box">
-      <div class="reassurance-title">🤝 Vous restez maître de votre téléphone</div>
-      Le bénévole de l'association <strong>voit</strong> votre écran, comme s'il regardait par-dessus votre épaule — mais il <strong>n'intervient pas sur votre téléphone</strong>. C'est uniquement du partage d'image, en direct, le temps de l'appel. Dès que vous raccrochez ou appuyez sur « Arrêter le partage », votre écran redevient complètement privé.
-      <em>Vous pouvez arrêter à tout moment, sans explication à donner.</em>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-body">
+    <div class="step-title">Ouvrez vos messages (SMS ou e‑mail)</div>
+    <div class="step-desc">
+      Le lien est envoyé :
+      <ul>
+        <li>📱 par SMS</li>
+        <li>📧 ou par e‑mail</li>
+      </ul>
     </div>
+  </div>
+</div>
 
-    <h2>Avant de commencer (2 minutes)</h2>
-    <ul class="checklist">
-      <li>Un smartphone (iPhone ou Android)</li>
-      <li><span>L'application <b>Microsoft Teams</b> installée</span></li>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-body">
+    <div class="step-title">Repérez le message</div>
+    <div class="step-desc">
+      Le lien est souvent en bleu et souligné<br>
+      (exemple : <strong>teams.microsoft.com/...</strong>)
+    </div>
+  </div>
+</div>
 
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-body">
+    <div class="step-title">Appuyez sur le lien</div>
+    <div class="step-desc">
+      Touchez simplement le lien pour ouvrir Microsoft Teams
+    </div>
+  </div>
+</div>
 
+<div class="info-box">
+  💡 Astuce : si vous ne trouvez pas le message, demandez au bénévole de vous le renvoyer.
+</div>
 
-<div class="step-desc team-link">
-
-  <a href="installer-une-application.html" class="step-link">
-    👉 Installer l’application Teams
-  </a>
-
-  <img src="images/microsoft-teams-optimized.webp"
-       alt="Icône Microsoft Teams">
-
+<div class="step">
+  <div class="step-num">✅</div>
+  <div class="step-body">
+    <div class="step-title">C’est réussi si</div>
+    <div class="step-desc">
+      Microsoft Teams s’ouvre automatiquement
+    </div>
+  </div>
 </div>
 
 
-
-      <li>Un message avec le lien de réunion (SMS ou e‑mail)</li>
-<a href="trouver-lien-teams.html" class="step-link">
-        👉 Où trouver le lien ?
-</a>
-
-      <li>Une connexion internet (Wi-Fi ou données mobiles)</li>
-    </ul>
-
-    <div class="info-box">
-      ℹ️ Vous pouvez rejoindre la réunion <strong>sans créer de compte</strong>.
-    </div>
-
-
-
-<h2>
-  <span class="step-badge">Étape 1</span>
-  Rejoindre la réunion
-</h2>
-
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <div class="step-title">Ouvrez le lien reçu</div>
-        <div class="step-desc">Ouvrez le SMS ou l’e‑mail envoyé par votre bénévole, puis appuyez sur le lien.</div>
-        <span class="step-tip">💡 Le lien ressemble à : teams.microsoft.com/…</span>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <div class="step-title">Rejoignez sans compte</div>
-        <div class="step-desc">Si Teams vous demande de vous connecter, choisissez <strong>« Rejoindre sans compte »</strong> ou <strong>« Rejoindre en tant qu'invité »</strong>. Saisissez votre prénom pour que le bénévole vous reconnaisse.</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-body">
-        <div class="step-title">Autorisez le microphone</div>
-        <div class="step-desc">Acceptez la demande d'autorisation pour le microphone. Vous pouvez couper la caméra si vous le souhaitez — ce n'est pas nécessaire pour l'assistance.</div>
-      </div>
-    </div>
-
-
-<h2>
-  <span class="step-badge">Étape 2</span>
-  Partager votre écran
-</h2>
-
-    <div class="phone-illustration">
-      <div>
-        <div class="phone-mock">
-          <div class="notch"></div>
-          <div class="screen">
-            <div class="screen-header">Microsoft Teams</div>
-            <div class="screen-body">Réunion en cours avec votre bénévole…</div>
-            <div class="btn-row">
-              <div class="btn-icon">🎤</div>
-              <div class="btn-icon">📷</div>
-              <div class="btn-icon highlight-btn">···</div>
-              <div class="btn-icon">📞</div>
-            </div>
-          </div>
-        </div>
-        <div class="phone-label">Appuyez sur <span style="letter-spacing:2px;">•••</span></div>
-      </div>
-      <div class="arrow-between">→</div>
-      <div>
-        <div class="phone-mock">
-          <div class="notch"></div>
-          <div class="screen">
-            <div class="screen-header">Plus d'options</div>
-            <div class="screen-body" style="padding-top:16px;">
-              <div style="padding:6px 8px;background:#f0f0f0;border-radius:6px;margin-bottom:6px;">🔇 Couper le son</div>
-              <div style="padding:6px 8px;background:#e8f5e9;border-radius:6px;margin-bottom:6px;color:#1D9E75;font-weight:600;">📤 Partager</div>
-              <div style="padding:6px 8px;background:#f0f0f0;border-radius:6px;">⚙️ Paramètres</div>
-            </div>
-          </div>
-        </div>
-        <div class="phone-label">Appuyez sur Partager</div>
-      </div>
-      <div class="arrow-between">→</div>
-      <div>
-        <div class="phone-mock">
-          <div class="notch"></div>
-          <div class="screen">
-            <div class="screen-header">Partager le contenu</div>
-            <div class="screen-body" style="padding-top:16px;">
-              <div style="padding:6px 8px;background:#e8f5e9;border-radius:6px;margin-bottom:6px;color:#1D9E75;font-weight:600;white-space:nowrap;overflow:hidden;font-size:0.5rem;">📱 Partager l'écran</div>
-              <div style="padding:6px 8px;background:#f0f0f0;border-radius:6px;margin-bottom:6px;">🖼️ Photo</div>
-              <div style="padding:6px 8px;background:#f0f0f0;border-radius:6px;">📄 Fichier</div>
-            </div>
-          </div>
-        </div>
-        <div class="phone-label">Choisissez Partager l'écran</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <div class="step-title">Appuyez sur les trois points (···)</div>
-        <div class="step-desc">En bas de l'écran de la réunion, appuyez sur les <strong>trois petits points</strong> pour ouvrir le menu des options.</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <div class="step-title">Appuyez sur « Partager »</div>
-        <div class="step-desc">Dans le menu qui s'affiche, choisissez <strong>« Partager »</strong>.</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-body">
-        <div class="step-title">Choisissez « Partager l'écran »</div>
-        <div class="step-desc">Appuyez sur <strong>« Partager l'écran »</strong> (et non sur Photo ou Fichier).</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-body">
-        <div class="step-title">Confirmez le partage</div>
-        <div class="step-desc">Une fenêtre de confirmation apparaît — son contenu dépend de votre téléphone :</div>
-        <div style="margin-top:10px; display:flex; flex-direction:column; gap:8px;">
-          <div style="background:#f0f7ff; border-left:3px solid #0078b8; border-radius:6px; padding:10px 14px; font-size:0.9rem;">
-            🍎 <strong>Sur iPhone</strong> — appuyez sur <strong>« Démarrer la diffusion »</strong> dans la fenêtre qui apparaît. Votre écran met 2 à 3 secondes à s'afficher chez le bénévole.
-          </div>
-          <div style="background:#e8eeff; border-left:3px solid #1a4a8a; border-radius:6px; padding:10px 14px; font-size:0.9rem;">
-            🤖 <strong>Sur Android</strong> — appuyez sur <strong>« Commencer »</strong> ou <strong>« Démarrer »</strong> (le libellé varie selon la marque). Une barre colorée apparaît en haut de votre écran — c'est normal, cela signifie que le partage est actif.
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-<h2>
-  <span class="step-badge">Étape 3</span>
-  L'assistance commence
-</h2>
-
-    <div class="step">
-      <div class="step-num">✓</div>
-      <div class="step-body">
-        <div class="step-title">Votre bénévole voit votre écran en direct</div>
-        <div class="step-desc">Naviguez normalement sur votre téléphone. Votre bénévole DoctoNET voit exactement ce que vous voyez et peut vous guider étape par étape, en vous disant précisément sur quoi appuyer.</div>
-      </div>
-    </div>
-
-
-<h2>
-  <span class="step-badge">Étape 4</span>
-  Arrêter le partage
-</h2>
-
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <div class="step-title">Arrêtez le partage à tout moment</div>
-        <div class="step-desc">Appuyez à nouveau sur les <strong>trois points (···)</strong>, puis sur <strong>« Arrêter le partage »</strong>. Votre écran redevient privé immédiatement.</div>
-      </div>
-    </div>
-
-    <div class="reassurance-box">
-      <div class="reassurance-title">🔒 Votre confidentialité est protégée</div>
-      Votre bénévole DoctoNET peut <strong>voir</strong> votre écran <strong>sans accéder à votre téléphone ni à vos données</strong>. Vous restez maître de votre téléphone à tout moment.
-    </div>
-
-
-  <hr class="divider">
-  <div class="suggest-section">
-    <div class="suggest-label">📚 Tutoriels suggérés</div>
-    <div class="suggest-grid">
-      <a href="installer-une-application.html" class="suggest-card">
-        <span class="suggest-icon">🤳</span>
-        <div class="suggest-body">
-          <div class="suggest-title">Installer une application</div>
-          <div class="suggest-desc">Installez facilement des applications sur votre smartphone</div>
-        </div>
-        <span class="suggest-arrow">→</span>
-      </a>
-      <a href="securite-vie-privee.html" class="suggest-card">
-        <span class="suggest-icon">🛡️</span>
-        <div class="suggest-body">
-          <div class="suggest-title">Protégez-vous des arnaques en ligne</div>
-          <div class="suggest-desc">Les bons réflexes numériques essentiels</div>
-        </div>
-        <span class="suggest-arrow">→</span>
-      </a>
-    </div>
-  </div>
-
-
-  <a class="back-link" href="tutoriels.html">← Retour aux tutoriels</a>
+  <a class="back-link" href="partager-son-ecran-teams.html#trouver-lien">← Retour au tutoriel</a>
 
     <div class="cta-doctonet">
       <h3>Besoin d'aide ? DoctoNET est là pour vous !</h3>
