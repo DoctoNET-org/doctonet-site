@@ -333,14 +333,14 @@
     .back-link:hover { background: #5ddcff; }
 
     /* ── PHONE MOCKUP ILLUSTRATION ── */
-    .phone-illustration {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      flex-wrap: wrap;
-      margin: 32px 0;
-      align-items: center;
-    }
+
+.phone-illustration {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: nowrap; /* ✅ force 1 ligne */
+}
+
     .phone-mock {
       width: 130px;
       background: #1a1a2e;
@@ -726,16 +726,15 @@
     </div>
 
 
+
+    <h2>Avant de commencer (2 minutes)</h2>
+
 <div class="pre-steps">
   <ul class="checklist">
 
-
-    <h2>Avant de commencer (2 minutes)</h2>
     <ul class="checklist">
       <li>Un smartphone (iPhone ou Android)</li>
       <li><span>L'application <b>Microsoft Teams</b> installée</span></li>
-
-
 
 <div class="step-desc team-link">
 
@@ -747,8 +746,6 @@
        alt="Icône Microsoft Teams">
 
 </div>
-
-
 
       <li>Un message avec le lien de réunion (SMS ou e‑mail)</li>
 <a href="trouver-lien-teams.html" class="step-link">
