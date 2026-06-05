@@ -207,6 +207,59 @@
     .suggest-card:hover .suggest-arrow { transform: translateX(3px); }
     @media (max-width: 500px) { .suggest-grid { grid-template-columns: 1fr; } }
 
+
+.reassurance-box {
+ background: linear-gradient(135deg, #0a2540, #1a4a7a);
+ color: white;
+ border-radius: 14px;
+ padding: 24px 28px;
+ margin: 32px 0;
+ font-size: 0.93rem;
+ line-height: 1.65;
+}
+
+.reassurance-title {
+ font-family: 'Syne', sans-serif;
+ font-weight: 700;
+ font-size: 1.1rem;
+ color: #7ee8ff;
+ margin-bottom: 10px;
+ display: flex;
+ align-items: center;
+ gap: 8px;
+}
+
+.reassurance-box strong {
+ color: #7ee8ff;
+}
+
+.portail-card p {
+ font-size: 0.82rem;
+}
+
+
+
+
+.problem p {
+ font-weight: 500;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </style>
 </head>
 
@@ -231,17 +284,19 @@
     <div class="badge">Tutoriel numérique</div>
     <h1>Consulter ses résultats médicaux</h1>
 
-<p><strong>Consultez vos résultats d’analyses en ligne.</strong></p>
+
 <p>Suivez les étapes ci-dessous pour y accéder facilement, depuis chez vous.</p>
 
   </header>
 
   <main>
-  
+  <br>
     <h2>1. Comment ça marche ?</h2>
 
-<p><strong>Après votre examen (prise de sang, radio…), vos résultats sont disponibles en ligne.</strong></p>
-<p>Vous pouvez généralement y accéder sous <strong>24 à 48 heures</strong>.</p>
+
+<p><strong>Après votre examen, vos résultats sont mis en ligne.</strong></p>
+<p>Vous pouvez les consulter en 24 à 48h depuis votre téléphone ou ordinateur.</p>
+
 
 
 <div class="steps">
@@ -250,7 +305,7 @@
     <div class="step-num">1</div>
     <div class="step-content">
       <strong>Repérez vos identifiants</strong>
-      <p>Sur le document remis au laboratoire ou au centre de radiologie, notez votre identifiant ou vos codes de connexion.</p>
+<p>Notez votre identifiant sur le document remis par le laboratoire.</p>
     </div>
   </div>
 
@@ -258,7 +313,7 @@
     <div class="step-num">2</div>
     <div class="step-content">
       <strong>Ouvrez le lien reçu</strong>
-      <p>Regardez votre SMS ou votre e-mail, puis cliquez sur le lien envoyé pour accéder à vos résultats.</p>
+<p>Ouvrez le SMS ou l’e-mail reçu, puis appuyez sur le lien.</p>
     </div>
   </div>
 
@@ -298,130 +353,197 @@
       <p class="mock-tip">💡 Si vous avez reçu une carte plastifiée, votre identifiant se trouve au dos.</p>
     </div>
 
-    <h2>2. Trouver le bon portail selon votre laboratoire</h2>
-    <p>Six grands groupes couvrent plus de 60% des laboratoires en France. Repérez le nom affiché dans votre laboratoire :</p>
+    <h2>2. Si le lien ne fonctionne pas</h2>
+<p>Si le lien ne fonctionne pas, retrouvez votre laboratoire dans la liste ci-dessous :</p>
+
+
+
+<div class="info-box">
+💡 Dans la majorité des cas, cliquez simplement sur le lien reçu par SMS ou e-mail.<br>
+Vous n’avez pas besoin de chercher votre laboratoire.
+</div>
+
 
     <div class="labo-list">
       <div class="labo-card">
         <div class="labo-card-header"><span class="labo-name">BIOGROUP</span><span class="labo-sites">2 000+ sites</span></div>
         <a class="labo-link" href="https://www.biogroup.fr/patients/vos-resultats/" target="_blank" rel="noopener noreferrer">biogroup.fr → Vos résultats</a>
-        <p class="labo-desc">E-mail reçu après prélèvement → lien direct. Ou connexion via le site avec date de naissance + code SMS.</p>
+<p class="labo-desc">Lien reçu par e-mail ou connexion avec identifiant + code SMS.</p>
       </div>
       <div class="labo-card">
         <div class="labo-card-header"><span class="labo-name">CERBALLIANCE</span><span class="labo-sites">800+ sites</span></div>
         <a class="labo-link" href="https://www.cerballiance.fr" target="_blank" rel="noopener noreferrer">cerballiance.fr → Espace Patient</a>
-        <p class="labo-desc">Identifiant fourni au laboratoire + date de naissance. Application mobile disponible.</p>
+<p class="labo-desc">Identifiant + date de naissance. Application mobile disponible.</p>
       </div>
       <div class="labo-card">
         <div class="labo-card-header"><span class="labo-name">SYNLAB</span><span class="labo-sites">600+ sites</span></div>
         <a class="labo-link" href="https://www.synlab.fr" target="_blank" rel="noopener noreferrer">synlab.fr → mySYNLAB</a>
-        <p class="labo-desc">Carte remise au labo avec identifiant au dos. Créer un compte mySYNLAB en ligne.</p>
+<p class="labo-desc">Identifiant sur document ou carte. Connexion ou création de compte.</p>
       </div>
       <div class="labo-card">
         <div class="labo-card-header"><span class="labo-name">INOVIE</span><span class="labo-sites">530+ sites</span></div>
-        <a class="labo-link" href="https://www.inovie.fr" target="_blank" rel="noopener noreferrer">inovie.fr → +me Espace Patient</a>
-        <p class="labo-desc">Identifiant fourni lors du prélèvement. Application mobile INOVIE disponible.</p>
+        <a class="labo-link" href="https://www.inovie.fr" target="_blank" rel="noopener noreferrer">inovie.fr → Espace Patient</a>
+<p class="labo-desc">Identifiant fourni au laboratoire ou lien reçu par e-mail.</p>
       </div>
       <div class="labo-card">
         <div class="labo-card-header"><span class="labo-name">EUROFINS</span><span class="labo-sites">400+ sites</span></div>
         <a class="labo-link" href="https://eurofins.mesanalyses.fr" target="_blank" rel="noopener noreferrer">eurofins.mesanalyses.fr</a>
-        <p class="labo-desc">E-mail et mot de passe, ou accès sans compte avec identifiant labo. <em>Note : FranceConnect suspendu depuis sept. 2025.</em></p>
+<p class="labo-desc">Connexion avec identifiant ou accès via le lien e-mail.</p>
       </div>
       <div class="labo-card">
         <div class="labo-card-header"><span class="labo-name">UNILABS</span><span class="labo-sites">300+ sites</span></div>
         <a class="labo-link" href="https://unilabs.mesanalyses.fr" target="_blank" rel="noopener noreferrer">unilabs.mesanalyses.fr</a>
-        <p class="labo-desc">E-mail et mot de passe, ou accès sans compte avec identifiant labo. <em>Note : FranceConnect suspendu depuis sept. 2025.</em></p>
+<p class="labo-desc">Connexion avec identifiant ou via le lien reçu après examen.</p>
       </div>
       <div class="labo-card">
         <div class="labo-card-header"><span class="labo-name">MLAB GROUPE</span></div>
         <a class="labo-link" href="https://www.mlab-groupe.fr" target="_blank" rel="noopener noreferrer">mlab-groupe.fr → Vos résultats</a>
-        <p class="labo-desc">Envoi par e-mail sécurisé ou espace personnel en ligne — jusqu'à 5 ans d'historique.</p>
+<p class="labo-desc">Résultats envoyés par e-mail ou disponibles en ligne.</p>
       </div>
       <div class="labo-card">
         <div class="labo-card-header"><span class="labo-name">OUÏLAB</span></div>
         <a class="labo-link" href="https://www.ouilab.com" target="_blank" rel="noopener noreferrer">ouilab.com → Mes résultats</a>
-        <p class="labo-desc">Par e-mail ou via le serveur de résultats sécurisé du laboratoire.</p>
+<p class="labo-desc">Accès via e-mail ou serveur sécurisé du laboratoire.</p>
       </div>
     </div>
 
-    <h2>3. Portails régionaux et plateformes partagées</h2>
-    <p>Environ 30 à 35% des laboratoires indépendants utilisent des plateformes partagées. Si vous ne reconnaissez aucun des grands groupes ci-dessus :</p>
+
+
+
+
+
+
+<div class="reassurance-box">
+  <div class="reassurance-title">🔐 Connexion à votre espace</div>
+
+  Vous avez besoin d’un <strong>identifiant</strong> (numéro ou e-mail) et d’un <strong>mot de passe</strong>.<br><br>
+
+  👉 Lors de la première connexion, le mot de passe est souvent votre <strong>date de naissance</strong>.<br>
+
+  👉 Si cela ne fonctionne pas, cliquez sur <strong>« mot de passe oublié »</strong> pour en créer un nouveau.
+</div>
+
+
+
+
+
+
+
+
+
+
+    <h2>3. Portails et plateformes partagées</h2>
+<p>Utilisez ces portails uniquement si vous ne trouvez pas votre laboratoire ci-dessus :</p>
+<p><strong>Dans la plupart des cas, vous n’en aurez pas besoin.</strong></p>
+
 
     <div class="portails-grid">
       <div class="portail-card">
         <strong>mesanalyses.fr</strong>
         <a href="https://www.mesanalyses.fr" target="_blank" rel="noopener noreferrer">www.mesanalyses.fr</a>
-        <p>Très répandu. Identifiant + mot de passe remis lors du prélèvement. Résultats disponibles 7 jours.</p>
+<p>Identifiant + mot de passe fournis au laboratoire.</p>
       </div>
       <div class="portail-card">
         <strong>Laboconnect</strong>
         <a href="https://www.laboconnect.com" target="_blank" rel="noopener noreferrer">www.laboconnect.com</a>
-        <p>Présent dans de nombreuses régions. Créer un compte avec l'identifiant fourni par le labo.</p>
+<p>Créer un compte avec votre identifiant laboratoire.</p>
       </div>
       <div class="portail-card">
         <strong>MonLab / Kalilab</strong>
         <a href="https://www.monlab.fr" target="_blank" rel="noopener noreferrer">monlab.fr</a>
-        <p>Plusieurs groupes régionaux. Connexion par identifiant + date de naissance.</p>
+<p>Connexion avec identifiant + date de naissance.</p>
       </div>
       <div class="portail-card">
         <strong>Hexalis / Laborizon</strong>
         <a href="https://www.laborizon.fr" target="_blank" rel="noopener noreferrer">laborizon.fr</a>
-        <p>Actif dans l'Ouest et le Centre. Espace patient en ligne.</p>
+<p>Accès via espace patient en ligne.</p>
       </div>
       <div class="portail-card">
         <strong>Alliance Bio</strong>
         <a href="https://www.alliancebio.fr" target="_blank" rel="noopener noreferrer">alliancebio.fr</a>
-        <p>Île-de-France et Grand Est notamment.</p>
+<p>Connexion via espace patient du laboratoire.</p>
       </div>
       <div class="portail-card">
         <strong>Biopath / Bioclinice</strong>
         <a href="https://www.bioclinice.fr" target="_blank" rel="noopener noreferrer">bioclinice.fr</a>
-        <p>Plusieurs régions. Espace patient sécurisé avec historique.</p>
+<p>Espace patient sécurisé avec historique.</p>
       </div>
     </div>
 
-    <h2>4. Je ne sais pas quel portail utiliser — que faire ?</h2>
+
+
+
+    <h2>4. Quel portail utiliser ?</h2>
     <div class="reflexes">
-      <h3 style="margin-top:0;">3 réflexes simples</h3>
-      <ol>
-        <li><strong>Regardez le document remis au laboratoire</strong> — il contient l'adresse du site et votre identifiant.</li>
-        <li><strong>Cherchez le nom du groupe</strong> sur votre ordonnance ou la façade du laboratoire, puis allez sur leur portail.</li>
-        <li><strong>Appelez directement le laboratoire</strong> — la secrétaire vous indique le portail et votre identifiant en moins d'une minute.</li>
-      </ol>
+<ol>
+<li><strong>Regardez le document du laboratoire</strong><br>→ Vous y trouverez l’adresse du site.</li>
+<li><strong>Cherchez le nom du laboratoire</strong><br>→ Sur votre ordonnance ou la façade.</li>
+<li><strong>Appelez le laboratoire</strong><br>→ Ils vous donnent le portail en 1 minute.</li>
+</ol>
     </div>
 
-    <h2>5. Problèmes fréquents et solutions</h2>
+
+
+
+    <h2>5. En cas de problème</h2>
     <div class="problems">
-      <div class="problem">
-        <strong>❌ Je n'ai pas reçu d'e-mail de notification</strong>
-        <p>→ <em>Vérifiez vos spams.</em> Si rien : appelez le laboratoire pour vérifier que votre adresse e-mail est bien enregistrée. Vous pouvez aussi vous connecter directement au portail avec votre identifiant.</p>
-      </div>
-      <div class="problem">
-        <strong>❌ Mes résultats ne sont pas encore disponibles</strong>
-        <p>→ Les analyses courantes sont disponibles sous <em>24 à 48h</em>. Certaines analyses spécialisées prennent 2 à 7 jours. Patientez ou appelez le laboratoire.</p>
-      </div>
-      <div class="problem">
-        <strong>❌ J'ai oublié mon identifiant ou mot de passe</strong>
-        <p>→ Cliquez sur <em>"Mot de passe oublié"</em> sur le portail, ou rappelez le laboratoire — ils peuvent régénérer vos accès.</p>
-      </div>
-      <div class="problem">
-        <strong>❌ Le lien reçu par e-mail ne fonctionne plus</strong>
-        <p>→ Les liens ont une durée limitée (7 jours en général). <em>Allez directement sur le site du portail</em> et connectez-vous avec votre identifiant.</p>
-      </div>
-      <div class="problem">
-        <strong>❌ Je n'arrive pas à télécharger mes résultats</strong>
-        <p>→ Essayez avec un autre navigateur (Chrome, Firefox…). Sur smartphone, vérifiez que vous avez une application pour lire les PDF. Si le problème persiste, <em>contactez le laboratoire</em>.</p>
-      </div>
+
+<div class="problem">
+<strong>❌ Je n'ai pas reçu d'e-mail</strong>
+<p>→ Vérifiez vos spams ou appelez le laboratoire.</p>
+</div>
+
+
+<div class="problem">
+<strong>❌ Mes résultats ne sont pas disponibles</strong>
+<p>→ Attendez 24 à 48h ou contactez le laboratoire.</p>
+</div>
+
+
+<div class="problem">
+<strong>❌ J'ai oublié mes identifiants</strong>
+<p>→ Cliquez sur « mot de passe oublié » ou appelez le laboratoire.</p>
+</div>
+
+
+<div class="problem">
+<strong>❌ Le lien ne fonctionne plus</strong>
+<p>→ Allez directement sur le site du portail et connectez-vous.</p>
+</div>
+
+
+<div class="problem">
+<strong>❌ Impossible de télécharger mes résultats</strong>
+<p>→ Essayez un autre navigateur ou contactez le laboratoire.</p>
+</div>
+
     </div>
 
-    <h2>6. Vos résultats en ligne : sécurité et vie privée</h2>
-    <ul class="securite-list">
-      <li>Tous les portails utilisent le protocole <strong>HTTPS</strong> (cadenas dans votre navigateur) : vos données sont chiffrées.</li>
-      <li>L'accès est protégé par un <strong>identifiant personnel</strong> + date de naissance ou code SMS : seul vous pouvez y accéder.</li>
-      <li>Les portails sont soumis au <strong>RGPD</strong> et aux règles strictes du secret médical.</li>
-      <li>Ne partagez <strong>jamais votre identifiant ou mot de passe</strong>, même avec un proche — ils peuvent demander un accès séparé au laboratoire.</li>
-      <li>Téléchargez vos résultats sur <strong>votre propre appareil</strong> et ne les consultez pas depuis un ordinateur public.</li>
-    </ul>
+    <h2>6. Vos résultats sont-ils sécurisés ?</h2>
+<ul class="securite-list">
+
+<li><strong>Vos résultats sont protégés</strong><br>
+→ Vos données sont sécurisées automatiquement.</li>
+
+<li><strong>Seul vous pouvez y accéder</strong><br>
+→ Identifiant + code personnel ou SMS.</li>
+
+<li><strong>Vos données sont confidentielles</strong><br>
+→ Les laboratoires respectent la loi (RGPD).</li>
+
+<li><strong>Ne partagez jamais vos accès</strong><br>
+→ Même avec un proche.</li>
+
+<li><strong>Utilisez votre appareil personnel</strong><br>
+→ Évitez les ordinateurs publics.</li>
+
+</ul>
+
+
+
+
+
+
 
   <a class="back-link" href="tutoriels.html">← Retour aux tutoriels</a>
 
