@@ -230,7 +230,7 @@
       font-weight: 500;
       font-size: 1rem;
       color: var(--blue-dark);
-      margin-bottom: 4px;
+  margin-bottom: 8px;
     }
     .step-desc {
       font-size: 0.93rem;
@@ -572,7 +572,22 @@
     }
 
     /* ── STEP IMAGE caption ── */
-    .step-image { margin: 28px 0; text-align: center; }
+
+
+.step-image { 
+  margin: 12px 0; 
+  text-align: center; 
+}
+
+
+.step-image img {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+}
+
+
+
     .caption { font-size: 0.88rem; color: var(--muted); margin-top: 10px; }
 
     /* ── RESPONSIVE ── */
@@ -821,6 +836,19 @@
   color: #00c2ff;
 }
 
+
+
+.tab-btn {
+  min-height: 64px;
+  padding: 18px 24px;
+}
+
+.tab-btn.active {
+  border-width: 3px;
+}
+
+
+
   </style>
 
   <!-- Schema.org HowTo — Installer une application -->
@@ -888,28 +916,22 @@
 
 <header>
   <div class="badge">Tutoriel numérique</div>
-  <h1>Installer une application sur son smartphone</h1>
-  <p>Télécharger une application gratuitement depuis l'App Store (iPhone) ou le Play Store (Android), en toute sécurité.</p>
+  <h1>Installer une application</h1>
+  <p>Sur iPhone ou Android, en toute sécurité.</p>
 </header>
 
 <main>
 
   <div class="reassurance-box">
     <div class="reassurance-title">🔒 Les applications des stores officiels sont sûres</div>
-    L'App Store et le Play Store sont les <strong>boutiques officielles</strong> d'Apple et de Google. Toutes les applications qui s'y trouvent ont été vérifiées. Vous ne risquez <strong>rien en téléchargeant depuis ces stores</strong> — c'est comme entrer dans une grande surface plutôt qu'acheter dans la rue.
-    <em>Si une application est gratuite, vous n'avez pas à saisir votre numéro de carte bancaire.</em>
+
+👉 Choisissez votre téléphone pour commencer :
   </div>
 
-  <div style="background:#f0f7ff; border-left:4px solid #00c2ff; border-radius:10px; padding:1.2rem 1.4rem; margin:0 0 1.5rem;">
-    <p style="font-family:'Syne',sans-serif; font-weight:700; margin:0 0 0.5rem; color:#0a2540;">💬 Pourquoi installer Microsoft Teams ?</p>
-    <p style="margin:0;">C'est l'application utilisée par les bénévoles <strong>DoctoNET</strong> pour vous accompagner à distance. En l'installant, vous pourrez être aidé directement depuis chez vous, en voyant et entendant votre bénévole en temps réel.</p>
-  </div>
 
-  <div class="intro-box">
-    ℹ️ Ce tutoriel explique comment installer n'importe quelle application — en prenant <strong>Microsoft Teams</strong> comme exemple. Choisissez votre type de téléphone ci-dessous.<br><br>
-    👉 <strong>Vous avez un iPhone ?</strong> Appuyez sur « iPhone (App Store) ».<br>
-    👉 <strong>Vous avez un autre téléphone ?</strong> Appuyez sur « Android (Play Store) ».
-  </div>
+
+
+
 
   <!-- TAB NAVIGATION -->
   <div class="tab-nav" role="tablist">
@@ -922,6 +944,13 @@
       Android (Play Store)
     </button>
   </div>
+
+
+  <div style="background:#f0f7ff; border-left:4px solid #00c2ff; border-radius:10px; padding:1.2rem 1.4rem; margin:0 0 1.5rem;">
+    <p style="font-family:'Syne',sans-serif; font-weight:700; margin:0 0 0.5rem; color:#0a2540;">💬 Pourquoi installer Microsoft Teams ?</p>
+    <p style="margin:0;">C'est l'application utilisée par les bénévoles <strong>DoctoNET</strong> pour vous accompagner à distance. En l'installant, vous pourrez être aidé directement depuis chez vous, en voyant et entendant votre bénévole en temps réel.</p>
+  </div>
+
 
 
   <!-- ══════════════════════════════════════ -->
@@ -945,19 +974,34 @@
       </div>
     </div>
 
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <div class="step-title">Trouvez l'App Store sur votre écran d'accueil</div>
-        <div class="step-desc"><img src="images/app-store-logo-optimized.webp" alt="Icône App Store" style="width:52px;height:52px;border-radius:12px;display:block;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.15);"><span>L'App Store est une icône bleue avec un <strong>« A » blanc</strong> formé par un crayon. Elle est installée d'office sur tous les iPhones — vous ne pouvez pas la supprimer.</span></div>
-        <span class="step-tip">Si vous ne la voyez pas, balayez l'écran vers le bas et tapez « App Store » dans la barre de recherche</span>
-      </div>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-body">
+    <div class="step-title">
+      Trouvez l'App Store sur votre écran
     </div>
+    <div class="step-desc">
+      Repérez l’icône App Store.
+    </div>
+    <div class="step-image">
+
+<img src="images/app-store-logo-optimized.webp"
+     alt="Icône App Store">
+
+      <p class="caption">Icône App Store</p>
+    </div>
+    <span class="step-tip">
+      Si vous ne la voyez pas, tapez « App Store » dans la recherche
+    </span>
+  </div>
+</div>
+
+
     <div class="step">
       <div class="step-num">2</div>
       <div class="step-body">
         <div class="step-title">Appuyez sur l'icône pour ouvrir l'App Store</div>
-        <div class="step-desc">Un simple appui suffit. L'App Store s'ouvre sur la page d'accueil.</div>
+        <div class="step-desc">Appuyez une fois sur l’icône.</div>
       </div>
     </div>
 
