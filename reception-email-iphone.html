@@ -1,0 +1,1006 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aide à distance par DoctoNET – Microsoft Teams</title>
+  <meta name="description" content="Tutoriel pas-à-pas pour se faire aider à distance par un bénévole DoctoNET via Microsoft Teams. iPhone et Android. Gratuit, sans compte Microsoft.">
+  <meta name="author" content="Association DoctoNET">
+  <link rel="canonical" href="https://www.doctonet.org/partager-son-ecran-teams.html">
+  <meta property="og:title" content="Aide à distance par DoctoNET – Microsoft Teams">
+  <meta property="og:image" content="https://www.doctonet.org/logos-1.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.doctonet.org/logos-1.png">
+  <meta property="og:description" content="Un bénévole DoctoNET voit votre écran en direct et vous guide pas à pas — sans se déplacer, sans accéder à votre téléphone. iPhone et Android.">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="DoctoNET">
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-dark: #0a2540;
+      --blue-mid: #0e3460;
+      --blue-accent: #00c2ff;
+      --green-main: #0078b8;
+      --green-light: #e8f6ff;
+      --green-border: #99ddf7;
+      --green-dark: #005a8e;
+      --bg: #f4f8ff;
+      --text: #0a2540;
+      --muted: #6b7a90;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+      padding: 100px 5% 70px;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(0,194,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    header .badge {
+      display: inline-block;
+      background: rgba(0,194,255,0.18);
+      border: 1px solid rgba(0,194,255,0.4);
+      color: #7ee8ff;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 40px;
+      margin-bottom: 20px;
+    }
+    header h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+    header p {
+      max-width: 680px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.82);
+    }
+
+    /* ── MAIN CARD ── */
+    main {
+      max-width: 900px;
+      margin: -50px auto 60px;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 8px 50px rgba(10,37,64,0.12);
+      padding: 50px 5% 60px;
+      position: relative;
+    }
+
+
+
+
+
+    /* ── SECTION TITLE ── */
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin: 40px 0 16px;
+      color: var(--blue-dark);
+    }
+    h2:first-child { margin-top: 0; }
+
+    /* ── STEPS ── */
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+
+  background: #f9fbff;
+  border: 1px solid #dbe4ee;
+
+      border-radius: 12px;
+      padding: 16px 18px;
+      transition: box-shadow 0.2s;
+    }
+    .step:hover { box-shadow: 0 4px 20px rgba(10,37,64,0.07); }
+
+
+        .step-num {
+      min-width: 32px;
+      height: 32px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      border-radius: 50%;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .step-body { min-width: 0; }
+    .step-title {
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--blue-dark);
+      margin-bottom: 4px;
+    }
+    .step-desc {
+      font-size: 0.93rem;
+      color: #4a5568;
+      line-height: 1.6;
+    }
+
+.step-tip {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.82rem;
+  color: var(--green-dark);
+  background: var(--green-light);
+  border-radius: 20px;
+  padding: 3px 12px;
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: normal;
+  max-width: 100%;
+}
+
+    /* ── STEP LINK ── */
+    .step-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      color: var(--blue-accent);
+      background: var(--blue-light);
+      border: 1.5px solid var(--blue-border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .step-link:hover {
+      background: var(--blue-mid);
+      border-color: var(--blue-mid);
+      color: white;
+    }
+
+    /* ── STEP IMAGE ── */
+    .step-image {
+      margin: 28px 0;
+      text-align: center;
+    }
+
+
+
+
+.step-image img {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 30px rgba(10,37,64,0.15);
+}
+
+
+    .caption {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    /* ── REASSURANCE BOX ── */
+    .reassurance-box {
+      background: linear-gradient(135deg, var(--blue-dark), #1a4a7a);
+      color: white;
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin: 0 0 36px;
+      font-size: 0.93rem;
+      line-height: 1.65;
+    }
+    .reassurance-box .reassurance-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #7ee8ff;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .reassurance-box strong {
+      color: #7ee8ff;
+    }
+    .reassurance-box em {
+      display: block;
+      margin-top: 10px;
+      font-style: italic;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.9rem;
+    }
+
+
+
+    /* ── INFO BOX ── */
+    .info-box {
+      background: #eef6ff;
+      border-left: 5px solid var(--blue-accent);
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 28px 0;
+      font-size: 0.95rem;
+      color: #1a3a5c;
+    }
+
+    /* ── HIGHLIGHT CARD ── */
+    .highlight-card {
+      background: linear-gradient(135deg, var(--blue-dark), #1a4a7a);
+      color: white;
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin: 32px 0;
+    }
+    .highlight-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: #7ee8ff;
+    }
+    .highlight-card p { font-size: 0.93rem; color: rgba(255,255,255,0.85); line-height: 1.65; }
+
+    /* ── CHECKLIST ── */
+    .checklist { list-style: none; padding: 0; margin: 16px 0; }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: 0.95rem;
+      color: #2d3748;
+    }
+    .checklist li span {
+      flex: 1;
+      min-width: 0;
+    }
+    .checklist li::before {
+      content: '✓';
+      width: 20px;
+      height: 20px;
+      background: var(--green-main);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px dashed #cbd5e0;
+      margin: 40px 0;
+    }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      display: inline-block;
+      margin-top: 50px;
+      padding: 14px 28px;
+      background: var(--blue-accent);
+      border-radius: 40px;
+      color: var(--blue-dark);
+      text-decoration: none;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      transition: background 0.2s;
+    }
+    .back-link:hover { background: #5ddcff; }
+
+    /* ── PHONE MOCKUP ILLUSTRATION ── */
+    .phone-illustration {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin: 32px 0;
+      align-items: center;
+    }
+    .phone-mock {
+      width: 130px;
+      background: #1a1a2e;
+      border-radius: 22px;
+      padding: 12px 8px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      position: relative;
+    }
+
+    /* ── ARROW STEP ── */
+    .arrow-between {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--green-main);
+      padding: 0 4px;
+    }
+
+    @media (max-width: 520px) {
+      .phone-illustration {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      .arrow-between {
+        transform: rotate(90deg);
+        margin: -4px 0;
+      }
+    }
+    .phone-mock .notch {
+      width: 40px;
+      height: 8px;
+      background: #2a2a3e;
+      border-radius: 4px;
+      margin: 0 auto 10px;
+    }
+    .phone-mock .screen {
+      background: white;
+      border-radius: 12px;
+      height: 160px;
+      overflow: hidden;
+      position: relative;
+    }
+    .phone-mock .screen .screen-header {
+      background: #6264a7;
+      padding: 6px 8px;
+      font-size: 0.55rem;
+      color: white;
+      font-weight: 600;
+    }
+    .phone-mock .screen .screen-body {
+      padding: 8px;
+      font-size: 0.55rem;
+      color: #333;
+      line-height: 1.5;
+    }
+    .phone-mock .screen .btn-row {
+      display: flex;
+      justify-content: space-around;
+      padding: 6px;
+      border-top: 1px solid #eee;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+    .phone-mock .screen .btn-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+    }
+    .btn-icon.highlight-btn { background: #6264a7; color: white; }
+    .phone-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+
+    @media (max-width: 600px) {
+      main { margin: -30px 12px 40px; padding: 30px 5% 40px; }
+      header { padding: 70px 5% 60px; }
+    }
+  
+    /* ===== NAVBAR DOCTONET ===== */
+    #doctonet-nav {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      position: fixed !important;
+      top: 0 !important; left: 0 !important; right: 0 !important;
+      z-index: 999999 !important;
+      background: #ffffff !important;
+      border-bottom: 2px solid rgba(0,194,255,0.25) !important;
+      padding: 0 5% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      height: 68px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      box-shadow: 0 2px 16px rgba(10,37,64,0.10) !important;
+    }
+    #doctonet-logo {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      font-weight: 800 !important;
+      font-size: 1.5rem !important;
+      color: #0a2540 !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+    }
+    #doctonet-logo span { color: #00c2ff !important; font-family: 'Syne', sans-serif !important; font-weight: 800 !important; }
+    #doctonet-nav-links {
+      all: initial !important;
+      display: flex !important;
+      gap: 2rem !important;
+      align-items: center !important;
+    }
+    #doctonet-nav-links a {
+      all: initial !important;
+      font-family: 'DM Sans', sans-serif !important;
+      text-decoration: none !important;
+      color: #6b7a90 !important;
+      font-size: 0.95rem !important;
+      font-weight: 500 !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+    }
+    #doctonet-nav-links a:hover { color: #0a2540 !important; }
+    #doctonet-nav-links a.active { color: #00c2ff !important; font-weight: 700 !important; }
+    #doctonet-nav-links #doctonet-nav-cta,
+    #doctonet-nav-cta {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      background: #0a2540 !important;
+      color: #ffffff !important;
+      padding: 0.5rem 1.2rem !important;
+      border-radius: 50px !important;
+      font-weight: 700 !important;
+      font-size: 0.9rem !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+    }
+    #doctonet-nav-cta:hover { background: #00c2ff !important; color: #0a2540 !important; }
+    #doctonet-hamburger {
+      all: initial !important;
+      display: none !important;
+      flex-direction: column !important;
+      gap: 5px !important;
+      background: none !important;
+      border: none !important;
+      cursor: pointer !important;
+      padding: 4px !important;
+      z-index: 1000000 !important;
+    }
+    #doctonet-hamburger span {
+      display: block !important;
+      width: 24px !important;
+      height: 2px !important;
+      background: #0a2540 !important;
+      border-radius: 2px !important;
+      transition: all 0.3s !important;
+    }
+    #doctonet-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg) !important; }
+    #doctonet-hamburger.open span:nth-child(2) { opacity: 0 !important; }
+    #doctonet-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg) !important; }
+    @media (max-width: 768px) {
+      #doctonet-hamburger { display: flex !important; }
+      #doctonet-nav-links {
+        display: none !important;
+        position: fixed !important;
+        top: 68px !important;
+        left: 0 !important; right: 0 !important;
+        background: #ffffff !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        padding: 1rem 0 1.5rem !important;
+        box-shadow: 0 8px 24px rgba(10,37,64,0.12) !important;
+        z-index: 999998 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      #doctonet-nav-links.open { display: flex !important; }
+      #doctonet-nav-links a {
+        padding: 0.85rem 5% !important;
+        font-size: 1rem !important;
+        width: 100% !important;
+        border-bottom: 1px solid rgba(0,194,255,0.08) !important;
+        box-sizing: border-box !important;
+      }
+      #doctonet-nav-links #doctonet-nav-cta {
+        display: inline-block !important;
+        background: #0a2540 !important;
+        color: #ffffff !important;
+        border-radius: 50px !important;
+        margin: 0.5rem 5% 0 !important;
+        width: 90% !important;
+        text-align: center !important;
+        padding: 0.75rem 1.2rem !important;
+        box-sizing: border-box !important;
+        font-family: 'Syne', sans-serif !important;
+        font-weight: 700 !important;
+        border-bottom: none !important;
+      }
+    }
+    @media (min-width: 769px) { #doctonet-hamburger { display: none !important; } }
+    /* ===== FIN NAVBAR ===== */
+    
+    /* ===== SUGGESTIONS ===== */
+    .suggest-section { margin: 2.5rem 0 1.5rem; }
+    .suggest-label { font-size: 0.78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #6b7a90; margin-bottom: 0.75rem; }
+    .suggest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .suggest-card { display: flex; align-items: center; gap: 0.75rem; background: #f4f7fb; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.9rem 1rem; text-decoration: none; color: #0a2540; transition: border-color 0.2s, box-shadow 0.2s; }
+    .suggest-card:hover { border-color: #00c2ff; box-shadow: 0 2px 12px rgba(0,194,255,0.1); }
+    .suggest-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .suggest-body { flex: 1; }
+    .suggest-title { font-weight: 600; font-size: 0.88rem; line-height: 1.3; }
+    .suggest-desc { font-size: 0.78rem; color: #6b7a90; margin-top: 0.2rem; }
+    .suggest-arrow { font-size: 1rem; color: #00c2ff; flex-shrink: 0; }
+    .suggest-card:hover .suggest-arrow { transform: translateX(3px); }
+    @media (max-width: 500px) { .suggest-grid { grid-template-columns: 1fr; } }
+
+    /* ===== CTA ===== */
+    .cta-doctonet { background: linear-gradient(135deg, #0a2540, #0e3460); border-radius: 14px; padding: 1.75rem 1.25rem; text-align: center; margin: 2.5rem 0 0; color: #fff; }
+    .cta-doctonet h3 { font-family: 'Syne', sans-serif; font-size: clamp(1rem, 3vw, 1.2rem); color: #fff; margin: 0 0 0.5rem; line-height: 1.3; }
+    .cta-doctonet p { color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-bottom: 1.25rem; }
+    .cta-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+    .cta-links a { background: #00c2ff; color: #0a2540; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; padding: 0.65rem 1.3rem; border-radius: 50px; text-decoration: none; }
+    .cta-links a.secondary { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.25); }
+
+    /* ===== FOOTER ===== */
+    footer { background: #0a2540; color: rgba(255,255,255,0.7); text-align: center; padding: 3rem 5% 2rem; font-size: 0.88rem; line-height: 1.8; margin-top: 3rem; }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; color: #fff; margin-bottom: 0.75rem; }
+    .footer-logo span { color: #00c2ff; }
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    footer a:hover { color: #00c2ff; }
+    .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 0 1.5rem; margin-top: 1rem; }
+    .footer-phone { display: inline-block; color: #00c2ff !important; font-weight: 600; font-size: 1rem; margin-top: 0.5rem; }
+
+  </style>
+
+  <!-- Schema.org HowTo — Aide à distance DoctoNET via Teams -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Comment se faire aider à distance par DoctoNET via Microsoft Teams",
+    "description": "Guide pas-à-pas pour rejoindre une session d'assistance à distance avec un bénévole DoctoNET via Microsoft Teams. iPhone et Android.",
+    "image": "https://www.doctonet.org/logos-1.png",
+    "totalTime": "PT10M",
+    "tool": [
+      { "@type": "HowToTool", "name": "Smartphone iPhone ou Android" },
+      { "@type": "HowToTool", "name": "Application Microsoft Teams (gratuite)" }
+    ],
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Installer Microsoft Teams",
+        "text": "Ouvrez l'App Store (iPhone) ou le Play Store (Android), recherchez Microsoft Teams et installez l'application gratuitement.",
+        "url": "https://www.doctonet.org/partager-son-ecran-teams.html#etape-1"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Rejoindre la réunion",
+        "text": "Appuyez sur le lien reçu par SMS ou e-mail de votre bénévole DoctoNET. Rejoignez sans compte en saisissant votre prénom.",
+        "url": "https://www.doctonet.org/partager-son-ecran-teams.html#etape-2"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Partager votre écran",
+        "text": "Appuyez sur les trois points (···), puis sur Partager, puis sur Partager l'écran. Confirmez sur iPhone (Démarrer la diffusion) ou Android (Commencer).",
+        "url": "https://www.doctonet.org/partager-son-ecran-teams.html#etape-3"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "L'assistance commence",
+        "text": "Votre bénévole DoctoNET voit votre écran en direct et vous guide pas à pas — sans accéder à votre téléphone ni à vos données.",
+        "url": "https://www.doctonet.org/partager-son-ecran-teams.html#etape-4"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 5,
+        "name": "Arrêter le partage",
+        "text": "Appuyez à nouveau sur les trois points (···), puis sur Arrêter le partage. Votre écran redevient privé immédiatement.",
+        "url": "https://www.doctonet.org/partager-son-ecran-teams.html#etape-5"
+      }
+    ],
+    "provider": {
+      "@type": "NGO",
+      "name": "DoctoNET",
+      "url": "https://www.doctonet.org",
+      "telephone": "+33180064649"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- ===== NAVIGATION ===== -->
+  <nav id="doctonet-nav" role="navigation" aria-label="Navigation principale">
+    <a href="index.html" id="doctonet-logo">Docto<span>NET</span></a>
+    <div id="doctonet-nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="tutoriels.html" class="active">Tutoriels</a>
+      <a href="trouver-un-professionnel.html">Trouver un praticien</a>
+      <a href="trouver-un-lieu-numerique.html">Lieux numériques</a>
+      <a href="a-propos.html">À propos</a>
+      <a href="index.html#contact" id="doctonet-nav-cta">Nous contacter</a>
+    </div>
+    <button id="doctonet-hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="doctonet-nav-links">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+
+<header>
+  <div class="badge">Tutoriel numérique</div>
+  <h1>Recevoir un e-mail sur iPhone</h1>
+  <p>Consulter des e-mails dans Mail sur l’iPhone</p>
+</header>
+
+<main>
+
+<div class="step-desc">
+<p class="step-tip">
+💡 Dans l’app Mail, vous pouvez lire des e-mails, ajouter des contacts et afficher un aperçu sans l’ouvrir.
+</p>
+</div>
+
+
+    <h2>Étape 1 — Lire un e-mail</h2>
+
+
+    <div class="step-image">
+  <img
+    src="images/tutoriels/reception-email-iphone/reception-email-iphone-optimise.webp"
+    alt="Réception d’e-mails sur iPhone"
+    loading="lazy" 
+    decoding="async">
+  <div class="caption">Réception d’e-mails sur iPhone</div>
+</div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Accédez à l’app Mail 📧 sur votre iPhone.</div>
+      </div>
+    </div>
+
+
+   <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Touchez le message que vous souhaitez lire.</div>
+      </div>
+    </div>
+
+<div class="step-desc">
+<p class="step-tip">
+💡 Les messages non lus sont souvent précédés d'une pastille bleue.
+</p>
+</div>
+
+
+
+    <h2>Étape 2 — Utiliser l’option Rappel</h2>
+
+<p>Utiliser l’option Rappel pour revenir ultérieurement à un message de la boîte Principale.
+Si vous n’avez pas le temps de répondre immédiatement à un message, vous pouvez définir une date et une heure auxquelles vous souhaitez recevoir un rappel et afficher le message en haut de votre boîte de réception.</p><br>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Accédez à l’app Mail 📩 sur votre iPhone.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Touchez un message de la liste de messages Principale, touchez ↩︎, touchez « Rappel », puis choisissez à quel moment vous souhaitez recevoir un rappel.</div>
+      </div>
+    </div>
+
+</div>
+      </div>
+    </div>
+
+<div class="step-desc">
+<p class="step-tip">
+💡 Programmez un rappel pour ne pas oublier de répondre plus tard.
+</p>
+</div>
+
+
+    <h2>Étape 3 — Marquer plusieurs e-mails comme lus</h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Accédez à l’app Mail 📩 sur votre iPhone.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Alors qu’une liste de messages est affichée, touchez •••, touchez Sélectionner, puis sélectionnez les messages que vous souhaitez marquer.</div>
+      </div>
+    </div>
+
+<div class="step-desc">
+<p class="step-tip">
+💡 Important : lorsque vous sélectionnez un message dans Transactions, Alertes ou Publicités, vous sélectionnez tous les messages de cette catégorie provenant de cet expéditeur.
+</p>
+</div>
+<br>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Touchez 🚩 en bas de la liste des messages, puis choisissez « Marquer comme lu ».</div>
+      </div>
+    </div>
+
+<div class="step-desc">
+<p class="step-tip">
+Remarque : le nombre de messages non lus affichés sur votre écran d’accueil reflète leur nombre dans votre catégorie Principale. Pour afficher le nombre total de messages non lus dans toutes les catégories, accédez à Réglages ⚙️ > Notifications > Mail > Personnaliser les notifications, puis activez « Tous les messages non lus ».
+</p>
+</div>
+<br>
+
+
+
+
+
+<h2>Étape 4 — Afficher un aperçu d’un message</h2>
+
+<div class="step-desc">
+<p class="step-tip">
+💡 Si vous souhaitez savoir de quoi traite un message de la catégorie Principale sans l’ouvrir complètement, vous pouvez en afficher un aperçu.
+</p>
+</div>
+
+<br>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Accédez à l’app Mail 📧 sur votre iPhone.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Dans la liste des messages Principale, touchez un message et maintenez le doigt appuyé pour afficher un aperçu de son contenu, et une liste d’options pour répondre, déplacer, etc...</div>
+      </div>
+    </div>
+
+   <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Afficher un aperçu plus long pour tous les e-mails</div>
+        <div class="step-desc">Dans votre boîte de réception, Mail affiche par défaut deux lignes de texte pour chaque message électronique. Vous pouvez choisir d’afficher plus de lignes de texte sans ouvrir le message.
+Accédez à Réglages ⚙️ > Apps > Mail > Aperçu (sous « Liste des messages »), puis choisissez jusqu’à cinq lignes.</div>
+      </div>
+    </div>
+
+   <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Afficher l’intégralité d’une conversation</div>
+        <div class="step-desc">Accédez à Réglages ⚙️ > Apps > Mail, puis activez « Organiser par sujet ».</div>
+      </div>
+    </div>
+
+<div class="step-desc">
+<p class="step-tip">
+💡 Astuce : vous pouvez également modifier d’autres réglages à cet endroit, tels que « Condenser les messages lus » ou « Message le plus récent en haut ».
+</p>
+</div>
+
+
+
+
+
+
+<h2>Étape 5 — Afficher les libellés À et Cc dans la boîte de réception</h2>
+
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-body">
+    <div class="step-title">Accédez à Réglages ⚙️ > Apps > Mail, puis activez « Vignettes À / Cc ».</div>
+    <div class="step-desc">(sous « Liste des messages »)</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-body">
+    <div class="step-title">Afficher tous les e-mails qui vous sont adressés.</div>
+    <div class="step-desc">Pour afficher la boîte aux lettres « À ou en Cc », qui regroupe tous les e-mails qui vous sont adressés. Pour l’afficher ou la masquer, touchez ◁ dans le coin supérieur gauche de l’app Mail jusqu’à ce que vous voyiez Boîtes, touchez Modifier, puis sélectionnez « À ou en Cc ».</div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<h2>Étape 6 — Ajouter une personne à ses contacts ou aux VIP</h2>
+
+
+<div class="step">
+
+  <div class="step-body">
+
+    <div class="step-desc">Vous pouvez enregistrer une personne dans vos contacts pour retrouver facilement ses messages électroniques ultérieurement, ou en faire un VIP de manière à ce qu’une étoile s’affiche automatiquement en regard des messages qu’elle vous envoie.</div>
+  </div>
+</div>
+
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Accédez à l’app Mail 📧 sur votre iPhone.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Dans un message, touchez le nom ou l’adresse e‑mail d’une personne</div>
+            <div class="step-desc">Puis effectuez l’une des opérations suivantes :</div>
+
+<ul class="checklist">
+  <li><span>Ajouter un contact : Touchez « Voir la fiche de contact », puis touchez « Nouveau contact ». Remplissez toute autre coordonnée, puis touchez ✅.</span></li>
+  <li><span>Ajouter l’adresse e‑mail à un contact existant : Touchez « Voir la fiche de contact », puis touchez « Contact existant ». Sélectionnez un contact, puis touchez ✅.</span></li>
+    <li><span>L’ajouter à votre liste VIP : Touchez « Ajouter aux VIP ».</span></li>
+</ul>
+
+      </div>
+    </div>
+
+
+
+
+<h2>Étape 7 — Afficher ou masquer les photos des contacts</h2>
+
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Accédez à l’app Mail 📩 sur votre iPhone.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Dans une boîte de réception, touchez ••• en haut de l’écran, puis cochez ou décochez « Photos des contacts ».</div>
+      </div>
+    </div>
+
+<br>
+
+
+
+    <div class="reassurance-box">
+      <div class="reassurance-title">💡 Afficher les résumés des e‑mails</div>
+  Si Apple Intelligence* est activé, vous pouvez vous en servir pour résumer les points les plus importants d’un e‑mail ou d’une conversation.</div>
+
+
+
+  <hr class="divider">
+  <div class="suggest-section">
+    <div class="suggest-label">📚 Tutoriels suggérés</div>
+    <div class="suggest-grid">
+      <a href="envoie-email-iphone.html" class="suggest-card">
+        <span class="suggest-icon">📧</span>
+        <div class="suggest-body">
+          <div class="suggest-title">Envoyer un e-mail sur iPhone</div>
+          <div class="suggest-desc">Rédigez et envoyez facilement un e-mail depuis votre iPhone.</div>
+        </div>
+        <span class="suggest-arrow">→</span>
+      </a>
+      <a href="creer-adresse-electronique.html" class="suggest-card">
+        <span class="suggest-icon">📧</span>
+        <div class="suggest-body">
+       <div class="suggest-title">Créer une adresse électronique</div>
+        <div class="suggest-desc">Créez votre première adresse email</div>
+        </div>
+        <span class="suggest-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+
+  <a class="back-link" href="tutoriels.html">← Retour aux tutoriels</a>
+
+    <div class="cta-doctonet">
+      <h3>Besoin d'aide ? DoctoNET est là pour vous !</h3>
+      <p>Vous n'arrivez pas à suivre ce tutoriel ? Nos bénévoles vous accompagnent gratuitement, en ligne ou à Paris.</p>
+      <div class="cta-links">
+        <a href="tel:+33180064649">📞 01 80 06 46 49</a>
+        <a href="index.html#contact" class="secondary">Nous contacter</a>
+      </div>
+    </div>
+</main>
+
+  <footer role="contentinfo">
+    <div class="footer-logo">Docto<span>NET</span></div>
+    <p>Association régie par la loi du 1er juillet 1901 · RNA : W751281281</p>
+    <p>24 rue Jouffroy d'Abbans · 75017 Paris</p>
+    <a href="tel:+33180064649" class="footer-phone">01 80 06 46 49</a>
+    <nav class="footer-links" aria-label="Liens de pied de page">
+      <a href="index.html">Accueil</a>
+      <a href="tutoriels.html">Tutoriels</a>
+      <a href="a-propos.html">À propos</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="donnees-personnelles.html">Données personnelles</a>
+    </nav>
+    <p style="font-size:0.8rem; margin-top:1rem; opacity:0.5;">© 2026 DoctoNET · Tous droits réservés</p>
+  </footer>
+
+<script>
+
+</script>
+
+  <script>
+    // Menu hamburger mobile — DoctoNET
+    const hamburger = document.getElementById('doctonet-hamburger');
+    const navLinks = document.getElementById('doctonet-nav-links');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', function() {
+        const isOpen = navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open', isOpen);
+        hamburger.setAttribute('aria-expanded', isOpen);
+      });
+      navLinks.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function() {
+          navLinks.classList.remove('open');
+          hamburger.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  </script>
+</body>
+</html>
