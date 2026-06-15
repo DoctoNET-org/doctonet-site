@@ -573,6 +573,11 @@ gtag('config', 'G-YCJ6JN9CDX');
     transition: color 0.2s;
   }
   .footer-links a:hover { color: var(--accent); }
+  /* Lien vers la page courante : apparence identique aux autres, mais pas de survol ni de clic */
+  .footer-links a[aria-current="page"] {
+    cursor: default;
+    pointer-events: none;
+  }
   .footer-phone {
     color: var(--accent);
     font-weight: 600;
@@ -974,9 +979,8 @@ gtag('config', 'G-YCJ6JN9CDX');
     <p>24 rue Jouffroy d'Abbans · 75017 Paris</p>
     <a href="https://www.doctonet.org/tel:+33180064649" class="footer-phone">01 80 06 46 49</a>
     <nav class="footer-links" aria-label="Liens de pied de page">
-      <a href="https://www.doctonet.org/">Accueil</a>
       <a href="https://www.doctonet.org/tutoriels.html">Tutoriels</a>
-      <a href="https://www.doctonet.org/faq.html">Questions fréquentes</a>
+      <a href="https://www.doctonet.org/faq.html" aria-current="page">Questions fréquentes</a>
       <a href="https://www.doctonet.org/a-propos.html">À propos</a>
       <a href="https://www.doctonet.org/index.html#contact">Contact</a>
       <a href="https://www.doctonet.org/donnees-personnelles.html">Données personnelles</a>
