@@ -1,152 +1,176 @@
-This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<!--  Page d'accueil  -->
-<url>
-<loc>https://www.doctonet.org/</loc>
-<lastmod>2026-06-16</lastmod>
-<changefreq>monthly</changefreq>
-<priority>1.0</priority>
-</url>
-<!--  Page tutoriels  -->
-<url>
-<loc>https://www.doctonet.org/tutoriels.html</loc>
-<lastmod>2026-06-16</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.9</priority>
-</url>
-<!--  Page questions fréquentes (FAQ)  -->
-<url>
-<loc>https://www.doctonet.org/faq.html</loc>
-<lastmod>2026-06-16</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.8</priority>
-</url>
-<!--  Tutoriels e-mail  -->
-<url>
-<loc>https://www.doctonet.org/creer-adresse-electronique.html</loc>
-<lastmod>2026-04-27</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.8</priority>
-</url>
-<url>
-<loc>https://www.doctonet.org/creer-adresse-gmail.html</loc>
-<lastmod>2026-06-16</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.8</priority>
-</url>
-<url>
-<loc>https://www.doctonet.org/creer-adresse-icloud.html</loc>
-<lastmod>2026-06-16</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.8</priority>
-</url>
-<url>
-<loc>https://www.doctonet.org/autres-solutions-email.html</loc>
-<lastmod>2026-06-16</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-<url>
-<loc>https://www.doctonet.org/envoie-email-iphone.html</loc>
-<lastmod>2026-06-16</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-<url>
-<loc>https://www.doctonet.org/reception-email-iphone.html</loc>
-<lastmod>2026-06-16</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-<!--  Tutoriels démarches administratives  -->
-<url>
-<loc>https://www.doctonet.org/creer-espace-particulier.html</loc>
-<lastmod>2026-04-27</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.8</priority>
-</url>
-<url>
-<loc>https://www.doctonet.org/se-connecter-espace-particulier.html</loc>
-<lastmod>2026-04-27</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.8</priority>
-</url>
-<url>
-<loc>https://www.doctonet.org/modifier-fichiers-pdf.html</loc>
-<lastmod>2026-04-27</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-<!--  Tutoriels smartphone / applications  -->
-<url>
-<loc>https://www.doctonet.org/installer-une-application.html</loc>
-<lastmod>2026-04-27</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.8</priority>
-</url>
-<url>
-<loc>https://www.doctonet.org/difference-site-application.html</loc>
-<lastmod>2026-06-16</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-<url>
-<loc>https://www.doctonet.org/imprimer-depuis-smartphone.html</loc>
-<lastmod>2026-06-16</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-<!--  Tutoriels Teams  -->
-<url>
-<loc>https://www.doctonet.org/partager-son-ecran-teams.html</loc>
-<lastmod>2026-04-27</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.8</priority>
-</url>
-<url>
-<loc>https://www.doctonet.org/trouver-lien-teams.html</loc>
-<lastmod>2026-06-16</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-<!--  Tutoriels sécurité et santé  -->
-<url>
-<loc>https://www.doctonet.org/securite-vie-privee.html</loc>
-<lastmod>2026-04-27</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-<url>
-<loc>https://www.doctonet.org/recuperer-examens-laboratoire.html</loc>
-<lastmod>2026-05-11</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.8</priority>
-</url>
-<!--  Outils  -->
-<url>
-<loc>https://www.doctonet.org/trouver-un-professionnel.html</loc>
-<lastmod>2026-04-30</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-<url>
-<loc>https://www.doctonet.org/trouver-un-lieu-numerique.html</loc>
-<lastmod>2026-04-29</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.8</priority>
-</url>
-<!--  À propos  -->
-<url>
-<loc>https://www.doctonet.org/a-propos.html</loc>
-<lastmod>2026-05-21</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.8</priority>
-</url>
-<!--  Pages légales  -->
-<url>
-<loc>https://www.doctonet.org/donnees-personnelles.html</loc>
-<lastmod>2026-04-27</lastmod>
-<changefreq>yearly</changefreq>
-<priority>0.3</priority>
-</url>
+
+  <!-- Page d'accueil -->
+  <url>
+    <loc>https://www.doctonet.org/</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Page tutoriels -->
+  <url>
+    <loc>https://www.doctonet.org/tutoriels.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Page questions fréquentes (FAQ) -->
+  <url>
+    <loc>https://www.doctonet.org/faq.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Tutoriels e-mail -->
+  <url>
+    <loc>https://www.doctonet.org/creer-adresse-electronique.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.doctonet.org/creer-adresse-gmail.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.doctonet.org/creer-adresse-icloud.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.doctonet.org/autres-solutions-email.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.doctonet.org/envoie-email-iphone.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.doctonet.org/reception-email-iphone.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Tutoriels démarches administratives -->
+  <url>
+    <loc>https://www.doctonet.org/creer-espace-particulier.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.doctonet.org/se-connecter-espace-particulier.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.doctonet.org/modifier-fichiers-pdf.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Tutoriels smartphone / applications -->
+  <url>
+    <loc>https://www.doctonet.org/installer-une-application.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.doctonet.org/difference-site-application.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.doctonet.org/imprimer-depuis-smartphone.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Tutoriels Teams -->
+  <url>
+    <loc>https://www.doctonet.org/partager-son-ecran-teams.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.doctonet.org/trouver-lien-teams.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Tutoriels sécurité et santé -->
+  <url>
+    <loc>https://www.doctonet.org/securite-vie-privee.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.doctonet.org/recuperer-examens-laboratoire.html</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Outils -->
+  <url>
+    <loc>https://www.doctonet.org/trouver-un-professionnel.html</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.doctonet.org/trouver-un-lieu-numerique.html</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- À propos -->
+  <url>
+    <loc>https://www.doctonet.org/a-propos.html</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Pages légales -->
+  <url>
+    <loc>https://www.doctonet.org/donnees-personnelles.html</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
 </urlset>
