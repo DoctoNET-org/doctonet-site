@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pas de connexion — DoctoNET</title>
+  <meta name="robots" content="noindex">
+  <style>
+    :root {
+      --bleu-fonce: #0a2540;
+      --bleu-clair: #00c2ff;
+      --blanc: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "DM Sans", Arial, sans-serif;
+      background: var(--bleu-fonce);
+      color: var(--blanc);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 2rem;
+    }
+    .logo span { color: var(--bleu-clair); }
+    .icone {
+      font-size: 3.5rem;
+      margin-bottom: 1.25rem;
+    }
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      max-width: 22ch;
+    }
+    p {
+      font-size: 1.15rem;
+      max-width: 32ch;
+      margin-bottom: 1rem;
+      opacity: 0.92;
+    }
+    .bouton {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.9rem 2rem;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--bleu-fonce);
+      background: var(--bleu-clair);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      min-width: 200px;
+    }
+    .bouton:active { opacity: 0.85; }
+    .aide {
+      margin-top: 2.5rem;
+      font-size: 1.05rem;
+      opacity: 0.85;
+    }
+    .aide a {
+      color: var(--bleu-clair);
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">Docto<span>NET</span></div>
+
+  <div class="icone" aria-hidden="true">📶</div>
+
+  <h1>Pas de connexion Internet</h1>
+
+  <p>Cette page n'a pas encore été enregistrée sur votre appareil.</p>
+  <p>Reconnectez-vous à Internet, puis appuyez sur le bouton ci-dessous.</p>
+
+  <a href="/" class="bouton" onclick="location.reload(); return false;">Réessayer</a>
+
+  <p class="aide">
+    Besoin d'aide ? Appelez-nous au<br>
+    <a href="tel:+33180064649">01 80 06 46 49</a>
+  </p>
+</body>
+</html>
