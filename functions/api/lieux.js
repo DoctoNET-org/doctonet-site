@@ -50,7 +50,7 @@ const LIEUX_DOCTONET = {
     },
     {
       id: "doctonet-atelier-003",
-      nom: "Atelier d'aide numérique — MVAC 17e",
+      nom: "MVAC 17 ( Maison de la vie associative citoyenne du 17e)",
       adresse: "MVAC du 17e, 25 rue Lantiez, 75017 Paris",
       code_postal: "75017",
       ville: "Paris 17e",
