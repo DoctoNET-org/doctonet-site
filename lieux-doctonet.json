@@ -3,7 +3,7 @@
     "description": "Lieux numériques validés manuellement par DoctoNET. Ces lieux apparaissent en tête de résultats, avant les données nationales.",
     "format": "Même structure que l'API /api/lieux. Champ 'source' toujours 'doctonet'.",
     "mise_a_jour": "Manuelle — ajouter/modifier/supprimer les entrées ci-dessous.",
-    "derniere_maj": "2026-04-28"
+    "derniere_maj": "2026-06-19"
   },
   "ateliers": [
     {
@@ -24,15 +24,15 @@
     },
     {
       "id": "doctonet-atelier-002",
-      "nom": "Aide numérique pour les seniors — Mairie du 17e",
-      "adresse": "Salle 228, 2e étage — Mairie du 17e, 16 rue des Batignolles, 75017 Paris",
+      "nom": "Aides numériques — Mairie du 17e",
+      "adresse": "Espace Pereire (rez-de-chaussée) — Mairie du 17e, 16 rue des Batignolles, 75017 Paris",
       "code_postal": "75017",
       "ville": "Paris 17e",
       "telephone": "01 44 69 16 01",
       "email": "delegationseniors17@gmail.com",
-      "site": "",
-      "horaires": "Mercredis 14h–17h (séances d'1h, sur rendez-vous)",
-      "description": "Un aidant numérique vous accompagne pendant 1h : naviguer sur internet, utiliser un ordinateur, réaliser ses démarches en ligne. Apportez votre téléphone, ordinateur ou tablette. Animé par des bénévoles Heure Civique.",
+      "site": "https://mairie17.paris.fr/pages/le-numerique-a-portee-de-main-avec-la-mairie-du-17e-32388",
+      "horaires": "Conseiller numérique : Lun–Ven 8h30–13h et 14h–17h · Accompagnement individuel : mercredis 14h–17h · Ateliers Orange : lundis 14h–16h",
+      "description": "La Mairie du 17e propose trois aides numériques gratuites : un conseiller numérique pour vos démarches en ligne (CAF, impôts, Ameli, retraite), sans rendez-vous à l'Espace Pereire ; un accompagnement individuel d'une heure sur rendez-vous le mercredi (Heure Civique) ; des ateliers collectifs animés par Orange le lundi, sur inscription. Renseignements : 01 44 69 17 17.",
       "photo": "",
       "gratuit": true,
       "services": ["wifi"],
