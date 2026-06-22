@@ -90,6 +90,13 @@
     <priority>0.7</priority>
   </url>
 
+  <url>
+    <loc>https://www.doctonet.org/comprendre-la-facture-electronique.html</loc>
+    <lastmod>2026-06-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Tutoriels smartphone / applications -->
   <url>
     <loc>https://www.doctonet.org/installer-une-application.html</loc>
