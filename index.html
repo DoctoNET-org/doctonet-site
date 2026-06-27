@@ -18,6 +18,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -36,7 +37,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- ✅ SEO CRITIQUE -->
+  <!-- ⭐ SEO CRITIQUE -->
   <title>DoctoNET – Assistance Informatique &amp; Numérique Partout en France | Aide, Dépannage &amp; Infogérance</title>
   <meta name="description" content="DoctoNET, association loi 1901 : assistance informatique, aide numérique et infogérance pour particuliers, seniors et associations partout en France. Dépannage, tutoriels gratuits, accompagnement personnalisé. Réponse sous 24h.">
   <meta name="keywords" content="assistance informatique, assistance numérique, aide informatique, infogérance, dépannage informatique, infogérance association, aide numérique seniors, assistance informatique France, dépannage PC, sécurité informatique, tutoriels informatique, association informatique Paris, aide informatique partout en France, accompagnement numérique, DoctoNET">
@@ -44,7 +45,7 @@
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://www.doctonet.org/">
 
-  <!-- ✅ Favicon -->
+  <!-- ⭐ Favicon -->
   <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="shortcut icon" href="/favicon.ico" />
@@ -52,13 +53,13 @@
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="apple-mobile-web-app-title" content="DoctoNET" />
 
-  <!-- ✅ Géolocalisation -->
+  <!-- ⭐ Géolocalisation -->
   <meta name="geo.region" content="FR">
   <meta name="geo.placename" content="Paris, France">
   <meta name="geo.position" content="48.8836;2.3054">
   <meta name="ICBM" content="48.8836, 2.3054">
 
-  <!-- ✅ Open Graph (réseaux sociaux) -->
+  <!-- ⭐ Open Graph (réseaux sociaux) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.doctonet.org/">
   <meta property="og:title" content="DoctoNET – Assistance Informatique &amp; Numérique Partout en France">
@@ -70,14 +71,14 @@
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="DoctoNET">
 
-  <!-- ✅ Twitter Card -->
+  <!-- ⭐ Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="DoctoNET – Assistance Informatique &amp; Numérique Partout en France">
   <meta name="twitter:description" content="Association loi 1901 : assistance informatique, aide numérique et infogérance. Dépannage, tutoriels gratuits, réponse sous 24h — partout en France.">
   <meta name="twitter:image" content="https://www.doctonet.org/logos-1.png">
   <meta name="twitter:image:alt" content="DoctoNET – Association d'assistance informatique et numérique">
 
-  <!-- ✅ Schema.org — NGO + Service + areaServed France -->
+  <!-- ⭐ Schema.org — NGO + Service + areaServed France -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -424,6 +425,9 @@
               if (response.ok) {
                 document.getElementById('doctonet-form').style.display = 'none';
                 successEl.style.display = 'block';
+                gtag('event', 'form_submit', {
+                  'form_name': 'contact_doctonet'
+                });
               } else {
                 throw new Error('erreur serveur');
               }
