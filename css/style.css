@@ -232,7 +232,7 @@ br.desktop-br { display: block; }
   animation: fadeUp 0.8s ease both !important;
   background: transparent !important;
 }
-.hero-content * { background-color: transparent !important; }
+.hero-content *:not(.btn-primary) { background-color: transparent !important; }
 .hero-content h1, .hero-content p, .hero-content div { background: transparent !important; }
 
 /* Badge pill hero — fix Android débordement */
