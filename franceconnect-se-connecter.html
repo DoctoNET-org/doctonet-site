@@ -1,0 +1,588 @@
+
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Se connecter avec FranceConnect – DoctoNET</title>
+  <meta name="description" content="Tutoriel pas-à-pas pour comprendre et utiliser FranceConnect. Guide DoctoNET : quel compte choisir, comment se connecter à un site administratif — simple et sécurisé.">
+  <meta name="keywords" content="FranceConnect, se connecter FranceConnect, identité numérique La Poste, impots.gouv.fr, ameli, DoctoNET">
+  <meta name="author" content="Association DoctoNET">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <link rel="canonical" href="https://www.doctonet.org/franceconnect-se-connecter.html">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.doctonet.org/franceconnect-se-connecter.html">
+  <meta property="og:title" content="Se connecter avec FranceConnect – DoctoNET">
+  <meta property="og:description" content="Guide pas-à-pas pour comprendre et utiliser FranceConnect. Simple, illustré, sans jargon.">
+  <meta property="og:image" content="https://www.doctonet.org/images/tutoriels/franceconnect-se-connecter/franceconnect-02-choix-compte.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.doctonet.org/images/tutoriels/franceconnect-se-connecter/franceconnect-02-choix-compte.webp">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="DoctoNET">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Se connecter avec FranceConnect",
+    "description": "Comment comprendre et utiliser FranceConnect pour se connecter à un site administratif étape par étape",
+    "url": "https://www.doctonet.org/franceconnect-se-connecter.html",
+    "publisher": { "@type": "NGO", "name": "DoctoNET", "url": "https://www.doctonet.org" },
+    "inLanguage": "fr-FR"
+  }
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="css/tutoriels.css">
+  <style>
+    body {
+      font-family: 'DM Sans', sans-serif;
+      margin: 0;
+      background: #f4f8ff;
+      color: #0a2540;
+      line-height: 1.7;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0a2540, #0e3460);
+      padding: 100px 5% 50px;
+      color: white;
+      text-align: center;
+    }
+
+    header h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      margin-bottom: 14px;
+    }
+
+    header p {
+      max-width: 760px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.85);
+    }
+
+    main {
+      padding: 50px 5%;
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      border-radius: 14px;
+      margin-top: -40px;
+      box-shadow: 0 8px 40px rgba(10,37,64,0.10);
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      margin-top: 40px;
+      font-size: 1.75rem;
+    }
+
+    p, ul {
+      margin-bottom: 1.1rem;
+    }
+
+    ul {
+      padding-left: 1.2rem;
+    }
+
+    .step-image {
+      margin: 30px 0;
+      text-align: center;
+    }
+
+    .step-image img {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 6px 30px rgba(10,37,64,0.15);
+    }
+
+    .caption {
+      font-size: 0.88rem;
+      color: #6b7a90;
+      margin-top: 8px;
+    }
+
+    .info-box {
+      background: #eef6ff;
+      border-left: 5px solid #00c2ff;
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 25px 0;
+      font-size: 0.95rem;
+    }
+
+    .reassurance-box {
+      background: linear-gradient(135deg, #0a2540, #1a4a7a);
+      color: white;
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin: 25px 0;
+      font-size: 0.95rem;
+    }
+
+    .accounts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 20px 0 25px;
+    }
+
+    .account-card {
+      background: #f9fbff;
+      border: 1px solid #e8eef6;
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .account-card strong {
+      display: block;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      color: #0a2540;
+    }
+
+    .account-card span {
+      font-size: 0.85rem;
+      color: #6b7a90;
+    }
+
+    @media (max-width: 600px) {
+      .accounts-grid { grid-template-columns: 1fr; }
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 50px;
+      padding: 14px 28px;
+      background: #00c2ff;
+      border-radius: 40px;
+      color: #0a2540;
+      text-decoration: none;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+    }
+
+    .back-link:hover {
+      background: #5ddcff;
+    }
+  
+    /* ── SUGGESTIONS MAILLAGE INTERNE ── */
+    .suggest-section {
+      margin: 40px 0 0;
+      padding-top: 32px;
+      border-top: 1px dashed #cbd5e0;
+    }
+    .suggest-label {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+      margin-bottom: 16px;
+    }
+    .suggest-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .suggest-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #f9fbff;
+      border: 1px solid #e8eef6;
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .suggest-card:hover {
+      box-shadow: 0 4px 20px rgba(10,37,64,0.08);
+      border-color: var(--blue-border, #99ddf7);
+      transform: translateY(-2px);
+    }
+    .suggest-icon {
+      font-size: 1.4rem;
+      width: 42px;
+      height: 42px;
+      background: var(--blue-light, #e8f6ff);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .suggest-body { flex: 1; }
+    .suggest-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--blue-dark, #0a2540);
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+    .suggest-desc {
+      font-size: 0.78rem;
+      color: var(--muted, #6b7a90);
+      line-height: 1.4;
+    }
+    .suggest-arrow {
+      color: var(--blue-accent, #00c2ff);
+      font-size: 1rem;
+      flex-shrink: 0;
+      opacity: 0;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .suggest-card:hover .suggest-arrow {
+      opacity: 1;
+      transform: translateX(4px);
+    }
+    @media (max-width: 600px) {
+      .suggest-grid { grid-template-columns: 1fr; }
+    }
+
+    
+    /* ===== NAVBAR DOCTONET ===== */
+    #doctonet-nav {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      position: fixed !important;
+      top: 0 !important; left: 0 !important; right: 0 !important;
+      z-index: 999999 !important;
+      background: #ffffff !important;
+      border-bottom: 2px solid rgba(0,194,255,0.25) !important;
+      padding: 0 5% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      height: 68px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      box-shadow: 0 2px 16px rgba(10,37,64,0.10) !important;
+    }
+    #doctonet-logo {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      font-weight: 800 !important;
+      font-size: 1.5rem !important;
+      color: #0a2540 !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+    }
+    #doctonet-logo span { color: #00c2ff !important; font-family: 'Syne', sans-serif !important; font-weight: 800 !important; }
+    #doctonet-nav-links {
+      all: initial !important;
+      display: flex !important;
+      gap: 2rem !important;
+      align-items: center !important;
+    }
+    #doctonet-nav-links a {
+      all: initial !important;
+      font-family: 'DM Sans', sans-serif !important;
+      text-decoration: none !important;
+      color: #6b7a90 !important;
+      font-size: 0.95rem !important;
+      font-weight: 500 !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+    }
+    #doctonet-nav-links a:hover { color: #0a2540 !important; }
+    #doctonet-nav-links a.active { color: #00c2ff !important; font-weight: 700 !important; }
+    #doctonet-nav-links #doctonet-nav-cta,
+    #doctonet-nav-cta {
+      all: initial !important;
+      font-family: 'Syne', sans-serif !important;
+      background: #0a2540 !important;
+      color: #ffffff !important;
+      padding: 0.5rem 1.2rem !important;
+      border-radius: 50px !important;
+      font-weight: 700 !important;
+      font-size: 0.9rem !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+      display: inline-block !important;
+    }
+    #doctonet-nav-cta:hover { background: #00c2ff !important; color: #0a2540 !important; }
+    #doctonet-hamburger {
+      all: initial !important;
+      display: none !important;
+      flex-direction: column !important;
+      gap: 5px !important;
+      background: none !important;
+      border: none !important;
+      cursor: pointer !important;
+      padding: 4px !important;
+      z-index: 1000000 !important;
+    }
+    #doctonet-hamburger span {
+      display: block !important;
+      width: 24px !important;
+      height: 2px !important;
+      background: #0a2540 !important;
+      border-radius: 2px !important;
+      transition: all 0.3s !important;
+    }
+    #doctonet-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg) !important; }
+    #doctonet-hamburger.open span:nth-child(2) { opacity: 0 !important; }
+    #doctonet-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg) !important; }
+    @media (max-width: 768px) {
+      #doctonet-hamburger { display: flex !important; }
+      #doctonet-nav-links {
+        display: none !important;
+        position: fixed !important;
+        top: 68px !important;
+        left: 0 !important; right: 0 !important;
+        background: #ffffff !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        padding: 1rem 0 1.5rem !important;
+        box-shadow: 0 8px 24px rgba(10,37,64,0.12) !important;
+        z-index: 999998 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      #doctonet-nav-links.open { display: flex !important; }
+      #doctonet-nav-links a {
+        padding: 0.85rem 5% !important;
+        font-size: 1rem !important;
+        width: 100% !important;
+        border-bottom: 1px solid rgba(0,194,255,0.08) !important;
+        box-sizing: border-box !important;
+      }
+      #doctonet-nav-links #doctonet-nav-cta {
+        display: inline-block !important;
+        background: #0a2540 !important;
+        color: #ffffff !important;
+        border-radius: 50px !important;
+        margin: 0.5rem 5% 0 !important;
+        width: 90% !important;
+        text-align: center !important;
+        padding: 0.75rem 1.2rem !important;
+        box-sizing: border-box !important;
+        font-family: 'Syne', sans-serif !important;
+        font-weight: 700 !important;
+        border-bottom: none !important;
+      }
+    }
+    @media (min-width: 769px) { #doctonet-hamburger { display: none !important; } }
+    /* ===== FIN NAVBAR ===== */
+    
+    /* ===== CTA ===== */
+    .cta-doctonet { background: linear-gradient(135deg, #0a2540, #0e3460); border-radius: 14px; padding: 1.75rem 1.25rem; text-align: center; margin: 2.5rem 0 0; color: #fff; }
+    .cta-doctonet h3 { font-family: 'Syne', sans-serif; font-size: clamp(1rem, 3vw, 1.2rem); color: #fff; margin: 0 0 0.5rem; line-height: 1.3; }
+    .cta-doctonet p { color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-bottom: 1.25rem; }
+    .cta-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+    .cta-links a { background: #00c2ff; color: #0a2540; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; padding: 0.65rem 1.3rem; border-radius: 50px; text-decoration: none; }
+    .cta-links a.secondary { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.25); }
+
+    /* ===== FOOTER ===== */
+    footer { background: #0a2540; color: rgba(255,255,255,0.7); text-align: center; padding: 3rem 5% 2rem; font-size: 0.88rem; line-height: 1.8; margin-top: 3rem; }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; color: #fff; margin-bottom: 0.75rem; }
+    .footer-logo span { color: #00c2ff; }
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    footer a:hover { color: #00c2ff; }
+    .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 0 1.5rem; margin-top: 1rem; }
+    .footer-phone { display: inline-block; color: #00c2ff !important; font-weight: 600; font-size: 1rem; margin-top: 0.5rem; }
+
+  </style>
+</head>
+
+<body>
+  <!-- ===== NAVIGATION ===== -->
+  <nav id="doctonet-nav" role="navigation" aria-label="Navigation principale">
+    <a href="index.html" id="doctonet-logo">Docto<span>NET</span></a>
+    <div id="doctonet-nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="tutoriels.html" class="active">Tutoriels</a>
+      <a href="trouver-un-professionnel.html">Trouver un praticien</a>
+      <a href="trouver-un-lieu-numerique.html">Lieux numériques</a>
+      <a href="a-propos.html">À propos</a>
+      <a href="index.html#contact" id="doctonet-nav-cta">Nous contacter</a>
+    </div>
+    <button id="doctonet-hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="doctonet-nav-links">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+
+<header>
+  <h1>Se connecter avec FranceConnect</h1>
+  <p>
+    Beaucoup de sites administratifs proposent de vous connecter avec
+    <strong>FranceConnect</strong>. Voici comment ça fonctionne, sans confusion.
+  </p>
+</header>
+
+<main>
+
+<h2>De quoi avez-vous besoin&nbsp;?</h2>
+<p>Pour utiliser FranceConnect, il vous faut simplement <strong>un compte que vous possédez déjà</strong> parmi :</p>
+<ul>
+  <li>votre espace particulier <strong>impots.gouv.fr</strong></li>
+  <li>votre compte <strong>Ameli.fr</strong> (Assurance Maladie)</li>
+  <li><strong>L'Identité Numérique La Poste</strong></li>
+  <li>votre compte <strong>MSA</strong></li>
+  <li><strong>France Identité</strong></li>
+</ul>
+
+<div class="info-box">
+  ℹ️ Le nom sur ce compte doit correspondre exactement à votre état civil.
+  Si ce n'est pas le cas, la connexion sera refusée.
+</div>
+
+<h2>FranceConnect n'est pas un compte</h2>
+
+<p>
+C'est la confusion la plus fréquente : <strong>FranceConnect n'a pas de mot de passe</strong>.
+C'est une porte d'entrée commune à de nombreux sites administratifs. Une fois devant cette porte,
+vous choisissez le compte que vous utilisez déjà pour prouver que c'est bien vous.
+</p>
+
+<div class="reassurance-box">
+  🔑 <strong>Pour retenir simplement :</strong> FranceConnect, c'est le sas d'entrée.
+  Votre compte impots.gouv.fr, Ameli ou La Poste, c'est votre badge pour passer ce sas.
+</div>
+
+<h2>Repérer le bouton FranceConnect</h2>
+
+<div class="step-image">
+  <img src="images/tutoriels/franceconnect-se-connecter/franceconnect-01-bouton-identification.webp" alt="Bouton S'identifier avec FranceConnect">
+  <div class="caption">Ce bouton apparaît sur de nombreux sites administratifs</div>
+</div>
+
+<p>
+Sur la page de connexion d'un service en ligne (impots.gouv.fr, Ameli, service-public.fr…),
+repérez le bouton <strong>« S'identifier avec FranceConnect »</strong> et cliquez dessus.
+</p>
+
+<h2>Choisir votre compte</h2>
+
+<div class="step-image">
+  <img src="images/tutoriels/franceconnect-se-connecter/franceconnect-02-choix-compte.webp" alt="Écran de choix du compte FranceConnect">
+  <div class="caption">Choisissez le compte que vous utilisez déjà</div>
+</div>
+
+<p>
+Un écran vous propose plusieurs comptes. Cliquez sur celui que vous possédez déjà — 
+par exemple <strong>« L'Identité Numérique La Poste »</strong> si c'est celui-ci que vous utilisez.
+</p>
+
+<div class="accounts-grid">
+  <div class="account-card">
+    <strong>impots.gouv.fr</strong>
+    <span>Numéro fiscal + mot de passe</span>
+  </div>
+  <div class="account-card">
+    <strong>Ameli.fr</strong>
+    <span>Numéro de sécurité sociale + mot de passe</span>
+  </div>
+  <div class="account-card">
+    <strong>L'Identité Numérique La Poste</strong>
+    <span>Identifiants de l'application La Poste</span>
+  </div>
+  <div class="account-card">
+    <strong>MSA</strong>
+    <span>Compte de la Sécurité sociale agricole</span>
+  </div>
+</div>
+
+<div class="info-box">
+  ℹ️ Si vous êtes déjà sur le site correspondant à l'un des comptes proposés (par exemple impots.gouv.fr),
+  cette tuile apparaît grisée : c'est normal, il est inutile de vous en resservir pour vous y reconnecter.
+</div>
+
+<h2>Se connecter avec votre compte habituel</h2>
+
+<p>
+Vous êtes redirigé vers l'écran de connexion habituel de votre compte
+(par exemple l'application La Poste ou le mot de passe Ameli).
+Connectez-vous comme vous le faites d'habitude.
+</p>
+
+<h2>Retour automatique sur le service</h2>
+
+<p>
+Une fois identifié, vous êtes renvoyé automatiquement sur le site de départ,
+déjà connecté. Aucune donnée bancaire n'est demandée : FranceConnect sert uniquement
+à vérifier votre identité.
+</p>
+
+  <div class="suggest-section">
+    <div class="suggest-label">📚 Tutoriels suggérés</div>
+    <div class="suggest-grid">
+      <a href="se-connecter-espace-particulier.html" class="suggest-card">
+        <span class="suggest-icon">🏛️</span>
+        <div class="suggest-body">
+          <div class="suggest-title">Me connecter à mon espace Finances publiques</div>
+          <div class="suggest-desc">Connexion classique ou via FranceConnect</div>
+        </div>
+        <span class="suggest-arrow">→</span>
+      </a>
+      <a href="creer-espace-particulier.html" class="suggest-card">
+        <span class="suggest-icon">📝</span>
+        <div class="suggest-body">
+          <div class="suggest-title">Créer mon espace Finances publiques</div>
+          <div class="suggest-desc">Pas encore de compte ? Créez-le en quelques minutes</div>
+        </div>
+        <span class="suggest-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <a class="back-link" href="tutoriels.html">← Retour aux tutoriels</a>
+
+    <div class="cta-doctonet">
+      <h3>Besoin d'aide ? DoctoNET est là pour vous !</h3>
+      <p>Vous n'arrivez pas à suivre ce tutoriel ? Nos bénévoles vous accompagnent gratuitement, en ligne ou à Paris.</p>
+      <div class="cta-links">
+        <a href="tel:+33180064649">📞 01 80 06 46 49</a>
+        <a href="index.html#contact" class="secondary">Nous contacter</a>
+      </div>
+    </div>
+</main>
+
+  <footer role="contentinfo">
+    <div class="footer-logo">Docto<span>NET</span></div>
+    <p>Association régie par la loi du 1er juillet 1901 · RNA : W751281281</p>
+    <p>24 rue Jouffroy d'Abbans · 75017 Paris</p>
+    <a href="tel:+33180064649" class="footer-phone">01 80 06 46 49</a>
+    <nav class="footer-links" aria-label="Liens de pied de page">
+      <a href="index.html">Accueil</a>
+      <a href="tutoriels.html">Tutoriels</a>
+      <a href="a-propos.html">À propos</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="donnees-personnelles.html">Données personnelles</a>
+    </nav>
+    <p style="font-size:0.8rem; margin-top:1rem; opacity:0.5;">© 2026 DoctoNET · Tous droits réservés</p>
+  </footer>
+
+  <script>
+    // Menu hamburger mobile — DoctoNET
+    const hamburger = document.getElementById('doctonet-hamburger');
+    const navLinks = document.getElementById('doctonet-nav-links');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', function() {
+        const isOpen = navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open', isOpen);
+        hamburger.setAttribute('aria-expanded', isOpen);
+      });
+      navLinks.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function() {
+          navLinks.classList.remove('open');
+          hamburger.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  </script>
+</body>
+</html>
