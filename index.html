@@ -19,6 +19,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -546,6 +547,24 @@
         navigator.serviceWorker.register('/service-worker.js');
       });
     }
+  </script>
+
+  <!-- 👉 Chatwoot — Widget de chat en direct (mardi/jeudi 9h-17h) -->
+  <script>
+    window.chatwootSettings = {"position":"right","type":"standard","launcherTitle":"Besoin d'aide ?"};
+    (function(d,t) {
+      var BASE_URL="https://app.chatwoot.com";
+      var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src=BASE_URL+"/packs/js/sdk.js";
+      g.async = true;
+      s.parentNode.insertBefore(g,s);
+      g.onload=function(){
+        window.chatwootSDK.run({
+          websiteToken: 'Eub2KfcV22ooMg5Zj1p3UfgB',
+          baseUrl: BASE_URL
+        })
+      }
+    })(document,"script");
   </script>
 
 </body>
