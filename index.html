@@ -651,7 +651,7 @@
 
       // Chatwoot se charge en asynchrone : si le widget devient prêt
       // pendant que le bandeau est encore affiché, on recache la bulle.
-      document.addEventListener('chatwoot:ready', function() {
+      window.addEventListener('chatwoot:ready', function() {
         if (document.getElementById('cookie-banner').style.display === 'block') {
           setChatwootBubbleVisible(false);
         }
