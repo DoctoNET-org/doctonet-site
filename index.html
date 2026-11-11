@@ -627,17 +627,35 @@
         });
       }
 
+      function setChatwootBubbleVisible(visible) {
+        try {
+          if (window.$chatwoot && typeof window.$chatwoot.toggleBubbleVisibility === 'function') {
+            window.$chatwoot.toggleBubbleVisibility(visible ? 'show' : 'hide');
+          }
+        } catch (e) {}
+      }
+
       function showBanner() {
         document.getElementById('cookie-banner').style.display = 'block';
+        setChatwootBubbleVisible(false);
       }
 
       function hideBanner() {
         document.getElementById('cookie-banner').style.display = 'none';
+        setChatwootBubbleVisible(true);
       }
 
       window.doctonetOpenCookieSettings = function() {
         showBanner();
       };
+
+      // Chatwoot se charge en asynchrone : si le widget devient prêt
+      // pendant que le bandeau est encore affiché, on recache la bulle.
+      document.addEventListener('chatwoot:ready', function() {
+        if (document.getElementById('cookie-banner').style.display === 'block') {
+          setChatwootBubbleVisible(false);
+        }
+      });
 
       document.addEventListener('DOMContentLoaded', function() {
         var existing = getStoredChoice();
