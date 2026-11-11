@@ -894,7 +894,7 @@
 
         // GA4
         if (typeof gtag === 'function') {
-          gtag('event', 'search_lieux', { cp, type: currentType, results: results.length });
+          gtag('event', 'search_lieux', { cp, type: currentType, results: allResults.length });
         }
 
       } catch (err) {
